@@ -11,11 +11,24 @@ using System.IO;
 
 namespace YgoProPatcher
 {
+    
     public partial class Form1 : Form
     {
         public Form1()
         {
             InitializeComponent();
+            string saveLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YgoProPatcher");
+            string saveFile = Path.Combine(saveLocation, "paths.txt");
+            if (Directory.Exists(saveLocation) && File.Exists(saveFile))
+            {
+                string[] paths = File.ReadAllLines(saveFile);
+                YgoProLinksPath.Text= paths[0];
+                YgoPro2Path.Text = paths[1];
+            }
+            
+        
+
+
         }
 
         private void YgoProLinksButton_Click(object sender, EventArgs e)
@@ -36,7 +49,13 @@ namespace YgoProPatcher
             Copy("script");
            
             Copy("pic");
-           
+            string saveLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"YgoProPatcher");
+            string[] locationPaths = { YgoProLinksPath.Text, YgoPro2Path.Text };
+            if (!Directory.Exists(saveLocation))
+            {
+                Directory.CreateDirectory(saveLocation);
+            }
+            File.WriteAllLines(Path.Combine(saveLocation,"paths.txt"),locationPaths);
             Status.Text = "Done!";
 
         }
