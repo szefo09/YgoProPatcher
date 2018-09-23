@@ -115,9 +115,14 @@ namespace YgoProPatcher
                     }
                     if (type == "cdb")
                     {
+                        fileName = "lflist.conf";
+                        destFile = System.IO.Path.Combine(System.IO.Path.Combine(targetPath, "config"),fileName);
+                        System.IO.File.Copy(Path.Combine(fileSource, fileName), destFile, true);
+
                         fileName = "official.cdb";
                         destFile = System.IO.Path.Combine(fileDestination, fileName);
                         System.IO.File.Copy(Path.Combine(fileSource, fileName), destFile, true);
+
                         fileName = "cards.cdb";
                         fileDestination = Path.Combine(targetPath, type+@"\English");
                         destFile = System.IO.Path.Combine(fileDestination, fileName);
@@ -128,9 +133,9 @@ namespace YgoProPatcher
                 }
 
             }
-            catch
+            catch(Exception e)
             {
-                MessageBox.Show("Unexpected error occured, please make sure you've put correct file paths");
+                MessageBox.Show(e.ToString());
             }
 
         }
