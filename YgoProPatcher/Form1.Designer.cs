@@ -37,7 +37,6 @@
             this.button3 = new System.Windows.Forms.Button();
             this.Status = new System.Windows.Forms.Label();
             this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.debug = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -128,21 +127,11 @@
             this.progressBar.TabIndex = 9;
             this.progressBar.Visible = false;
             // 
-            // debug
-            // 
-            this.debug.AutoSize = true;
-            this.debug.Location = new System.Drawing.Point(589, 217);
-            this.debug.Name = "debug";
-            this.debug.Size = new System.Drawing.Size(35, 13);
-            this.debug.TabIndex = 10;
-            this.debug.Text = "label3";
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.debug);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.Status);
             this.Controls.Add(this.button3);
@@ -170,7 +159,6 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Label Status;
         private System.Windows.Forms.ProgressBar progressBar;
-        private System.Windows.Forms.Label debug;
     }
 }
 
