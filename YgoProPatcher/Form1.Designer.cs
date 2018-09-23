@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -100,18 +101,18 @@
             this.button3.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.button3.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button3.Location = new System.Drawing.Point(286, 250);
+            this.button3.Location = new System.Drawing.Point(232, 198);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(182, 82);
             this.button3.TabIndex = 6;
-            this.button3.Text = "Path YGOPRO2 USING YgoProLinks";
+            this.button3.Text = "Patch YGOPRO2 using YGOPro Links";
             this.button3.UseVisualStyleBackColor = false;
             this.button3.Click += new System.EventHandler(this.UpdateButton_Click);
             // 
             // Status
             // 
             this.Status.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.Status.Location = new System.Drawing.Point(256, 344);
+            this.Status.Location = new System.Drawing.Point(200, 296);
             this.Status.Name = "Status";
             this.Status.Size = new System.Drawing.Size(246, 23);
             this.Status.TabIndex = 8;
@@ -120,7 +121,7 @@
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(286, 381);
+            this.progressBar.Location = new System.Drawing.Point(232, 342);
             this.progressBar.Maximum = 90;
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(182, 23);
@@ -131,7 +132,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.ClientSize = new System.Drawing.Size(670, 450);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.Status);
             this.Controls.Add(this.button3);
@@ -141,6 +143,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "YgoPro1 To YgoPro2 Updater";
             this.ResumeLayout(false);

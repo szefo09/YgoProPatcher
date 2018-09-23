@@ -87,7 +87,8 @@ namespace YgoProPatcher
             {
                 string fileSource = System.IO.Path.Combine(sourcePath, filePathYgoPro1);
                 string fileDestination = Path.Combine(targetPath, filePathYgoPro2);
-                Status.Text = "Copying "+type+"s";
+                Status.Text = "Updating YGOPRO2 "+type+"s";
+                Status.Refresh();
                 progressBar.Value = 0;
                 if (Directory.Exists(fileSource) && Directory.Exists(fileDestination))
                 {
@@ -154,7 +155,7 @@ namespace YgoProPatcher
             }
             catch(Exception e)
             {
-                MessageBox.Show(e.ToString());
+                MessageBox.Show("Unexpected Exception. Please check if correct folder paths were chosen.");
             }
 
         }
