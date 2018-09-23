@@ -119,7 +119,7 @@ namespace YgoProPatcher
                         destFile = System.IO.Path.Combine(System.IO.Path.Combine(targetPath, "config"),fileName);
                         System.IO.File.Copy(Path.Combine(fileSource, fileName), destFile, true);
 
-                        fileName = "official.cdb";
+                      fileName = "official.cdb";
                         destFile = System.IO.Path.Combine(fileDestination, fileName);
                         System.IO.File.Copy(Path.Combine(fileSource, fileName), destFile, true);
 
