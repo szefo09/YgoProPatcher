@@ -1,6 +1,6 @@
 ﻿namespace YgoProPatcher
 {
-    partial class Form1
+    partial class YgoProPatcher
     {
         /// <summary>
         /// Required designer variable.
@@ -28,16 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(YgoProPatcher));
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.YgoProLinksPath = new System.Windows.Forms.TextBox();
             this.YgoPro2Path = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
+            this.UpdateButton = new System.Windows.Forms.Button();
             this.Status = new System.Windows.Forms.Label();
             this.progressBar = new System.Windows.Forms.ProgressBar();
+            this.cancel = new System.Windows.Forms.Button();
+            this.internetCheckbox = new System.Windows.Forms.CheckBox();
+            this.debug = new System.Windows.Forms.Label();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
             // button1
@@ -96,23 +100,23 @@
             this.YgoPro2Path.Size = new System.Drawing.Size(360, 20);
             this.YgoPro2Path.TabIndex = 5;
             // 
-            // button3
+            // UpdateButton
             // 
-            this.button3.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button3.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.button3.Location = new System.Drawing.Point(286, 250);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(182, 82);
-            this.button3.TabIndex = 6;
-            this.button3.Text = "Path YGOPRO2 USING YgoProLinks";
-            this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.UpdateButton_Click);
+            this.UpdateButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.UpdateButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.UpdateButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.UpdateButton.Location = new System.Drawing.Point(232, 198);
+            this.UpdateButton.Name = "UpdateButton";
+            this.UpdateButton.Size = new System.Drawing.Size(182, 82);
+            this.UpdateButton.TabIndex = 0;
+            this.UpdateButton.Text = "Patch YGOPRO2 using YGOPro Links";
+            this.UpdateButton.UseVisualStyleBackColor = false;
+            this.UpdateButton.Click += new System.EventHandler(this.UpdateButton_Click);
             // 
             // Status
             // 
             this.Status.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.Status.Location = new System.Drawing.Point(256, 344);
+            this.Status.Location = new System.Drawing.Point(200, 296);
             this.Status.Name = "Status";
             this.Status.Size = new System.Drawing.Size(246, 23);
             this.Status.TabIndex = 8;
@@ -121,30 +125,78 @@
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(286, 381);
+            this.progressBar.Location = new System.Drawing.Point(232, 342);
             this.progressBar.Maximum = 90;
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(182, 23);
             this.progressBar.TabIndex = 9;
             this.progressBar.Visible = false;
             // 
-            // Form1
+            // cancel
             // 
+            this.cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cancel.Location = new System.Drawing.Point(282, 386);
+            this.cancel.Name = "cancel";
+            this.cancel.Size = new System.Drawing.Size(75, 23);
+            this.cancel.TabIndex = 10;
+            this.cancel.Text = "Cancel";
+            this.cancel.UseVisualStyleBackColor = true;
+            this.cancel.Visible = false;
+            this.cancel.Click += new System.EventHandler(this.cancel_Click);
+            // 
+            // internetCheckbox
+            // 
+            this.internetCheckbox.AutoSize = true;
+            this.internetCheckbox.Checked = true;
+            this.internetCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.internetCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.internetCheckbox.Location = new System.Drawing.Point(15, 153);
+            this.internetCheckbox.Name = "internetCheckbox";
+            this.internetCheckbox.Size = new System.Drawing.Size(319, 21);
+            this.internetCheckbox.TabIndex = 11;
+            this.internetCheckbox.Text = "Download HQ Pics from the Internet if possible";
+            this.internetCheckbox.UseVisualStyleBackColor = true;
+            // 
+            // debug
+            // 
+            this.debug.AutoSize = true;
+            this.debug.Location = new System.Drawing.Point(513, 220);
+            this.debug.Name = "debug";
+            this.debug.Size = new System.Drawing.Size(0, 13);
+            this.debug.TabIndex = 12;
+            // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.WorkerSupportsCancellation = true;
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            // 
+            // YgoProPatcher
+            // 
+            this.AcceptButton = this.UpdateButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.CancelButton = this.cancel;
+            this.ClientSize = new System.Drawing.Size(670, 450);
+            this.Controls.Add(this.debug);
+            this.Controls.Add(this.internetCheckbox);
+            this.Controls.Add(this.cancel);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.Status);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.UpdateButton);
             this.Controls.Add(this.YgoPro2Path);
             this.Controls.Add(this.YgoProLinksPath);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form1";
-            this.Opacity = 0.8D;
+            this.MaximizeBox = false;
+            this.Name = "YgoProPatcher";
+            this.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "YgoPro1 To YgoPro2 Updater";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -159,9 +211,13 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox YgoProLinksPath;
         private System.Windows.Forms.TextBox YgoPro2Path;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button UpdateButton;
         private System.Windows.Forms.Label Status;
         private System.Windows.Forms.ProgressBar progressBar;
+        private System.Windows.Forms.Button cancel;
+        private System.Windows.Forms.CheckBox internetCheckbox;
+        private System.Windows.Forms.Label debug;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
 

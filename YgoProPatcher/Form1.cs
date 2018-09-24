@@ -8,13 +8,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Threading;
+using System.Net;
 
 namespace YgoProPatcher
 {
     
-    public partial class Form1 : Form
+    public partial class YgoProPatcher : Form
     {
-        public Form1()
+        public YgoProPatcher()
         {
             InitializeComponent();
             string saveLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YgoProPatcher");
@@ -25,12 +27,10 @@ namespace YgoProPatcher
                 YgoProLinksPath.Text= paths[0];
                 YgoPro2Path.Text = paths[1];
             }
-            
-        
-
 
         }
 
+        bool threadRunning = false;
         private void YgoProLinksButton_Click(object sender, EventArgs e)
         {
             FolderSelection("YGOPro Links");
@@ -43,12 +43,11 @@ namespace YgoProPatcher
 
         private void UpdateButton_Click(object sender, EventArgs e)
         {
+            internetCheckbox.Enabled = false;
             progressBar.Visible = true;
-            Copy("cdb");
-           
-            Copy("script");
-           
-            Copy("pic");
+            cancel.Visible = true;
+            threadRunning = true;
+            backgroundWorker1.RunWorkerAsync();
             string saveLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"YgoProPatcher");
             string[] locationPaths = { YgoProLinksPath.Text, YgoPro2Path.Text };
             if (!Directory.Exists(saveLocation))
@@ -56,9 +55,10 @@ namespace YgoProPatcher
                 Directory.CreateDirectory(saveLocation);
             }
             File.WriteAllLines(Path.Combine(saveLocation,"paths.txt"),locationPaths);
-            Status.Text = "Done!";
+          
 
         }
+
         private void Copy(string type)
         {
             string sourcePath = YgoProLinksPath.Text;
@@ -87,8 +87,9 @@ namespace YgoProPatcher
             {
                 string fileSource = System.IO.Path.Combine(sourcePath, filePathYgoPro1);
                 string fileDestination = Path.Combine(targetPath, filePathYgoPro2);
-                Status.Text = "Copying "+type+"s";
-                progressBar.Value = 0;
+                //Status.Text = "Updating YGOPRO2 "+type+"s";
+                Status.Invoke(new Action(() => { Status.Text = "Updating YGOPRO2 " + type + "s"; }));
+                Status.Invoke(new Action(() => { progressBar.Value = 0; }));
                 if (Directory.Exists(fileSource) && Directory.Exists(fileDestination))
                 {
                     string partialName = "";
@@ -105,32 +106,45 @@ namespace YgoProPatcher
                         partialName = "*.lua";
                     }
                     string[] files = Directory.GetFiles(fileSource, partialName);
-                    progressBar.Maximum = files.Length;
+                    Status.Invoke(new Action(() => { progressBar.Maximum = files.Length; }));
                     foreach (string s in files)
                     {
-                        if (type == "pic")
-                        {
-                            fileName = Path.ChangeExtension(Path.GetFileName(s), ".png");
-                        }
-                        else
-                        {
+                    if (threadRunning) { 
                             fileName = Path.GetFileName(s);
-                        }
+
                         destFile = System.IO.Path.Combine(fileDestination, fileName);
-                        if (type == "pic")
-                        {
-                            if (!File.Exists(destFile))
+                            if (type == "pic")
                             {
-                                System.IO.File.Copy(s, destFile, false);
-                            }
+                                if (internetCheckbox.Checked)
+                                {
+                                    if(! PicDownload(fileName, fileDestination))
+                                    {
+                                        destFile = Path.ChangeExtension(destFile, ".png");
+                                        if (!File.Exists(destFile))
+                                        {
+                                            System.IO.File.Copy(s, destFile, false);
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    destFile = Path.ChangeExtension(destFile, ".png");
+                                    if (!File.Exists(destFile))
+                                    {
+                                        System.IO.File.Copy(s, destFile, false);
+                                    }
+                                }
                         }
                         else
                         {
                             System.IO.File.Copy(s, destFile, true);
                         }
-                        
-                        
-                        progressBar.Increment(1);
+                        progressBar.Invoke(new Action(() => { progressBar.Increment(1); }));
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
                     if (type == "cdb")
                     {
@@ -147,17 +161,14 @@ namespace YgoProPatcher
                         destFile = System.IO.Path.Combine(fileDestination, fileName);
                         System.IO.File.Copy(Path.Combine(sourcePath, fileName), destFile, true);
                     }
-
-
                 }
-
             }
-            catch(Exception e)
+            catch
             {
-                MessageBox.Show(e.ToString());
+                MessageBox.Show("Unexpected error, check YGOPRO Folder Paths");
             }
-
         }
+
         private string FolderSelection(string versionOfYGO)
         {
             string folderString = "";
@@ -180,6 +191,55 @@ namespace YgoProPatcher
             }
 
             return folderString;
+        }
+
+        private bool PicDownload(string picName, string destinationFolder)
+        {
+            string website = "https://ygoprodeck.com/pics/";
+            string webFile = website + picName;
+
+            string destFile = Path.Combine(destinationFolder, Path.ChangeExtension(picName, ".png"));
+            try
+            {
+                if (!File.Exists(destFile))
+                {
+                    using (var client = new WebClient())
+                    {
+
+                        client.DownloadFile(webFile, destFile);
+                    }
+
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private void cancel_Click(object sender, EventArgs e)
+        {
+            threadRunning = false;
+            backgroundWorker1.CancelAsync();
+            cancel.Visible = false;
+            internetCheckbox.Enabled = true;
+            Status.Text = "Operation Canceled!";
+            Status.Update();
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+            if (threadRunning) { Copy("cdb"); ; }
+            if (threadRunning) { Copy("script"); }
+            if (threadRunning) { Copy("pic"); ; }
+            
+            if (threadRunning)
+            {
+                
+                Status.Invoke(new Action(() => { Status.Text = "Update Complete!"; cancel.Visible = false; internetCheckbox.Enabled = true; }));
+                threadRunning = false;
+            }
         }
     }
 }
