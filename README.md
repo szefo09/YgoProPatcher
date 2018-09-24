@@ -10,3 +10,8 @@ added in YGOPRO Percy Links in YGOPRO2.
 
 Tested on Koishi Server against AI, new cards worked.
 
+BEFORE:
+![Before update:](https://i.imgur.com/F3aS3Ty.jpg)
+
+AFTER:
+![After update:](https://i.imgur.com/BTOaBbr.jpg)
