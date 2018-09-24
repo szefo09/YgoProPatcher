@@ -29,6 +29,7 @@ namespace YgoProPatcher
             }
 
         }
+
         bool threadRunning = false;
         private void YgoProLinksButton_Click(object sender, EventArgs e)
         {
@@ -47,9 +48,6 @@ namespace YgoProPatcher
             cancel.Visible = true;
             threadRunning = true;
             backgroundWorker1.RunWorkerAsync();
-            //Copy("script");
-           
-            //Copy("pic");
             string saveLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"YgoProPatcher");
             string[] locationPaths = { YgoProLinksPath.Text, YgoPro2Path.Text };
             if (!Directory.Exists(saveLocation))
@@ -60,6 +58,7 @@ namespace YgoProPatcher
           
 
         }
+
         private void Copy(string type)
         {
             string sourcePath = YgoProLinksPath.Text;
@@ -118,7 +117,7 @@ namespace YgoProPatcher
                             {
                                 if (internetCheckbox.Checked)
                                 {
-                                    if(! picDownload(fileName, fileDestination))
+                                    if(! PicDownload(fileName, fileDestination))
                                     {
                                         destFile = Path.ChangeExtension(destFile, ".png");
                                         if (!File.Exists(destFile))
@@ -169,6 +168,7 @@ namespace YgoProPatcher
                 MessageBox.Show("Unexpected error, check YGOPRO Folder Paths");
             }
         }
+
         private string FolderSelection(string versionOfYGO)
         {
             string folderString = "";
@@ -193,16 +193,7 @@ namespace YgoProPatcher
             return folderString;
         }
 
-        private void cancel_Click(object sender, EventArgs e)
-        {
-            threadRunning = false;
-            backgroundWorker1.CancelAsync();
-            cancel.Visible = false;
-            internetCheckbox.Enabled = true;
-            Status.Text = "Operation Canceled!";
-            Status.Update();
-        }
-        private bool picDownload(string picName, string destinationFolder)
+        private bool PicDownload(string picName, string destinationFolder)
         {
             string website = "https://ygoprodeck.com/pics/";
             string webFile = website + picName;
@@ -217,7 +208,7 @@ namespace YgoProPatcher
 
                         client.DownloadFile(webFile, destFile);
                     }
-                    
+
                 }
                 return true;
             }
@@ -226,6 +217,17 @@ namespace YgoProPatcher
                 return false;
             }
         }
+
+        private void cancel_Click(object sender, EventArgs e)
+        {
+            threadRunning = false;
+            backgroundWorker1.CancelAsync();
+            cancel.Visible = false;
+            internetCheckbox.Enabled = true;
+            Status.Text = "Operation Canceled!";
+            Status.Update();
+        }
+
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             if (threadRunning) { Copy("cdb"); ; }
