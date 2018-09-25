@@ -41,6 +41,7 @@
             this.cancel = new System.Windows.Forms.Button();
             this.internetCheckbox = new System.Windows.Forms.CheckBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -161,6 +162,17 @@
             this.backgroundWorker1.WorkerSupportsCancellation = true;
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Enabled = false;
+            this.label3.Font = new System.Drawing.Font("Lato Light", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label3.Location = new System.Drawing.Point(493, 428);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(166, 13);
+            this.label3.TabIndex = 12;
+            this.label3.Text = "Created by Szefo09, Version 1.35";
+            // 
             // YgoProPatcher
             // 
             this.AcceptButton = this.UpdateButton;
@@ -169,6 +181,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.CancelButton = this.cancel;
             this.ClientSize = new System.Drawing.Size(670, 450);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.internetCheckbox);
             this.Controls.Add(this.cancel);
             this.Controls.Add(this.progressBar);
@@ -207,6 +220,7 @@
         private System.Windows.Forms.Button cancel;
         private System.Windows.Forms.CheckBox internetCheckbox;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.Label label3;
     }
 }
 
