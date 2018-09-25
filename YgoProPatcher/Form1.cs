@@ -83,12 +83,26 @@ namespace YgoProPatcher
                 filePathYgoPro1 = type+"s";
                 filePathYgoPro2 = @"picture\card";
             }
+            if (type == "script2")
+            {
+                filePathYgoPro1 = type.Remove(type.Length-1);
+                
+                filePathYgoPro2 = filePathYgoPro1;
+               
+            }
             try
             {
                 string fileSource = System.IO.Path.Combine(sourcePath, filePathYgoPro1);
                 string fileDestination = Path.Combine(targetPath, filePathYgoPro2);
                 //Status.Text = "Updating YGOPRO2 "+type+"s";
-                Status.Invoke(new Action(() => { Status.Text = "Updating YGOPRO2 " + type + "s"; }));
+                if (!(type == "script2"))
+                {
+                    Status.Invoke(new Action(() => { Status.Text = "Updating YGOPRO2 " + type + "s"; }));
+                }
+                else
+                {
+                    Status.Invoke(new Action(() => { Status.Text = "Updating old scripts"; }));
+                }
                 Status.Invoke(new Action(() => { progressBar.Value = 0; }));
                 if (Directory.Exists(fileSource) && Directory.Exists(fileDestination))
                 {
@@ -101,11 +115,13 @@ namespace YgoProPatcher
                     {
                         partialName = "*.jpg";
                     }
-                    if (type == "script")
+                    if (type == "script"||type=="script2")
                     {
                         partialName = "*.lua";
                     }
+
                     string[] files = Directory.GetFiles(fileSource, partialName);
+                    
                     Status.Invoke(new Action(() => { progressBar.Maximum = files.Length; }));
                     foreach (string s in files)
                     {
@@ -138,6 +154,7 @@ namespace YgoProPatcher
                         else
                         {
                             System.IO.File.Copy(s, destFile, true);
+                                
                         }
                         progressBar.Invoke(new Action(() => { progressBar.Increment(1); }));
                         }
@@ -232,6 +249,7 @@ namespace YgoProPatcher
         {
             if (threadRunning) { Copy("cdb"); ; }
             if (threadRunning) { Copy("script"); }
+            if (threadRunning) { Copy("script2"); }
             if (threadRunning) { Copy("pic"); ; }
             
             if (threadRunning)

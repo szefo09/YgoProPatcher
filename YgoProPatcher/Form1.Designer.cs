@@ -40,7 +40,6 @@
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.cancel = new System.Windows.Forms.Button();
             this.internetCheckbox = new System.Windows.Forms.CheckBox();
-            this.debug = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.SuspendLayout();
             // 
@@ -157,14 +156,6 @@
             this.internetCheckbox.Text = "Download HQ Pics from the Internet if possible";
             this.internetCheckbox.UseVisualStyleBackColor = true;
             // 
-            // debug
-            // 
-            this.debug.AutoSize = true;
-            this.debug.Location = new System.Drawing.Point(513, 220);
-            this.debug.Name = "debug";
-            this.debug.Size = new System.Drawing.Size(0, 13);
-            this.debug.TabIndex = 12;
-            // 
             // backgroundWorker1
             // 
             this.backgroundWorker1.WorkerSupportsCancellation = true;
@@ -178,7 +169,6 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.CancelButton = this.cancel;
             this.ClientSize = new System.Drawing.Size(670, 450);
-            this.Controls.Add(this.debug);
             this.Controls.Add(this.internetCheckbox);
             this.Controls.Add(this.cancel);
             this.Controls.Add(this.progressBar);
@@ -216,7 +206,6 @@
         private System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.Button cancel;
         private System.Windows.Forms.CheckBox internetCheckbox;
-        private System.Windows.Forms.Label debug;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
     }
 }
