@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>ghostrick_angel_of_mischief_by_yugi_master_davcty7_photo__noise__level2__4e7_icon.ico</ApplicationIcon>
+    <ApplicationIcon>cacacac_we5_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -83,7 +83,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ghostrick_angel_of_mischief_by_yugi_master_davcty7_photo__noise__level2__4e7_icon.ico" />
+    <Content Include="cacacac_we5_icon.ico" />
+    <None Include="%24this.Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
