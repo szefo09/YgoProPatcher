@@ -200,7 +200,7 @@
             this.Name = "YgoProPatcher";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "YgoPro1 To YgoPro2 Updater";
+            this.Text = "YGOPRO2 Updater using YGOPROLinks Beta";
             this.ResumeLayout(false);
             this.PerformLayout();
 
