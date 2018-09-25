@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Threading;
 using System.Net;
+using Octokit;
 
 namespace YgoProPatcher
 {
@@ -177,6 +178,10 @@ namespace YgoProPatcher
                         fileDestination = Path.Combine(targetPath, type+@"\English");
                         destFile = System.IO.Path.Combine(fileDestination, fileName);
                         System.IO.File.Copy(Path.Combine(sourcePath, fileName), destFile, true);
+                        fileName = "cards.cdb";
+                        fileDestination = Path.Combine(targetPath, type);
+                        destFile = System.IO.Path.Combine(fileDestination, fileName);
+                        System.IO.File.Copy(Path.Combine(sourcePath, fileName), destFile, true);
                     }
                 }
             }
@@ -259,5 +264,24 @@ namespace YgoProPatcher
                 threadRunning = false;
             }
         }
+        private async void connectToGithub()
+        {
+            var github = new GitHubClient(new ProductHeaderValue("MyAmazingApp"));
+            var result = await github.Repository.Content.GetAllContents("Ygoproco", "Live2017Links");
+            foreach (var c in result)
+            {
+                MessageBox.Show(c.Name);
+            }
+
+           
+           
+            
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            connectToGithub();
+        }
     }
+
 }

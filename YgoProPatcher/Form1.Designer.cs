@@ -42,6 +42,7 @@
             this.internetCheckbox = new System.Windows.Forms.CheckBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.label3 = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -173,6 +174,16 @@
             this.label3.TabIndex = 12;
             this.label3.Text = "Created by Szefo09, Version 1.35";
             // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(515, 233);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 13;
+            this.button3.Text = "Github";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
             // YgoProPatcher
             // 
             this.AcceptButton = this.UpdateButton;
@@ -181,6 +192,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.CancelButton = this.cancel;
             this.ClientSize = new System.Drawing.Size(670, 450);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.internetCheckbox);
             this.Controls.Add(this.cancel);
@@ -221,6 +233,7 @@
         private System.Windows.Forms.CheckBox internetCheckbox;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button3;
     }
 }
 
