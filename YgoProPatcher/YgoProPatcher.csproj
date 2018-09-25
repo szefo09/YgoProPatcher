@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Yu-Gi-Oh_iconp.ico</ApplicationIcon>
+    <ApplicationIcon>ghostrick_angel_of_mischief_by_yugi_master_davcty7_photo__noise__level2__4e7_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -83,6 +83,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ghostrick_angel_of_mischief_by_yugi_master_davcty7_photo__noise__level2__4e7_icon.ico" />
     <Content Include="Yu-Gi-Oh_iconp.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
