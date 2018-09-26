@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(YgoProPatcher));
-            this.button1 = new System.Windows.Forms.Button();
+            this.pathButtonYGOPRO1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -42,19 +42,21 @@
             this.internetCheckbox = new System.Windows.Forms.CheckBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.label3 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
+            this.gitHubDownloadCheckbox = new System.Windows.Forms.CheckBox();
+            this.debug = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // button1
+            // pathButtonYGOPRO1
             // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button1.Location = new System.Drawing.Point(525, 55);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Select Path";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.YgoProLinksButton_Click);
+            this.pathButtonYGOPRO1.Enabled = false;
+            this.pathButtonYGOPRO1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.pathButtonYGOPRO1.Location = new System.Drawing.Point(525, 55);
+            this.pathButtonYGOPRO1.Name = "pathButtonYGOPRO1";
+            this.pathButtonYGOPRO1.Size = new System.Drawing.Size(100, 23);
+            this.pathButtonYGOPRO1.TabIndex = 0;
+            this.pathButtonYGOPRO1.Text = "Select Path";
+            this.pathButtonYGOPRO1.UseVisualStyleBackColor = true;
+            this.pathButtonYGOPRO1.Click += new System.EventHandler(this.YgoProLinksButton_Click);
             // 
             // button2
             // 
@@ -89,6 +91,7 @@
             // 
             // YgoProLinksPath
             // 
+            this.YgoProLinksPath.Enabled = false;
             this.YgoProLinksPath.Location = new System.Drawing.Point(159, 58);
             this.YgoProLinksPath.Name = "YgoProLinksPath";
             this.YgoProLinksPath.Size = new System.Drawing.Size(360, 20);
@@ -106,7 +109,7 @@
             this.UpdateButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.UpdateButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.UpdateButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.UpdateButton.Location = new System.Drawing.Point(232, 198);
+            this.UpdateButton.Location = new System.Drawing.Point(232, 211);
             this.UpdateButton.Name = "UpdateButton";
             this.UpdateButton.Size = new System.Drawing.Size(182, 82);
             this.UpdateButton.TabIndex = 0;
@@ -117,9 +120,9 @@
             // Status
             // 
             this.Status.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.Status.Location = new System.Drawing.Point(200, 296);
+            this.Status.Location = new System.Drawing.Point(40, 306);
             this.Status.Name = "Status";
-            this.Status.Size = new System.Drawing.Size(246, 23);
+            this.Status.Size = new System.Drawing.Size(560, 23);
             this.Status.TabIndex = 8;
             this.Status.Text = "Ready";
             this.Status.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -150,6 +153,7 @@
             this.internetCheckbox.AutoSize = true;
             this.internetCheckbox.Checked = true;
             this.internetCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.internetCheckbox.Enabled = false;
             this.internetCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.internetCheckbox.Location = new System.Drawing.Point(15, 153);
             this.internetCheckbox.Name = "internetCheckbox";
@@ -174,15 +178,27 @@
             this.label3.TabIndex = 12;
             this.label3.Text = "Created by Szefo09, Version 1.35";
             // 
-            // button3
+            // gitHubDownloadCheckbox
             // 
-            this.button3.Location = new System.Drawing.Point(515, 233);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 13;
-            this.button3.Text = "Github";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.gitHubDownloadCheckbox.AutoSize = true;
+            this.gitHubDownloadCheckbox.Checked = true;
+            this.gitHubDownloadCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.gitHubDownloadCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.gitHubDownloadCheckbox.Location = new System.Drawing.Point(15, 180);
+            this.gitHubDownloadCheckbox.Name = "gitHubDownloadCheckbox";
+            this.gitHubDownloadCheckbox.Size = new System.Drawing.Size(508, 21);
+            this.gitHubDownloadCheckbox.TabIndex = 13;
+            this.gitHubDownloadCheckbox.Text = "Download files without using YGOPRO1 (newest cards may not have image!)";
+            this.gitHubDownloadCheckbox.UseVisualStyleBackColor = true;
+            this.gitHubDownloadCheckbox.CheckedChanged += new System.EventHandler(this.gitHubDownloadCheckbox_CheckedChanged);
+            // 
+            // debug
+            // 
+            this.debug.AutoSize = true;
+            this.debug.Location = new System.Drawing.Point(546, 211);
+            this.debug.Name = "debug";
+            this.debug.Size = new System.Drawing.Size(0, 13);
+            this.debug.TabIndex = 14;
             // 
             // YgoProPatcher
             // 
@@ -192,7 +208,8 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.CancelButton = this.cancel;
             this.ClientSize = new System.Drawing.Size(670, 450);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.debug);
+            this.Controls.Add(this.gitHubDownloadCheckbox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.internetCheckbox);
             this.Controls.Add(this.cancel);
@@ -204,7 +221,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.pathButtonYGOPRO1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -220,7 +237,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button pathButtonYGOPRO1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
@@ -233,7 +250,8 @@
         private System.Windows.Forms.CheckBox internetCheckbox;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.CheckBox gitHubDownloadCheckbox;
+        private System.Windows.Forms.Label debug;
     }
 }
 
