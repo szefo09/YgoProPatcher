@@ -32,7 +32,6 @@ namespace YgoProPatcher
         }
 
         bool threadRunning = false;
-        int concurrentDownloads=0;
         private static Semaphore _pool;
         private void YgoProLinksButton_Click(object sender, EventArgs e)
         {
@@ -315,7 +314,7 @@ namespace YgoProPatcher
             List<string> listOfCDBs = await connectToGithub("/", ".cdb");
             string cdbFolder = Path.Combine(destinationFolder, "cdb");
             progressBar.Invoke(new Action(() => progressBar.Maximum = listOfCDBs.Count));
-            List<string> listOfDownloadedCDBS = new List<string>(); //{ Path.Combine(cdbFolder, "cards.cdb") };
+            List<string> listOfDownloadedCDBS = new List<string>();
             List<Task> downloadList = new List<Task>();
             foreach (string cdb in listOfCDBs)
             {
@@ -376,7 +375,7 @@ namespace YgoProPatcher
         private async Task GitHubDownload(string destinationFolder)
         {
             Status.Invoke(new Action(() => { Status.Text = "Updating CDBS from Live2017Links"; }));
-            List<string> CDBS = new List<string>();//{ @"D:\TestYGOPRO2\cdb\prerelease.cdb" };
+            List<string> CDBS = new List<string>();
 
            CDBS= await DownloadCDBSFromGithub(destinationFolder);
             progressBar.Invoke(new Action(() => { progressBar.Value = progressBar.Maximum; }));
