@@ -27,10 +27,11 @@ namespace YgoProPatcher
                 YgoProLinksPath.Text = paths[0];
                 YgoPro2Path.Text = paths[1];
             }
-            _pool = new Semaphore(0, 11);
-            _pool.Release(11);
+            _pool = new Semaphore(0, throttleValue);
+            _pool.Release(throttleValue);
 
         }
+        int throttleValue = 20;
         int downloads = 0;
         bool threadRunning = false;
         static string token = Data.GetToken();
@@ -48,9 +49,11 @@ namespace YgoProPatcher
         private void UpdateButton_Click(object sender, EventArgs e)
         {
             internetCheckbox.Enabled = false;
+            
             gitHubDownloadCheckbox.Enabled = false;
             OverwriteCheckbox.Enabled = false;
             progressBar.Visible = true;
+            exitButton.Visible = false;
             cancel.Visible = true;
             threadRunning = true;
             backgroundWorker1.RunWorkerAsync();
@@ -244,6 +247,7 @@ namespace YgoProPatcher
                         {
                             client.Headers.Add(HttpRequestHeader.Authorization, string.Concat("token ", token));
                         }
+                        
                         await Task.Run(()=> { client.DownloadFile(new Uri(webFile), destFile); });
                     }
 
@@ -257,15 +261,18 @@ namespace YgoProPatcher
             }
             finally
             {
-                
-                
                 downloads=-_pool.Release();
+                debug.Invoke(new Action(() => { debug.Text = downloads.ToString(); }));
             }
             
         }
 
         private void Cancel_Click(object sender, EventArgs e)
         {
+            while (downloads > 1-throttleValue)
+            {
+                Thread.Sleep(1);
+            }
             threadRunning = false;
             backgroundWorker1.CancelAsync();
             cancel.Visible = false;
@@ -381,7 +388,7 @@ namespace YgoProPatcher
 
                             }
                         }
-                        while (downloads > -9)
+                        while (downloads > 1-throttleValue)
                         {
                             Thread.Sleep(1);
                         }
@@ -389,7 +396,7 @@ namespace YgoProPatcher
                     }
 
                 }
-                while (downloads > -9)
+                while (downloads > 1-throttleValue)
                 {
                     Thread.Sleep(1);
                 }
@@ -410,7 +417,7 @@ namespace YgoProPatcher
                         progressBar.Invoke(new Action(() => { progressBar.Increment(1); }));
                     }
                 }
-                while (downloads > -9)
+                while (downloads > 1-throttleValue)
                 {
                     Thread.Sleep(1);
                 }
@@ -449,7 +456,6 @@ namespace YgoProPatcher
         {
             this.Close();
         }
-
     }
     class DataClass
     {

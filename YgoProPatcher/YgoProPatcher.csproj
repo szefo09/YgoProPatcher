@@ -138,7 +138,6 @@
     <Content Include="cacacac_we5_icon.ico" />
     <EmbeddedResource Include="costura32\SQLite.Interop.dll" />
     <EmbeddedResource Include="costura64\SQLite.Interop.dll" />
-    <Content Include="Yu-Gi-Oh_iconp.ico" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

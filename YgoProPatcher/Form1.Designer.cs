@@ -45,6 +45,7 @@
             this.gitHubDownloadCheckbox = new System.Windows.Forms.CheckBox();
             this.exitButton = new System.Windows.Forms.Button();
             this.OverwriteCheckbox = new System.Windows.Forms.CheckBox();
+            this.debug = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // pathButtonYGOPRO1
@@ -216,6 +217,14 @@
             this.OverwriteCheckbox.Text = "Overwrite Pics\r\n(Not reccomended)";
             this.OverwriteCheckbox.UseVisualStyleBackColor = true;
             // 
+            // debug
+            // 
+            this.debug.AutoSize = true;
+            this.debug.Location = new System.Drawing.Point(525, 209);
+            this.debug.Name = "debug";
+            this.debug.Size = new System.Drawing.Size(0, 13);
+            this.debug.TabIndex = 17;
+            // 
             // YgoProPatcher
             // 
             this.AcceptButton = this.UpdateButton;
@@ -224,6 +233,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.CancelButton = this.cancel;
             this.ClientSize = new System.Drawing.Size(670, 450);
+            this.Controls.Add(this.debug);
             this.Controls.Add(this.OverwriteCheckbox);
             this.Controls.Add(this.exitButton);
             this.Controls.Add(this.gitHubDownloadCheckbox);
@@ -270,6 +280,7 @@
         private System.Windows.Forms.CheckBox gitHubDownloadCheckbox;
         private System.Windows.Forms.Button exitButton;
         private System.Windows.Forms.CheckBox OverwriteCheckbox;
+        private System.Windows.Forms.Label debug;
     }
 }
 
