@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
 namespace YgoProPatcher
 {
 
@@ -26,12 +27,13 @@ namespace YgoProPatcher
                 YgoProLinksPath.Text = paths[0];
                 YgoPro2Path.Text = paths[1];
             }
-            _pool = new Semaphore(0, 9);
-            _pool.Release(9);
+            _pool = new Semaphore(0, 7);
+            _pool.Release(7);
 
         }
         int downloads = 0;
         bool threadRunning = false;
+        static string token = Token.GetToken();
         private static Semaphore _pool;
         private void YgoProLinksButton_Click(object sender, EventArgs e)
         {
@@ -228,6 +230,7 @@ namespace YgoProPatcher
                 destFile = Path.Combine(destinationFolder, fileName);
             }
 
+
             try
             {
                 
@@ -236,6 +239,10 @@ namespace YgoProPatcher
                     
                     using (var client = new WebClient())
                     {
+                        if (Path.GetExtension(fileName) == ".png")
+                        {
+                            client.Headers.Add(HttpRequestHeader.Authorization, string.Concat("token ", token));
+                        }
                         await Task.Run(()=> { client.DownloadFile(new Uri(webFile), destFile); });
                     }
 
@@ -252,7 +259,7 @@ namespace YgoProPatcher
                 
                 
                 downloads=-_pool.Release();
-                
+                debug.Invoke(new Action(() => { debug.Text = downloads.ToString(); }));
             }
             
         }
@@ -293,7 +300,10 @@ namespace YgoProPatcher
         }
         private async Task<List<string>> ConnectToGithub(string path, string extension)
         {
-            var github = new GitHubClient(new ProductHeaderValue("MyAmazingApp"));
+            GitHubClient github = new GitHubClient(new ProductHeaderValue("pics"))
+            {
+                Credentials = new Credentials(token)
+            };
             var result = await github.Repository.Content.GetAllContents("Ygoproco", "Live2017Links", path);
 
 
@@ -311,10 +321,12 @@ namespace YgoProPatcher
 
         private async Task<List<string>> DownloadCDBSFromGithub(string destinationFolder)
         {
+            
             List<string> listOfCDBs = await ConnectToGithub("/", ".cdb");
             string cdbFolder = Path.Combine(destinationFolder, "cdb");
+            MessageBox.Show(FileDownload("cards.cdb", cdbFolder, "https://github.com/shadowfox87/ygopro2/raw/master/cdb/", true).Result.ToString());
             progressBar.Invoke(new Action(() => progressBar.Maximum = listOfCDBs.Count));
-            List<string> listOfDownloadedCDBS = new List<string>();
+            List<string> listOfDownloadedCDBS = new List<string>(){Path.Combine(cdbFolder,"cards.cdb" )};
             List<Task> downloadList = new List<Task>();
             foreach (string cdb in listOfCDBs)
             {
@@ -326,52 +338,82 @@ namespace YgoProPatcher
         }
         private void DownloadUsingCDB(List<string> listOfDownloadedCDBS, string destinationFolder)
         {
-           
-            foreach (string cdb in listOfDownloadedCDBS)
+            if (threadRunning)
             {
-                if (threadRunning)
+
+                foreach (string cdb in listOfDownloadedCDBS)
                 {
-                    DataClass db = new DataClass(cdb);
-                    DataTable dt = db.SelectQuery("SELECT id FROM datas");
-                    Status.Invoke(new Action(() => Status.Text = "Updating Pics and Scripts using " + Path.GetFileName(cdb)));
-                    progressBar.Invoke(new Action(() => progressBar.Maximum = (dt.Rows.Count)));
-                    progressBar.Invoke(new Action(() => progressBar.Value = 0));
-                    string dlWebsitePics = "https://ygoprodeck.com/pics/";
-                    string dlWebsiteLua = "https://raw.githubusercontent.com/Ygoproco/Live2017Links/master/script/";
-                    string dFPics = Path.Combine(destinationFolder, @"picture\card");
-                    string dFLua = Path.Combine(destinationFolder, "script");
-                    List<string> downloadList = new List<string>();
-
-                    for (int i = 0; i < dt.Rows.Count; i++)
+                    if (threadRunning)
                     {
-                        if (threadRunning)
-                        {
-                            downloadList.Add(dt.Rows[i][0].ToString());
-                        } 
-                        else
-                        {
-                            break;
-                        }
+                        DataClass db = new DataClass(cdb);
+                        DataTable dt = db.SelectQuery("SELECT id FROM datas");
+                        Status.Invoke(new Action(() => Status.Text = "Updating Pics and Scripts using " + Path.GetFileName(cdb)));
+                        progressBar.Invoke(new Action(() => progressBar.Maximum = (dt.Rows.Count)));
+                        progressBar.Invoke(new Action(() => progressBar.Value = 0));
+                        string dlWebsitePics = "https://raw.githubusercontent.com/shadowfox87/YGOSeries10CardPics/222d25e7c880e075c28016c4a94a95c41b4a57d7/picture/card/";
+                        string dlWebsiteLua = "https://raw.githubusercontent.com/Ygoproco/Live2017Links/master/script/";
+                        string dFPics = Path.Combine(destinationFolder, @"picture\card");
+                        string dFLua = Path.Combine(destinationFolder, "script");
+                        List<string> downloadList = new List<string>();
 
-                    }
-                    foreach (string Value in downloadList)
-                    {
-
-                        if (threadRunning)
+                        for (int i = 0; i < dt.Rows.Count; i++)
                         {
-                            FileDownload(Value.ToString() + ".jpg", dFPics, dlWebsitePics, false);
-                            FileDownload("c" + Value.ToString() + ".lua", dFLua, dlWebsiteLua, true);
-                            progressBar.Invoke(new Action(() => progressBar.Increment(1)));
+                            if (threadRunning)
+                            {
+                                downloadList.Add(dt.Rows[i][0].ToString());
+                            }
+                            else
+                            {
+                                break;
+                            }
 
                         }
-                    }
-                    while (downloads>-7)
-                    {
-                        Thread.Sleep(1);
+                        foreach (string Value in downloadList)
+                        {
+
+                            if (threadRunning)
+                            {
+                                FileDownload(Value.ToString() + ".png", dFPics, dlWebsitePics, false);
+                                FileDownload("c" + Value.ToString() + ".lua", dFLua, dlWebsiteLua, false);
+                                progressBar.Invoke(new Action(() => progressBar.Increment(1)));
+
+                            }
+                        }
+                        while (downloads > -6)
+                        {
+                            Thread.Sleep(1);
+                        }
+
                     }
 
                 }
+                while (downloads > -6)
+                {
+                    Thread.Sleep(1);
+                }
+                if (threadRunning) { 
+                GitHubClient client = new GitHubClient(new ProductHeaderValue("pics"))
+                {
+                    Credentials = new Credentials(token)
+                };
+                string path = "picture/field";
+                var fields = client.Repository.Content.GetAllContents("shadowfox87", "YGOSeries10CardPics", path).Result;
+                Status.Invoke(new Action(() => { Status.Text = "Downloading Fieldspell Pics"; }));
+                progressBar.Invoke(new Action(() => { progressBar.Maximum = fields.Count; }));
+                foreach (var field in fields)
+                {
+                    if (threadRunning)
+                    {
+                        FileDownload(field.Name, Path.Combine(YgoPro2Path.Text, path), field.DownloadUrl, false);
+                        progressBar.Invoke(new Action(() => { progressBar.Increment(1); }));
+                    }
+                }
+                while (downloads > -6)
+                {
+                    Thread.Sleep(1);
+                }
             }
+        }
         }
 
 
@@ -381,13 +423,11 @@ namespace YgoProPatcher
             Status.Invoke(new Action(() => { Status.Text = "Updating CDBS from Live2017Links"; }));
             List<string> CDBS = new List<string>();
 
-           CDBS= await DownloadCDBSFromGithub(destinationFolder);
+            CDBS = await DownloadCDBSFromGithub(destinationFolder);
             progressBar.Invoke(new Action(() => { progressBar.Value = progressBar.Maximum; }));
             DownloadUsingCDB(CDBS, destinationFolder);
             await FileDownload("lflist.conf", Path.Combine(YgoPro2Path.Text, "config"), "https://raw.githubusercontent.com/Ygoproco/Live2017Links/master/", true);
         }
-
-
 
         private void GitHubDownloadCheckbox_CheckedChanged(object sender, EventArgs e)
         {
@@ -407,6 +447,7 @@ namespace YgoProPatcher
         {
             this.Close();
         }
+
     }
     class DataClass
     {
