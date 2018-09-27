@@ -43,7 +43,7 @@
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.label3 = new System.Windows.Forms.Label();
             this.gitHubDownloadCheckbox = new System.Windows.Forms.CheckBox();
-            this.debug = new System.Windows.Forms.Label();
+            this.exitButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // pathButtonYGOPRO1
@@ -146,7 +146,7 @@
             this.cancel.Text = "Cancel";
             this.cancel.UseVisualStyleBackColor = true;
             this.cancel.Visible = false;
-            this.cancel.Click += new System.EventHandler(this.cancel_Click);
+            this.cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
             // internetCheckbox
             // 
@@ -165,7 +165,7 @@
             // backgroundWorker1
             // 
             this.backgroundWorker1.WorkerSupportsCancellation = true;
-            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.BackgroundWorker1_DoWork);
             // 
             // label3
             // 
@@ -174,9 +174,9 @@
             this.label3.Font = new System.Drawing.Font("Lato Light", 8.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label3.Location = new System.Drawing.Point(493, 428);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(166, 13);
+            this.label3.Size = new System.Drawing.Size(160, 13);
             this.label3.TabIndex = 12;
-            this.label3.Text = "Created by Szefo09, Version 1.35";
+            this.label3.Text = "Created by Szefo09, Version 2.0\r\n";
             // 
             // gitHubDownloadCheckbox
             // 
@@ -190,15 +190,19 @@
             this.gitHubDownloadCheckbox.TabIndex = 13;
             this.gitHubDownloadCheckbox.Text = "Download files without using YGOPRO1 (newest cards may not have image!)";
             this.gitHubDownloadCheckbox.UseVisualStyleBackColor = true;
-            this.gitHubDownloadCheckbox.CheckedChanged += new System.EventHandler(this.gitHubDownloadCheckbox_CheckedChanged);
+            this.gitHubDownloadCheckbox.CheckedChanged += new System.EventHandler(this.GitHubDownloadCheckbox_CheckedChanged);
             // 
-            // debug
+            // exitButton
             // 
-            this.debug.AutoSize = true;
-            this.debug.Location = new System.Drawing.Point(546, 211);
-            this.debug.Name = "debug";
-            this.debug.Size = new System.Drawing.Size(0, 13);
-            this.debug.TabIndex = 14;
+            this.exitButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.exitButton.Location = new System.Drawing.Point(282, 386);
+            this.exitButton.Name = "exitButton";
+            this.exitButton.Size = new System.Drawing.Size(75, 23);
+            this.exitButton.TabIndex = 15;
+            this.exitButton.Text = "Exit";
+            this.exitButton.UseVisualStyleBackColor = true;
+            this.exitButton.Visible = false;
+            this.exitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
             // YgoProPatcher
             // 
@@ -208,7 +212,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.CancelButton = this.cancel;
             this.ClientSize = new System.Drawing.Size(670, 450);
-            this.Controls.Add(this.debug);
+            this.Controls.Add(this.exitButton);
             this.Controls.Add(this.gitHubDownloadCheckbox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.internetCheckbox);
@@ -251,7 +255,7 @@
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox gitHubDownloadCheckbox;
-        private System.Windows.Forms.Label debug;
+        private System.Windows.Forms.Button exitButton;
     }
 }
 

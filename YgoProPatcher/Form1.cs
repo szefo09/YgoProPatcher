@@ -26,11 +26,11 @@ namespace YgoProPatcher
                 YgoProLinksPath.Text = paths[0];
                 YgoPro2Path.Text = paths[1];
             }
-            _pool = new Semaphore(0, 7);
-            _pool.Release(7);
+            _pool = new Semaphore(0, 9);
+            _pool.Release(9);
 
         }
-
+        int downloads = 0;
         bool threadRunning = false;
         private static Semaphore _pool;
         private void YgoProLinksButton_Click(object sender, EventArgs e)
@@ -46,6 +46,7 @@ namespace YgoProPatcher
         private void UpdateButton_Click(object sender, EventArgs e)
         {
             internetCheckbox.Enabled = false;
+            gitHubDownloadCheckbox.Enabled = false;
             progressBar.Visible = true;
             cancel.Visible = true;
             threadRunning = true;
@@ -145,14 +146,7 @@ namespace YgoProPatcher
                                         }
                                     }
                                 }
-                                else
-                                {
-                                    destFile = Path.ChangeExtension(destFile, ".png");
-                                    if (!File.Exists(destFile))
-                                    {
-                                        System.IO.File.Copy(s, destFile, false);
-                                    }
-                                }
+ 
                             }
                             else
                             {
@@ -196,9 +190,11 @@ namespace YgoProPatcher
         private string FolderSelection(string versionOfYGO)
         {
             string folderString = "";
-            FolderBrowserDialog fbd = new FolderBrowserDialog();
-            fbd.ShowNewFolderButton = false;
-            fbd.Description = "Select main folder of " + versionOfYGO;
+            FolderBrowserDialog fbd = new FolderBrowserDialog
+            {
+                ShowNewFolderButton = false,
+                Description = "Select main folder of " + versionOfYGO
+            };
             DialogResult result = fbd.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -219,6 +215,7 @@ namespace YgoProPatcher
 
         private async Task<bool> FileDownload(string fileName, string destinationFolder, string website, bool overwrite)
         {
+
             _pool.WaitOne();
             string webFile = website + fileName;
             string destFile;
@@ -236,6 +233,7 @@ namespace YgoProPatcher
                 
                 if (!File.Exists(destFile) || overwrite)
                 {
+                    
                     using (var client = new WebClient())
                     {
                         await Task.Run(()=> { client.DownloadFile(new Uri(webFile), destFile); });
@@ -247,28 +245,30 @@ namespace YgoProPatcher
             }
             catch
             {
-                
                return false;
             }
             finally
             {
                 
-                _pool.Release();
+                
+                downloads=-_pool.Release();
+                
             }
             
         }
 
-        private void cancel_Click(object sender, EventArgs e)
+        private void Cancel_Click(object sender, EventArgs e)
         {
             threadRunning = false;
             backgroundWorker1.CancelAsync();
             cancel.Visible = false;
+            exitButton.Visible = true;
             internetCheckbox.Enabled = true;
             Status.Text = "Operation Canceled!";
             Status.Update();
         }
 
-        private async void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        private async void BackgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             if (!gitHubDownloadCheckbox.Checked)
             {
@@ -287,11 +287,11 @@ namespace YgoProPatcher
             if (threadRunning)
             {
 
-                Status.Invoke(new Action(() => { Status.Text = "Update Complete!"; cancel.Visible = false; internetCheckbox.Enabled = true; debug.Update(); }));
+                Status.Invoke(new Action(() => { Status.Text = "Update Complete!"; cancel.Visible = false; exitButton.Visible = true; internetCheckbox.Enabled = true; gitHubDownloadCheckbox.Enabled = true; }));
                 threadRunning = false;
             }
         }
-        private async Task<List<string>> connectToGithub(string path, string extension)
+        private async Task<List<string>> ConnectToGithub(string path, string extension)
         {
             var github = new GitHubClient(new ProductHeaderValue("MyAmazingApp"));
             var result = await github.Repository.Content.GetAllContents("Ygoproco", "Live2017Links", path);
@@ -311,7 +311,7 @@ namespace YgoProPatcher
 
         private async Task<List<string>> DownloadCDBSFromGithub(string destinationFolder)
         {
-            List<string> listOfCDBs = await connectToGithub("/", ".cdb");
+            List<string> listOfCDBs = await ConnectToGithub("/", ".cdb");
             string cdbFolder = Path.Combine(destinationFolder, "cdb");
             progressBar.Invoke(new Action(() => progressBar.Maximum = listOfCDBs.Count));
             List<string> listOfDownloadedCDBS = new List<string>();
@@ -324,7 +324,7 @@ namespace YgoProPatcher
             }
             return listOfDownloadedCDBS;
         }
-        private void downloadUsingCDB(List<string> listOfDownloadedCDBS, string destinationFolder)
+        private void DownloadUsingCDB(List<string> listOfDownloadedCDBS, string destinationFolder)
         {
            
             foreach (string cdb in listOfDownloadedCDBS)
@@ -332,7 +332,7 @@ namespace YgoProPatcher
                 if (threadRunning)
                 {
                     DataClass db = new DataClass(cdb);
-                    DataTable dt = db.selectQuery("SELECT id FROM datas");
+                    DataTable dt = db.SelectQuery("SELECT id FROM datas");
                     Status.Invoke(new Action(() => Status.Text = "Updating Pics and Scripts using " + Path.GetFileName(cdb)));
                     progressBar.Invoke(new Action(() => progressBar.Maximum = (dt.Rows.Count)));
                     progressBar.Invoke(new Action(() => progressBar.Value = 0));
@@ -365,6 +365,10 @@ namespace YgoProPatcher
 
                         }
                     }
+                    while (downloads>-7)
+                    {
+                        Thread.Sleep(1);
+                    }
 
                 }
             }
@@ -379,13 +383,13 @@ namespace YgoProPatcher
 
            CDBS= await DownloadCDBSFromGithub(destinationFolder);
             progressBar.Invoke(new Action(() => { progressBar.Value = progressBar.Maximum; }));
-            downloadUsingCDB(CDBS, destinationFolder);
+            DownloadUsingCDB(CDBS, destinationFolder);
             await FileDownload("lflist.conf", Path.Combine(YgoPro2Path.Text, "config"), "https://raw.githubusercontent.com/Ygoproco/Live2017Links/master/", true);
         }
 
 
 
-        private void gitHubDownloadCheckbox_CheckedChanged(object sender, EventArgs e)
+        private void GitHubDownloadCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             YgoProLinksPath.Enabled = !YgoProLinksPath.Enabled;
             pathButtonYGOPRO1.Enabled = !pathButtonYGOPRO1.Enabled;
@@ -398,6 +402,11 @@ namespace YgoProPatcher
 
 
         }
+
+        private void ExitButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
     class DataClass
     {
@@ -406,7 +415,7 @@ namespace YgoProPatcher
         {
             sqlite = new SQLiteConnection("Data Source=" + dbPath);
         }
-        public DataTable selectQuery(string query)
+        public DataTable SelectQuery(string query)
         {
             SQLiteDataAdapter ad;
             DataTable dt = new DataTable();
@@ -428,5 +437,5 @@ namespace YgoProPatcher
         }
 
     }
-
+   
 }
