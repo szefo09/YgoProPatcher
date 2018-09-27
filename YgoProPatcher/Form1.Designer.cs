@@ -110,7 +110,7 @@
             this.UpdateButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.UpdateButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.UpdateButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.UpdateButton.Location = new System.Drawing.Point(235, 209);
+            this.UpdateButton.Location = new System.Drawing.Point(225, 209);
             this.UpdateButton.Name = "UpdateButton";
             this.UpdateButton.Size = new System.Drawing.Size(182, 82);
             this.UpdateButton.TabIndex = 0;
@@ -121,7 +121,7 @@
             // Status
             // 
             this.Status.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.Status.Location = new System.Drawing.Point(42, 294);
+            this.Status.Location = new System.Drawing.Point(32, 291);
             this.Status.Name = "Status";
             this.Status.Size = new System.Drawing.Size(560, 23);
             this.Status.TabIndex = 8;
@@ -130,7 +130,7 @@
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(235, 336);
+            this.progressBar.Location = new System.Drawing.Point(225, 333);
             this.progressBar.Maximum = 90;
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(182, 23);
@@ -140,7 +140,7 @@
             // cancel
             // 
             this.cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancel.Location = new System.Drawing.Point(235, 386);
+            this.cancel.Location = new System.Drawing.Point(225, 383);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(182, 23);
             this.cancel.TabIndex = 10;
@@ -185,18 +185,18 @@
             this.gitHubDownloadCheckbox.Checked = true;
             this.gitHubDownloadCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.gitHubDownloadCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.gitHubDownloadCheckbox.Location = new System.Drawing.Point(9, 165);
+            this.gitHubDownloadCheckbox.Location = new System.Drawing.Point(12, 165);
             this.gitHubDownloadCheckbox.Name = "gitHubDownloadCheckbox";
-            this.gitHubDownloadCheckbox.Size = new System.Drawing.Size(277, 38);
+            this.gitHubDownloadCheckbox.Size = new System.Drawing.Size(385, 21);
             this.gitHubDownloadCheckbox.TabIndex = 13;
-            this.gitHubDownloadCheckbox.Text = "Download files without using YGOPRO1\r\n(newest cards may not have image)";
+            this.gitHubDownloadCheckbox.Text = "Download files without using YGOPRO1 from the Internet";
             this.gitHubDownloadCheckbox.UseVisualStyleBackColor = true;
             this.gitHubDownloadCheckbox.CheckedChanged += new System.EventHandler(this.GitHubDownloadCheckbox_CheckedChanged);
             // 
             // exitButton
             // 
             this.exitButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.exitButton.Location = new System.Drawing.Point(235, 386);
+            this.exitButton.Location = new System.Drawing.Point(225, 383);
             this.exitButton.Name = "exitButton";
             this.exitButton.Size = new System.Drawing.Size(182, 23);
             this.exitButton.TabIndex = 15;
@@ -209,7 +209,7 @@
             // 
             this.OverwriteCheckbox.AutoSize = true;
             this.OverwriteCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.OverwriteCheckbox.Location = new System.Drawing.Point(9, 209);
+            this.OverwriteCheckbox.Location = new System.Drawing.Point(12, 192);
             this.OverwriteCheckbox.Name = "OverwriteCheckbox";
             this.OverwriteCheckbox.Size = new System.Drawing.Size(149, 38);
             this.OverwriteCheckbox.TabIndex = 16;
