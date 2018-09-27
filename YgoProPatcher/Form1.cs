@@ -19,6 +19,7 @@ namespace YgoProPatcher
         public YgoProPatcher()
         {
             InitializeComponent();
+            ServicePointManager.DefaultConnectionLimit = 200;
             string saveLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YgoProPatcher");
             string saveFile = Path.Combine(saveLocation, "paths.txt");
             if (Directory.Exists(saveLocation) && File.Exists(saveFile))
@@ -31,7 +32,7 @@ namespace YgoProPatcher
             _pool.Release(throttleValue);
 
         }
-        int throttleValue = 20;
+        int throttleValue = 100;
         int downloads = 0;
         bool threadRunning = false;
         static string token = Data.GetToken();
@@ -262,17 +263,14 @@ namespace YgoProPatcher
             finally
             {
                 downloads=-_pool.Release();
-                debug.Invoke(new Action(() => { debug.Text = downloads.ToString(); }));
+                //debug.Invoke(new Action(() => { debug.Text = downloads.ToString(); }));
             }
             
         }
 
         private void Cancel_Click(object sender, EventArgs e)
         {
-            while (downloads > 1-throttleValue)
-            {
-                Thread.Sleep(1);
-            }
+            Status.Text = "Canceling the download, please wait!";
             threadRunning = false;
             backgroundWorker1.CancelAsync();
             cancel.Visible = false;
