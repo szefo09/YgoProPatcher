@@ -27,13 +27,13 @@ namespace YgoProPatcher
                 YgoProLinksPath.Text = paths[0];
                 YgoPro2Path.Text = paths[1];
             }
-            _pool = new Semaphore(0, 7);
-            _pool.Release(7);
+            _pool = new Semaphore(0, 11);
+            _pool.Release(11);
 
         }
         int downloads = 0;
         bool threadRunning = false;
-        static string token = Token.GetToken();
+        static string token = Data.GetToken();
         private static Semaphore _pool;
         private void YgoProLinksButton_Click(object sender, EventArgs e)
         {
@@ -49,6 +49,7 @@ namespace YgoProPatcher
         {
             internetCheckbox.Enabled = false;
             gitHubDownloadCheckbox.Enabled = false;
+            OverwriteCheckbox.Enabled = false;
             progressBar.Visible = true;
             cancel.Visible = true;
             threadRunning = true;
@@ -138,8 +139,8 @@ namespace YgoProPatcher
                             {
                                 if (internetCheckbox.Checked)
                                 {
-                                    string website = "https://ygoprodeck.com/pics/";
-                                    if (!FileDownload(fileName, fileDestination, website, false).Result)
+                                    string website = Data.GetPicWebsite();
+                                    if (!FileDownload(Path.ChangeExtension(fileName,".png"), fileDestination, website, OverwriteCheckbox.Enabled).Result)
                                     {
                                         destFile = Path.ChangeExtension(destFile, ".png");
                                         if (!File.Exists(destFile))
@@ -259,7 +260,6 @@ namespace YgoProPatcher
                 
                 
                 downloads=-_pool.Release();
-                debug.Invoke(new Action(() => { debug.Text = downloads.ToString(); }));
             }
             
         }
@@ -271,6 +271,8 @@ namespace YgoProPatcher
             cancel.Visible = false;
             exitButton.Visible = true;
             internetCheckbox.Enabled = true;
+            OverwriteCheckbox.Enabled = true;
+            gitHubDownloadCheckbox.Enabled=true;
             Status.Text = "Operation Canceled!";
             Status.Update();
         }
@@ -294,7 +296,7 @@ namespace YgoProPatcher
             if (threadRunning)
             {
 
-                Status.Invoke(new Action(() => { Status.Text = "Update Complete!"; cancel.Visible = false; exitButton.Visible = true; internetCheckbox.Enabled = true; gitHubDownloadCheckbox.Enabled = true; }));
+                Status.Invoke(new Action(() => { Status.Text = "Update Complete!"; cancel.Visible = false; exitButton.Visible = true; internetCheckbox.Enabled = true; gitHubDownloadCheckbox.Enabled = true; OverwriteCheckbox.Enabled = true; }));
                 threadRunning = false;
             }
         }
@@ -324,7 +326,7 @@ namespace YgoProPatcher
             
             List<string> listOfCDBs = await ConnectToGithub("/", ".cdb");
             string cdbFolder = Path.Combine(destinationFolder, "cdb");
-            MessageBox.Show(FileDownload("cards.cdb", cdbFolder, "https://github.com/shadowfox87/ygopro2/raw/master/cdb/", true).Result.ToString());
+            await FileDownload("cards.cdb", cdbFolder, "https://github.com/shadowfox87/ygopro2/raw/master/cdb/", true);
             progressBar.Invoke(new Action(() => progressBar.Maximum = listOfCDBs.Count));
             List<string> listOfDownloadedCDBS = new List<string>(){Path.Combine(cdbFolder,"cards.cdb" )};
             List<Task> downloadList = new List<Task>();
@@ -350,8 +352,8 @@ namespace YgoProPatcher
                         Status.Invoke(new Action(() => Status.Text = "Updating Pics and Scripts using " + Path.GetFileName(cdb)));
                         progressBar.Invoke(new Action(() => progressBar.Maximum = (dt.Rows.Count)));
                         progressBar.Invoke(new Action(() => progressBar.Value = 0));
-                        string dlWebsitePics = "https://raw.githubusercontent.com/shadowfox87/YGOSeries10CardPics/222d25e7c880e075c28016c4a94a95c41b4a57d7/picture/card/";
-                        string dlWebsiteLua = "https://raw.githubusercontent.com/Ygoproco/Live2017Links/master/script/";
+                        string dlWebsitePics = Data.GetPicWebsite();
+                        string dlWebsiteLua = Data.GetLuaWebsite();
                         string dFPics = Path.Combine(destinationFolder, @"picture\card");
                         string dFLua = Path.Combine(destinationFolder, "script");
                         List<string> downloadList = new List<string>();
@@ -373,13 +375,13 @@ namespace YgoProPatcher
 
                             if (threadRunning)
                             {
-                                FileDownload(Value.ToString() + ".png", dFPics, dlWebsitePics, false);
-                                FileDownload("c" + Value.ToString() + ".lua", dFLua, dlWebsiteLua, false);
+                                FileDownload(Value.ToString() + ".png", dFPics, dlWebsitePics, OverwriteCheckbox.Checked);
+                                FileDownload("c" + Value.ToString() + ".lua", dFLua, dlWebsiteLua, true);
                                 progressBar.Invoke(new Action(() => progressBar.Increment(1)));
 
                             }
                         }
-                        while (downloads > -6)
+                        while (downloads > -9)
                         {
                             Thread.Sleep(1);
                         }
@@ -387,7 +389,7 @@ namespace YgoProPatcher
                     }
 
                 }
-                while (downloads > -6)
+                while (downloads > -9)
                 {
                     Thread.Sleep(1);
                 }
@@ -404,11 +406,11 @@ namespace YgoProPatcher
                 {
                     if (threadRunning)
                     {
-                        FileDownload(field.Name, Path.Combine(YgoPro2Path.Text, path), field.DownloadUrl, false);
+                        FileDownload(field.Name, Path.Combine(YgoPro2Path.Text, path), field.DownloadUrl, OverwriteCheckbox.Enabled);
                         progressBar.Invoke(new Action(() => { progressBar.Increment(1); }));
                     }
                 }
-                while (downloads > -6)
+                while (downloads > -9)
                 {
                     Thread.Sleep(1);
                 }

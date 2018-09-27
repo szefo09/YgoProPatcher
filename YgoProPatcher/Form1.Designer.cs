@@ -44,6 +44,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.gitHubDownloadCheckbox = new System.Windows.Forms.CheckBox();
             this.exitButton = new System.Windows.Forms.Button();
+            this.OverwriteCheckbox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // pathButtonYGOPRO1
@@ -109,7 +110,7 @@
             this.UpdateButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.UpdateButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.UpdateButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.UpdateButton.Location = new System.Drawing.Point(232, 211);
+            this.UpdateButton.Location = new System.Drawing.Point(235, 209);
             this.UpdateButton.Name = "UpdateButton";
             this.UpdateButton.Size = new System.Drawing.Size(182, 82);
             this.UpdateButton.TabIndex = 0;
@@ -120,7 +121,7 @@
             // Status
             // 
             this.Status.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.Status.Location = new System.Drawing.Point(40, 306);
+            this.Status.Location = new System.Drawing.Point(42, 294);
             this.Status.Name = "Status";
             this.Status.Size = new System.Drawing.Size(560, 23);
             this.Status.TabIndex = 8;
@@ -129,7 +130,7 @@
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(232, 342);
+            this.progressBar.Location = new System.Drawing.Point(235, 336);
             this.progressBar.Maximum = 90;
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(182, 23);
@@ -139,9 +140,9 @@
             // cancel
             // 
             this.cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancel.Location = new System.Drawing.Point(282, 386);
+            this.cancel.Location = new System.Drawing.Point(235, 386);
             this.cancel.Name = "cancel";
-            this.cancel.Size = new System.Drawing.Size(75, 23);
+            this.cancel.Size = new System.Drawing.Size(182, 23);
             this.cancel.TabIndex = 10;
             this.cancel.Text = "Cancel";
             this.cancel.UseVisualStyleBackColor = true;
@@ -155,7 +156,7 @@
             this.internetCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.internetCheckbox.Enabled = false;
             this.internetCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.internetCheckbox.Location = new System.Drawing.Point(15, 153);
+            this.internetCheckbox.Location = new System.Drawing.Point(12, 144);
             this.internetCheckbox.Name = "internetCheckbox";
             this.internetCheckbox.Size = new System.Drawing.Size(319, 21);
             this.internetCheckbox.TabIndex = 11;
@@ -184,25 +185,36 @@
             this.gitHubDownloadCheckbox.Checked = true;
             this.gitHubDownloadCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.gitHubDownloadCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.gitHubDownloadCheckbox.Location = new System.Drawing.Point(15, 180);
+            this.gitHubDownloadCheckbox.Location = new System.Drawing.Point(9, 165);
             this.gitHubDownloadCheckbox.Name = "gitHubDownloadCheckbox";
-            this.gitHubDownloadCheckbox.Size = new System.Drawing.Size(508, 21);
+            this.gitHubDownloadCheckbox.Size = new System.Drawing.Size(277, 38);
             this.gitHubDownloadCheckbox.TabIndex = 13;
-            this.gitHubDownloadCheckbox.Text = "Download files without using YGOPRO1 (newest cards may not have image!)";
+            this.gitHubDownloadCheckbox.Text = "Download files without using YGOPRO1\r\n(newest cards may not have image)";
             this.gitHubDownloadCheckbox.UseVisualStyleBackColor = true;
             this.gitHubDownloadCheckbox.CheckedChanged += new System.EventHandler(this.GitHubDownloadCheckbox_CheckedChanged);
             // 
             // exitButton
             // 
             this.exitButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.exitButton.Location = new System.Drawing.Point(282, 386);
+            this.exitButton.Location = new System.Drawing.Point(235, 386);
             this.exitButton.Name = "exitButton";
-            this.exitButton.Size = new System.Drawing.Size(75, 23);
+            this.exitButton.Size = new System.Drawing.Size(182, 23);
             this.exitButton.TabIndex = 15;
             this.exitButton.Text = "Exit";
             this.exitButton.UseVisualStyleBackColor = true;
             this.exitButton.Visible = false;
             this.exitButton.Click += new System.EventHandler(this.ExitButton_Click);
+            // 
+            // OverwriteCheckbox
+            // 
+            this.OverwriteCheckbox.AutoSize = true;
+            this.OverwriteCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.OverwriteCheckbox.Location = new System.Drawing.Point(9, 209);
+            this.OverwriteCheckbox.Name = "OverwriteCheckbox";
+            this.OverwriteCheckbox.Size = new System.Drawing.Size(149, 38);
+            this.OverwriteCheckbox.TabIndex = 16;
+            this.OverwriteCheckbox.Text = "Overwrite Pics\r\n(Not reccomended)";
+            this.OverwriteCheckbox.UseVisualStyleBackColor = true;
             // 
             // YgoProPatcher
             // 
@@ -212,6 +224,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.CancelButton = this.cancel;
             this.ClientSize = new System.Drawing.Size(670, 450);
+            this.Controls.Add(this.OverwriteCheckbox);
             this.Controls.Add(this.exitButton);
             this.Controls.Add(this.gitHubDownloadCheckbox);
             this.Controls.Add(this.label3);
@@ -256,6 +269,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.CheckBox gitHubDownloadCheckbox;
         private System.Windows.Forms.Button exitButton;
+        private System.Windows.Forms.CheckBox OverwriteCheckbox;
     }
 }
 
