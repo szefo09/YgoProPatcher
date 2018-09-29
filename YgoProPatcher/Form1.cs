@@ -19,7 +19,7 @@ namespace YgoProPatcher
         public YgoProPatcher()
         {
             InitializeComponent();
-            ServicePointManager.DefaultConnectionLimit = 250;
+            ServicePointManager.DefaultConnectionLimit = 100;
             string saveLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YgoProPatcher");
             string saveFile = Path.Combine(saveLocation, "paths.txt");
             if (Directory.Exists(saveLocation) && File.Exists(saveFile))
@@ -238,31 +238,36 @@ namespace YgoProPatcher
 
             try
             {
-                
+
                 if (!File.Exists(destFile) || overwrite)
                 {
-                    
+
                     using (var client = new WebClient())
                     {
-                        
-                        await Task.Run(()=> { client.DownloadFile(new Uri(webFile), destFile); });
+                        if (Path.GetExtension(fileName) == ".png")
+                        {
+                            client.Headers.Add(HttpRequestHeader.Authorization, string.Concat("token ", token));
+                        }
+
+                        await Task.Run(() => { client.DownloadFile(new Uri(webFile), destFile); });
                     }
 
                 }
-                
+
                 return true;
             }
             catch
             {
-               return false;
+                return false;
             }
             finally
             {
-                downloads=-_pool.Release();
+                downloads = -_pool.Release();
                 //debug.Invoke(new Action(() => { debug.Text = downloads.ToString(); }));
             }
-            
+
         }
+
 
         private void Cancel_Click(object sender, EventArgs e)
         {
