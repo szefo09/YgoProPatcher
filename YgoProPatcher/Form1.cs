@@ -329,7 +329,7 @@ namespace YgoProPatcher
             string cdbFolder = Path.Combine(destinationFolder, "cdb");
             await FileDownload("cards.cdb", cdbFolder, "https://github.com/shadowfox87/ygopro2/raw/master/cdb/", true);
             progressBar.Invoke(new Action(() => progressBar.Maximum = listOfCDBs.Count));
-            List<string> listOfDownloadedCDBS = new List<string>();// {Path.Combine(cdbFolder,"cards.cdb" )};
+            List<string> listOfDownloadedCDBS = new List<string>(){Path.Combine(cdbFolder,"cards.cdb" )};
             List<Task> downloadList = new List<Task>();
             foreach (string cdb in listOfCDBs)
             {
