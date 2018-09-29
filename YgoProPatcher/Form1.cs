@@ -19,7 +19,7 @@ namespace YgoProPatcher
         public YgoProPatcher()
         {
             InitializeComponent();
-            ServicePointManager.DefaultConnectionLimit = 200;
+            ServicePointManager.DefaultConnectionLimit = 250;
             string saveLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YgoProPatcher");
             string saveFile = Path.Combine(saveLocation, "paths.txt");
             if (Directory.Exists(saveLocation) && File.Exists(saveFile))
@@ -32,7 +32,7 @@ namespace YgoProPatcher
             _pool.Release(throttleValue);
 
         }
-        int throttleValue = 100;
+        int throttleValue = 13;
         int downloads = 0;
         bool threadRunning = false;
         static string token = Data.GetToken();
@@ -244,10 +244,6 @@ namespace YgoProPatcher
                     
                     using (var client = new WebClient())
                     {
-                        if (Path.GetExtension(fileName) == ".png")
-                        {
-                            client.Headers.Add(HttpRequestHeader.Authorization, string.Concat("token ", token));
-                        }
                         
                         await Task.Run(()=> { client.DownloadFile(new Uri(webFile), destFile); });
                     }
@@ -333,7 +329,7 @@ namespace YgoProPatcher
             string cdbFolder = Path.Combine(destinationFolder, "cdb");
             await FileDownload("cards.cdb", cdbFolder, "https://github.com/shadowfox87/ygopro2/raw/master/cdb/", true);
             progressBar.Invoke(new Action(() => progressBar.Maximum = listOfCDBs.Count));
-            List<string> listOfDownloadedCDBS = new List<string>(){Path.Combine(cdbFolder,"cards.cdb" )};
+            List<string> listOfDownloadedCDBS = new List<string>();// {Path.Combine(cdbFolder,"cards.cdb" )};
             List<Task> downloadList = new List<Task>();
             foreach (string cdb in listOfCDBs)
             {
@@ -453,6 +449,11 @@ namespace YgoProPatcher
         private void ExitButton_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FileDownload("101006082.png", @"D:\Test", "https://raw.githubusercontent.com/shadowfox87/YGOSeries10CardPics/master/picture/card/", false);
         }
     }
     class DataClass
