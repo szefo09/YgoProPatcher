@@ -19,6 +19,7 @@ namespace YgoProPatcher
         public YgoProPatcher()
         {
             InitializeComponent();
+            ServicePointManager.DefaultConnectionLimit = 100;
             string saveLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YgoProPatcher");
             string saveFile = Path.Combine(saveLocation, "paths.txt");
             if (Directory.Exists(saveLocation) && File.Exists(saveFile))
@@ -31,7 +32,7 @@ namespace YgoProPatcher
             _pool.Release(throttleValue);
 
         }
-        int throttleValue = 20;
+        int throttleValue = 13;
         int downloads = 0;
         bool threadRunning = false;
         static string token = Data.GetToken();
@@ -237,42 +238,40 @@ namespace YgoProPatcher
 
             try
             {
-                
+
                 if (!File.Exists(destFile) || overwrite)
                 {
-                    
+
                     using (var client = new WebClient())
                     {
                         if (Path.GetExtension(fileName) == ".png")
                         {
                             client.Headers.Add(HttpRequestHeader.Authorization, string.Concat("token ", token));
                         }
-                        
-                        await Task.Run(()=> { client.DownloadFile(new Uri(webFile), destFile); });
+
+                        await Task.Run(() => { client.DownloadFile(new Uri(webFile), destFile); });
                     }
 
                 }
-                
+
                 return true;
             }
             catch
             {
-               return false;
+                return false;
             }
             finally
             {
-                downloads=-_pool.Release();
-                debug.Invoke(new Action(() => { debug.Text = downloads.ToString(); }));
+                downloads = -_pool.Release();
+                //debug.Invoke(new Action(() => { debug.Text = downloads.ToString(); }));
             }
-            
+
         }
+
 
         private void Cancel_Click(object sender, EventArgs e)
         {
-            while (downloads > 1-throttleValue)
-            {
-                Thread.Sleep(1);
-            }
+            Status.Text = "Canceling the download, please wait!";
             threadRunning = false;
             backgroundWorker1.CancelAsync();
             cancel.Visible = false;
@@ -455,6 +454,11 @@ namespace YgoProPatcher
         private void ExitButton_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FileDownload("101006082.png", @"D:\Test", "https://raw.githubusercontent.com/shadowfox87/YGOSeries10CardPics/master/picture/card/", false);
         }
     }
     class DataClass
