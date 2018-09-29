@@ -1,6 +1,8 @@
 # YgoProPatcher
 YgoProPatcher that patches YGOPRO2 using YGOPRO Percy Links Beta files
 
+## **CHECK RELEASES TAB FOR THE NEWEST UPDATER FILE**
+
 Simple program that I made for my friend that wanted to have an automated tool to update YGOPRO2
 The app uses YGOPRO Percy Links Beta files to update YGOPRO2,
 so it's required to have YGOPRO Percy Links Beta updated, and with new card images loaded before trying to update YGOPRO2 with this app.
