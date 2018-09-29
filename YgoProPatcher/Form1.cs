@@ -19,7 +19,7 @@ namespace YgoProPatcher
         public YgoProPatcher()
         {
             InitializeComponent();
-            ServicePointManager.DefaultConnectionLimit = 100;
+            ServicePointManager.DefaultConnectionLimit = 200;
             string saveLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YgoProPatcher");
             string saveFile = Path.Combine(saveLocation, "paths.txt");
             if (Directory.Exists(saveLocation) && File.Exists(saveFile))
@@ -334,7 +334,7 @@ namespace YgoProPatcher
             string cdbFolder = Path.Combine(destinationFolder, "cdb");
             await FileDownload("cards.cdb", cdbFolder, "https://github.com/shadowfox87/ygopro2/raw/master/cdb/", true);
             progressBar.Invoke(new Action(() => progressBar.Maximum = listOfCDBs.Count));
-            List<string> listOfDownloadedCDBS = new List<string>();// {Path.Combine(cdbFolder,"cards.cdb" )};
+            List<string> listOfDownloadedCDBS = new List<string>(){Path.Combine(cdbFolder,"cards.cdb" )};
             List<Task> downloadList = new List<Task>();
             foreach (string cdb in listOfCDBs)
             {
