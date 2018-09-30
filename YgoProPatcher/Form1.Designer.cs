@@ -257,6 +257,7 @@
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "YGOPRO2 Updater using YGOPROLinks Beta";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.YgoProPatcher_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();
 
