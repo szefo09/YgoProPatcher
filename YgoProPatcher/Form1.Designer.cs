@@ -178,7 +178,8 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(160, 13);
             this.label3.TabIndex = 12;
-            this.label3.Text = "Created by Szefo09, Version 2.0\r\n";
+            this.label3.Text = "Created by Szefo09, Version 2.2\r\n";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // gitHubDownloadCheckbox
             // 
