@@ -38,7 +38,7 @@
             this.UpdateButton = new System.Windows.Forms.Button();
             this.Status = new System.Windows.Forms.Label();
             this.progressBar = new System.Windows.Forms.ProgressBar();
-            this.cancel = new System.Windows.Forms.Button();
+            this.cancelButton = new System.Windows.Forms.Button();
             this.internetCheckbox = new System.Windows.Forms.CheckBox();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.label3 = new System.Windows.Forms.Label();
@@ -138,17 +138,17 @@
             this.progressBar.TabIndex = 9;
             this.progressBar.Visible = false;
             // 
-            // cancel
+            // cancelButton
             // 
-            this.cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancel.Location = new System.Drawing.Point(225, 383);
-            this.cancel.Name = "cancel";
-            this.cancel.Size = new System.Drawing.Size(182, 23);
-            this.cancel.TabIndex = 10;
-            this.cancel.Text = "Cancel";
-            this.cancel.UseVisualStyleBackColor = true;
-            this.cancel.Visible = false;
-            this.cancel.Click += new System.EventHandler(this.Cancel_Click);
+            this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cancelButton.Location = new System.Drawing.Point(225, 383);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(182, 23);
+            this.cancelButton.TabIndex = 10;
+            this.cancelButton.Text = "Cancel";
+            this.cancelButton.UseVisualStyleBackColor = true;
+            this.cancelButton.Visible = false;
+            this.cancelButton.Click += new System.EventHandler(this.Cancel_Click);
             // 
             // internetCheckbox
             // 
@@ -178,8 +178,7 @@
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(160, 13);
             this.label3.TabIndex = 12;
-            this.label3.Text = "Created by Szefo09, Version 2.2\r\n";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
+            this.label3.Text = "Created by Szefo09, Version 2.3";
             // 
             // gitHubDownloadCheckbox
             // 
@@ -232,7 +231,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.CancelButton = this.cancel;
+            this.CancelButton = this.cancelButton;
             this.ClientSize = new System.Drawing.Size(670, 450);
             this.Controls.Add(this.debug);
             this.Controls.Add(this.OverwriteCheckbox);
@@ -240,7 +239,7 @@
             this.Controls.Add(this.gitHubDownloadCheckbox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.internetCheckbox);
-            this.Controls.Add(this.cancel);
+            this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.Status);
             this.Controls.Add(this.UpdateButton);
@@ -275,7 +274,7 @@
         private System.Windows.Forms.Button UpdateButton;
         private System.Windows.Forms.Label Status;
         private System.Windows.Forms.ProgressBar progressBar;
-        private System.Windows.Forms.Button cancel;
+        private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.CheckBox internetCheckbox;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.Windows.Forms.Label label3;

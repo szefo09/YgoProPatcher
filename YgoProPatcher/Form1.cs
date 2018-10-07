@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SQLite;
 using System.IO;
 using System.Net;
 using System.Threading;
@@ -55,7 +54,7 @@ namespace YgoProPatcher
             OverwriteCheckbox.Enabled = false;
             progressBar.Visible = true;
             exitButton.Visible = false;
-            cancel.Visible = true;
+            cancelButton.Visible = true;
             threadRunning = true;
             backgroundWorker1.RunWorkerAsync();
             string saveLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YgoProPatcher");
@@ -268,10 +267,9 @@ namespace YgoProPatcher
 
         }
 
-
         private void Cancel_Click(object sender, EventArgs e)
         {
-            while (downloads > 1 - throttleValue)
+            while (downloads > 1 - throttleValue && (gitHubDownloadCheckbox.Checked || internetCheckbox.Enabled))
             {
                 Status.Invoke(new Action(() => { Status.Text = "Canceling the download, please wait!"; Status.Update(); }));
                 
@@ -279,7 +277,7 @@ namespace YgoProPatcher
            
             threadRunning = false;
             backgroundWorker1.CancelAsync();
-            cancel.Visible = false;
+            cancelButton.Visible = false;
             exitButton.Visible = true;
             internetCheckbox.Enabled = true;
             OverwriteCheckbox.Enabled = true;
@@ -290,6 +288,7 @@ namespace YgoProPatcher
 
         private async void BackgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
+            DeleteOldCdbs();
             if (!gitHubDownloadCheckbox.Checked)
             {
                 if (threadRunning) { Copy("cdb"); ; }
@@ -307,7 +306,7 @@ namespace YgoProPatcher
             if (threadRunning)
             {
 
-                Status.Invoke(new Action(() => { Status.Text = "Update Complete!"; cancel.Visible = false; exitButton.Visible = true; internetCheckbox.Enabled = true; gitHubDownloadCheckbox.Enabled = true; OverwriteCheckbox.Enabled = true; }));
+                Status.Invoke(new Action(() => { Status.Text = "Update Complete!"; cancelButton.Visible = false; exitButton.Visible = true; internetCheckbox.Enabled = true; gitHubDownloadCheckbox.Enabled = true; OverwriteCheckbox.Enabled = true; }));
                 threadRunning = false;
             }
         }
@@ -434,8 +433,6 @@ namespace YgoProPatcher
         }
         }
 
-
-
         private async Task GitHubDownload(string destinationFolder)
         {
             Status.Invoke(new Action(() => { Status.Text = "Updating CDBS from Live2017Links"; }));
@@ -471,7 +468,7 @@ namespace YgoProPatcher
         {
             if (threadRunning) {
                 threadRunning = false;
-                while (downloads > 1 - throttleValue)
+                while (downloads > 1 - throttleValue &&(gitHubDownloadCheckbox.Checked || internetCheckbox.Enabled))
                 {
                     Status.Invoke(new Action(() => { Status.Text = "Canceling the download, please wait!"; Status.Update(); }));
 
@@ -481,37 +478,27 @@ namespace YgoProPatcher
 
         }
 
-        private void label3_Click(object sender, EventArgs e)
+        private void DeleteOldCdbs()
         {
-
-        }
-    }
-    class DataClass
-    {
-        private SQLiteConnection sqlite;
-        public DataClass(string dbPath)
-        {
-            sqlite = new SQLiteConnection("Data Source=" + dbPath);
-        }
-        public DataTable SelectQuery(string query)
-        {
-            SQLiteDataAdapter ad;
-            DataTable dt = new DataTable();
             try
             {
-                SQLiteCommand cmd;
-                sqlite.Open();
-                cmd = sqlite.CreateCommand();
-                cmd.CommandText = query;
-                ad = new SQLiteDataAdapter(cmd);
-                ad.Fill(dt);
+                string cdbFolder = Path.Combine(YgoPro2Path.Text, "cdb");
+                FileInfo[] cdbFiles = new DirectoryInfo(cdbFolder).GetFiles();
+                foreach (FileInfo cdb in cdbFiles)
+                {
+                    if (cdb.Name.Contains("prerelease") || cdb.Name.Contains("fix"))
+                    {
+                        cdb.Delete();
+                    }
+                }
             }
-            catch (SQLiteException ex)
+            catch
             {
-                MessageBox.Show("Can't open the DB: "+ex.ToString());
+                MessageBox.Show("Access to YGOPRO2 denied. Check if the path is correct or\ntry launching the Patcher with Admin Privileges");
+                threadRunning = false;
+                cancelButton.Visible = false;
+                
             }
-            sqlite.Close();
-            return dt;
         }
 
     }
