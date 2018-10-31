@@ -49,6 +49,7 @@ namespace YgoProPatcher
             }
             catch
             {
+
                 System.Windows.Forms.MessageBox.Show("There was an error during the download of the new client. Please try launching this program as an Administrator.");
             }
             finally

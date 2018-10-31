@@ -523,29 +523,37 @@ namespace YgoProPatcher
         }
         private void CheckNewVersion(string version)
         {
-            Release release = GitAccess.GetNewestYgoProPatcherRelease();
-            if (release.TagName != version && MessageBox.Show("New version of YgoProPatcher detected!\nDo You want to download it?", "New Version detected!", MessageBoxButtons.YesNo, MessageBoxIcon.Question)==DialogResult.Yes)
+            try
             {
-                string dir;
-                FolderBrowserDialog fbd = new FolderBrowserDialog
+                Release release = GitAccess.GetNewestYgoProPatcherRelease();
+                if (release.TagName!=null && release.TagName != version && MessageBox.Show("New version of YgoProPatcher detected!\nDo You want to download it?", "New Version detected!", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    ShowNewFolderButton = true,
-                    Description = "Select where you want to download YgoProPatcher:"
-                };
-                DialogResult result = fbd.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    dir = fbd.SelectedPath;
+                    string dir;
+                    FolderBrowserDialog fbd = new FolderBrowserDialog
+                    {
+                        ShowNewFolderButton = true,
+                        Description = "Select where you want to download YgoProPatcher:"
+                    };
+                    DialogResult result = fbd.ShowDialog();
+                    if (result == DialogResult.OK)
+                    {
+                        dir = fbd.SelectedPath;
+                    }
+                    else
+                    {
+                        return;
+                    }
+                    string fileName = Path.Combine(dir, "YgoProPatcher" + release.TagName + ".zip");
+                    using (WebClient client = new WebClient())
+                    {
+                        client.DownloadFile(release.Assets[0].BrowserDownloadUrl, fileName);
+                    }
+
                 }
-                else
-                {
-                    return;
-                }
-                string fileName = Path.Combine(dir,"YgoProPatcher"+release.TagName+".zip");
-                using (WebClient client = new WebClient()) {
-                    client.DownloadFile(release.Assets[0].BrowserDownloadUrl, fileName);
-                }
-                
+            }
+            catch
+            {
+                MessageBox.Show("Couldn't check for new version of YgoProPatcher.\nMake sure you are connected to the internet!");
             }
         }
     }
