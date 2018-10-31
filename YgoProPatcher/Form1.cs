@@ -17,6 +17,7 @@ namespace YgoProPatcher
     {
         public YgoProPatcher()
         {
+            
             InitializeComponent();
             ServicePointManager.DefaultConnectionLimit = 240;
             string saveLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YgoProPatcher");
@@ -29,7 +30,17 @@ namespace YgoProPatcher
             }
             _pool = new Semaphore(0, throttleValue);
             _pool.Release(throttleValue);
-
+            toolTip1.SetToolTip(ReinstallCheckbox, "This will download the newest version of YGOPRO2 Client and install it./nTHIS OPTION WILL OVERWRITE YOUR SETTINGS AND CUSTOM TEXTURES!");
+            toolTip1.SetToolTip(OverwriteCheckbox, "This will redownload all the pics in your picture folder.");
+            toolTip1.SetToolTip(gitHubDownloadCheckbox, "RECOMMENDED OPTION!\nThis will update your YGOPRO2 with newest cards, pictures and scripts.");
+            toolTip1.SetToolTip(YgoPro2Path, "Please select Your YGOPRO2 Directory which contains all the YGOPRO2 files.");
+            toolTip1.SetToolTip(YGOPRO2PathButton, "Please select Your YGOPRO2 Directory which contains all the YGOPRO2 files.");
+            toolTip1.SetToolTip(YgoProLinksPath, "Please select Your YGOPRO Percy Directory which contains all the YGOPRO Percy files.");
+            toolTip1.SetToolTip(YGOPRO1PathButton, "Please select Your YGOPRO Percy Directory which contains all the YGOPRO Percy files.");
+            toolTip1.SetToolTip(UpdateButton, "Start updating with selected options.");
+            string version = Data.version;
+            footerLabel.Text += version;
+            CheckNewVersion(version);
         }
         int throttleValue = 100;
         int downloads = 0;
@@ -49,12 +60,15 @@ namespace YgoProPatcher
         private void UpdateButton_Click(object sender, EventArgs e)
         {
             internetCheckbox.Enabled = false;
-            
+            UpdateButton.Enabled = false;
+            ReinstallCheckbox.Enabled = false;
             gitHubDownloadCheckbox.Enabled = false;
             OverwriteCheckbox.Enabled = false;
             progressBar.Visible = true;
             exitButton.Visible = false;
             cancelButton.Visible = true;
+            YgoPro2Path.Enabled = false;
+            YGOPRO2PathButton.Enabled = false;
             threadRunning = true;
             backgroundWorker1.RunWorkerAsync();
             string saveLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YgoProPatcher");
@@ -280,14 +294,34 @@ namespace YgoProPatcher
             cancelButton.Visible = false;
             exitButton.Visible = true;
             internetCheckbox.Enabled = true;
+            ReinstallCheckbox.Enabled = true;
             OverwriteCheckbox.Enabled = true;
             gitHubDownloadCheckbox.Enabled=true;
+            YgoPro2Path.Enabled = true;
+            YGOPRO2PathButton.Enabled = true;
+            UpdateButton.Enabled = true;
             Status.Text = "Operation Canceled!";
             Status.Update();
         }
 
         private async void BackgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
+            if (ReinstallCheckbox.Checked)
+            {
+               
+                Status.Invoke(new Action(() => { Status.Text = "Reinstalling YGOPRO2, please be patient, this may take a while!";
+                    cancelButton.Visible = false;
+                    progressBar.Visible = false;
+                }));
+
+                YGOPRO2Client.Download(YgoPro2Path.Text);
+            }
+            cancelButton.Invoke(new Action(() =>
+            {
+                cancelButton.Visible = true;
+                progressBar.Visible = true;
+            }));
+            
             DeleteOldCdbs();
             if (!gitHubDownloadCheckbox.Checked)
             {
@@ -306,35 +340,16 @@ namespace YgoProPatcher
             if (threadRunning)
             {
 
-                Status.Invoke(new Action(() => { Status.Text = "Update Complete!"; cancelButton.Visible = false; exitButton.Visible = true; internetCheckbox.Enabled = true; gitHubDownloadCheckbox.Enabled = true; OverwriteCheckbox.Enabled = true; }));
+                Status.Invoke(new Action(() => { Status.Text = "Update Complete!"; YgoPro2Path.Enabled = true; YGOPRO2PathButton.Enabled = true; ReinstallCheckbox.Enabled = true; cancelButton.Visible = false; exitButton.Visible = true; internetCheckbox.Enabled = true; gitHubDownloadCheckbox.Enabled = true; OverwriteCheckbox.Enabled = true; }));
                 threadRunning = false;
             }
         }
-        private async Task<List<string>> ConnectToGithub(string path, string extension)
-        {
-            GitHubClient github = new GitHubClient(new ProductHeaderValue("pics"))
-            {
-                Credentials = new Credentials(token)
-            };
-            var result = await github.Repository.Content.GetAllContents("Ygoproco", "Live2017Links", path);
 
-
-            List<string> fileNames = new List<string>();
-            foreach (var c in result)
-            {
-                if (c.Name.Contains(extension))
-                {
-                    fileNames.Add(c.Name);
-
-                }
-            }
-            return fileNames;
-        }
 
         private async Task<List<string>> DownloadCDBSFromGithub(string destinationFolder)
         {
             
-            List<string> listOfCDBs = await ConnectToGithub("/", ".cdb");
+            List<string> listOfCDBs = GitAccess.GetAllFilesWithExtensionFromYGOPRO("/", ".cdb");
             string cdbFolder = Path.Combine(destinationFolder, "cdb");
             await FileDownload("cards.cdb", cdbFolder, "https://github.com/shadowfox87/ygopro2/raw/master/cdb/", true);
             progressBar.Invoke(new Action(() => progressBar.Maximum = listOfCDBs.Count));
@@ -447,7 +462,10 @@ namespace YgoProPatcher
         private void GitHubDownloadCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             YgoProLinksPath.Enabled = !YgoProLinksPath.Enabled;
-            pathButtonYGOPRO1.Enabled = !pathButtonYGOPRO1.Enabled;
+            YGOPRO1PathButton.Enabled = !YGOPRO1PathButton.Enabled;
+            YgoProLinksPath.Visible = !YgoProLinksPath.Visible;
+            YGOPRO1PathButton.Visible = !YGOPRO1PathButton.Visible;
+            YGOPRO1Label.Visible = !YGOPRO1Label.Visible;
             internetCheckbox.Enabled = !internetCheckbox.Enabled;
             if (gitHubDownloadCheckbox.Checked&&!internetCheckbox.Checked)
             {
@@ -500,7 +518,33 @@ namespace YgoProPatcher
                 
             }
         }
-
+        private void CheckNewVersion(string version)
+        {
+            Release release = GitAccess.GetNewestYgoProPatcherRelease();
+            if (release.TagName != version && MessageBox.Show("New version of YgoProPatcher detected!\nDo You want to download it?", "New Version detected!", MessageBoxButtons.YesNo, MessageBoxIcon.Question)==DialogResult.Yes)
+            {
+                string dir;
+                FolderBrowserDialog fbd = new FolderBrowserDialog
+                {
+                    ShowNewFolderButton = true,
+                    Description = "Select where you want to download YgoProPatcher:"
+                };
+                DialogResult result = fbd.ShowDialog();
+                if (result == DialogResult.OK)
+                {
+                    dir = fbd.SelectedPath;
+                }
+                else
+                {
+                    return;
+                }
+                string fileName = Path.Combine(dir,"YgoProPatcher"+release.TagName+".zip");
+                using (WebClient client = new WebClient()) {
+                    client.DownloadFile(release.Assets[0].BrowserDownloadUrl, fileName);
+                }
+                
+            }
+        }
     }
    
 }
