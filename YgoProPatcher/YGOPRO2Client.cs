@@ -22,6 +22,7 @@ namespace YgoProPatcher
                 if (!directory.Exists)
                 {
                     directory.Create();
+                    directory.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
                 }
                 else
                 {
@@ -42,6 +43,7 @@ namespace YgoProPatcher
                     }
                     gitFolder.Delete(true);
                 }
+
                 Copy(tempFolder, path);
                 return;
             }
