@@ -30,7 +30,7 @@ namespace YgoProPatcher
             }
             _pool = new Semaphore(0, throttleValue);
             _pool.Release(throttleValue);
-            toolTip1.SetToolTip(ReinstallCheckbox, "This will download the newest version of YGOPRO2 Client and install it./nTHIS OPTION WILL OVERWRITE YOUR SETTINGS AND CUSTOM TEXTURES!");
+            toolTip1.SetToolTip(ReinstallCheckbox, "This will download the newest version of YGOPRO2 Client and install it.\nTHIS OPTION WILL OVERWRITE YOUR SETTINGS AND CUSTOM TEXTURES!");
             toolTip1.SetToolTip(OverwriteCheckbox, "This will redownload all the pics in your picture folder.");
             toolTip1.SetToolTip(gitHubDownloadCheckbox, "RECOMMENDED OPTION!\nThis will update your YGOPRO2 with newest cards, pictures and scripts.");
             toolTip1.SetToolTip(YgoPro2Path, "Please select Your YGOPRO2 Directory which contains all the YGOPRO2 files.");
