@@ -43,6 +43,7 @@ namespace YgoProPatcher
                     gitFolder.Delete(true);
                 }
                 Copy(tempFolder, path);
+                return;
             }
             catch
             {
@@ -76,7 +77,16 @@ namespace YgoProPatcher
             {
                 System.IO.File.Copy(file_name, System.IO.Path.Combine(destination_dir, file_name.Substring(source_dir.Length + 1)),true);
             }
-            
+            DirectoryInfo directory;
+            List<string> directories = new List<string> { "script", "picture","picture/field","picture/card","picture/closeup"};
+            foreach (string dir in directories)
+            {
+                directory = new DirectoryInfo(Path.Combine(destination_dir, dir));
+                if (!directory.Exists)
+                {
+                    directory.Create();
+                }
+            }
         }
         
     }

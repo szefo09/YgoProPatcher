@@ -384,7 +384,9 @@ namespace YgoProPatcher
                         progressBar.Invoke(new Action(() => progressBar.Value = 0));
                         string dlWebsitePics = Data.GetPicWebsite();
                         string dlWebsiteLua = Data.GetLuaWebsite();
+                        string dlWebsitePicsCloseup = Data.GetPicsCloseUpWebsite();
                         string dFPics = Path.Combine(destinationFolder, @"picture\card");
+                        string dFPicsCloseup = Path.Combine(destinationFolder, @"picture\closeup");
                         string dFLua = Path.Combine(destinationFolder, "script");
                         List<string> downloadList = new List<string>();
 
@@ -407,6 +409,7 @@ namespace YgoProPatcher
                             {
                                 FileDownload(Value.ToString() + ".png", dFPics, dlWebsitePics, OverwriteCheckbox.Checked);
                                 FileDownload("c" + Value.ToString() + ".lua", dFLua, dlWebsiteLua, true);
+                                FileDownload(Value.ToString() + ".png", dFPicsCloseup, dlWebsitePicsCloseup, OverwriteCheckbox.Checked);
                                 progressBar.Invoke(new Action(() => progressBar.Increment(1)));
 
                             }
