@@ -553,7 +553,7 @@ namespace YgoProPatcher
             }
             catch
             {
-                MessageBox.Show("Couldn't check for new version of YgoProPatcher.\nMake sure you are connected to the internet!");
+                MessageBox.Show("Couldn't check for new version of YgoProPatcher.\nMake sure You are connected to the internet!");
             }
         }
     }

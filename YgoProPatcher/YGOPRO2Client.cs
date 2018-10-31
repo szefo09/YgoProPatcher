@@ -71,23 +71,42 @@ namespace YgoProPatcher
             // Create subdirectory structure in destination    
             foreach (string dir in System.IO.Directory.GetDirectories(source_dir, "*", System.IO.SearchOption.AllDirectories))
             {
-                System.IO.Directory.CreateDirectory(System.IO.Path.Combine(destination_dir, dir.Substring(source_dir.Length + 1)));
-                // Example:
-                //     > C:\sources (and not C:\E:\sources)
+                try
+                {
+                    System.IO.Directory.CreateDirectory(System.IO.Path.Combine(destination_dir, dir.Substring(source_dir.Length + 1)));
+                }
+                catch
+                {
+
+                }
             }
 
             foreach (string file_name in System.IO.Directory.GetFiles(source_dir, "*", System.IO.SearchOption.AllDirectories))
             {
-                System.IO.File.Copy(file_name, System.IO.Path.Combine(destination_dir, file_name.Substring(source_dir.Length + 1)),true);
+                try
+                {
+                    System.IO.File.Copy(file_name, System.IO.Path.Combine(destination_dir, file_name.Substring(source_dir.Length + 1)), true);
+                }
+                catch
+                {
+
+                }
             }
             DirectoryInfo directory;
             List<string> directories = new List<string> { "script", "picture","picture/field","picture/card","picture/closeup"};
             foreach (string dir in directories)
             {
-                directory = new DirectoryInfo(Path.Combine(destination_dir, dir));
-                if (!directory.Exists)
+                try
                 {
-                    directory.Create();
+                    directory = new DirectoryInfo(Path.Combine(destination_dir, dir));
+                    if (!directory.Exists)
+                    {
+                        directory.Create();
+                    }
+                }
+                catch
+                {
+
                 }
             }
         }
