@@ -16,7 +16,14 @@ namespace YgoProPatcher
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new YgoProPatcher());
+            try
+            {
+               
+                Application.Run(new YgoProPatcher());
+            }catch(Exception e)
+            {
+                MessageBox.Show("UNEXPECTED ERROR HAS OCCURED IN THE YGOPROPATCHER!\nIF IT WILL HAPPEN AGAIN, PLEASE SEND THIS MESSAGE TO THE DEVELOPER!\n\n"+e.Message+"\n"+e.ToString());
+            }
         }
     }
 }
