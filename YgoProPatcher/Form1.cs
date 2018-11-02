@@ -201,9 +201,9 @@ namespace YgoProPatcher
                     }
                 }
             }
-            catch (Exception E)
+            catch
             {
-                MessageBox.Show(E.ToString());
+              
             }
         }
 
@@ -212,7 +212,7 @@ namespace YgoProPatcher
             string folderString = "";
             FolderBrowserDialog fbd = new FolderBrowserDialog
             {
-                ShowNewFolderButton = false,
+                ShowNewFolderButton = true,
                 Description = "Select main folder of " + versionOfYGO
             };
             DialogResult result = fbd.ShowDialog();
@@ -513,9 +513,9 @@ namespace YgoProPatcher
                     }
                 }
             }
-            catch
+            catch(Exception e)
             {
-                MessageBox.Show("Access to YGOPRO2 denied. Check if the path is correct or\ntry launching the Patcher with Admin Privileges");
+                MessageBox.Show("Access to YGOPRO2 denied. Check if the path is correct or\ntry launching the Patcher with Admin Privileges.\n\nError Code:\n"+e.ToString());
                 threadRunning = false;
                 cancelButton.Visible = false;
                 
@@ -532,7 +532,8 @@ namespace YgoProPatcher
                     FolderBrowserDialog fbd = new FolderBrowserDialog
                     {
                         ShowNewFolderButton = true,
-                        Description = "Select where you want to download YgoProPatcher:"
+                        SelectedPath = YgoPro2Path.Text,
+                        Description = "Select where you want to download YgoProPatcher ZIP File:"
                     };
                     DialogResult result = fbd.ShowDialog();
                     if (result == DialogResult.OK)
@@ -546,14 +547,30 @@ namespace YgoProPatcher
                     string fileName = Path.Combine(dir, "YgoProPatcher" + release.TagName + ".zip");
                     using (WebClient client = new WebClient())
                     {
-                        client.DownloadFile(release.Assets[0].BrowserDownloadUrl, fileName);
-                    }
 
+                        client.DownloadFile(new System.Uri(release.Assets[0].BrowserDownloadUrl), fileName);
+                    }
+                    if (new FileInfo(fileName).Exists)
+                    {
+                        MessageBox.Show("New YgoProPatcher" + release.TagName + ".zip was succesfully\ndownloaded to the target location.\nPlease extract the newest release and use it!\n\nThis app will now close.", "Download Completed!");
+                        try
+                        {
+                            System.Diagnostics.Process.Start(fileName);
+                        }
+                        catch
+                        {
+                        }
+                        finally
+                        {
+                            Environment.Exit(0);
+                        }
+                    }
+                   
                 }
             }
             catch
-            {
-                MessageBox.Show("Couldn't check for new version of YgoProPatcher.\nMake sure You are connected to the internet!");
+            { 
+                MessageBox.Show("Couldn't check for new version of YgoProPatcher.\nMake sure You are connected to the internet or no program blocks the Patcher!");
             }
         }
     }

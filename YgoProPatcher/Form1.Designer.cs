@@ -49,6 +49,7 @@
             this.debug = new System.Windows.Forms.Label();
             this.ReinstallCheckbox = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // YGOPRO1PathButton
@@ -250,6 +251,17 @@
             this.toolTip1.ReshowDelay = 20;
             this.toolTip1.ShowAlways = true;
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label1.Location = new System.Drawing.Point(464, 222);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(161, 36);
+            this.label1.TabIndex = 20;
+            this.label1.Text = "Please turn off YGOPRO2\r\nbefore updating!";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // YgoProPatcher
             // 
             this.AcceptButton = this.UpdateButton;
@@ -259,6 +271,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.CancelButton = this.cancelButton;
             this.ClientSize = new System.Drawing.Size(670, 450);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.ReinstallCheckbox);
             this.Controls.Add(this.debug);
             this.Controls.Add(this.OverwriteCheckbox);
@@ -311,6 +324,7 @@
         private System.Windows.Forms.Label debug;
         private System.Windows.Forms.CheckBox ReinstallCheckbox;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Label label1;
     }
 }
 

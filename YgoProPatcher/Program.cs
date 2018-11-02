@@ -18,11 +18,10 @@ namespace YgoProPatcher
             Application.SetCompatibleTextRenderingDefault(false);
             try
             {
-               
                 Application.Run(new YgoProPatcher());
             }catch(Exception e)
             {
-                MessageBox.Show("UNEXPECTED ERROR HAS OCCURED IN THE YGOPROPATCHER!\nIF IT WILL HAPPEN AGAIN, PLEASE SEND THIS MESSAGE TO THE DEVELOPER!\n\n"+e.Message+"\n"+e.ToString());
+                MessageBox.Show("UNEXPECTED ERROR HAS OCCURED IN THE YGOPROPATCHER!\nIF YOU SEE THIS MESSAGE AGAIN, PLEASE SEND SCREENSHOT OF THIS MESSAGE TO THE DEVELOPER!\n\n"+e.Message+"\n"+e.ToString(),"Unexpected Error!",MessageBoxButtons.OK,MessageBoxIcon.Error);
             }
         }
     }
