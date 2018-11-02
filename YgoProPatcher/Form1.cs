@@ -71,15 +71,6 @@ namespace YgoProPatcher
             YGOPRO2PathButton.Enabled = false;
             threadRunning = true;
             backgroundWorker1.RunWorkerAsync();
-            string saveLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YgoProPatcher");
-            string[] locationPaths = { YgoProLinksPath.Text, YgoPro2Path.Text };
-            if (!Directory.Exists(saveLocation))
-            {
-                Directory.CreateDirectory(saveLocation);
-            }
-            File.WriteAllLines(Path.Combine(saveLocation, "paths.txt"), locationPaths);
-
-
         }
 
         private void Copy(string type)
@@ -495,8 +486,13 @@ namespace YgoProPatcher
 
                 }
             }
-
-
+            string saveLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YgoProPatcher");
+            string[] locationPaths = { YgoProLinksPath.Text, YgoPro2Path.Text };
+            if (!Directory.Exists(saveLocation))
+            {
+                Directory.CreateDirectory(saveLocation);
+            }
+            File.WriteAllLines(Path.Combine(saveLocation, "paths.txt"), locationPaths);
         }
 
         private void DeleteOldCdbs()
