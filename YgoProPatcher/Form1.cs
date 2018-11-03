@@ -331,7 +331,7 @@ namespace YgoProPatcher
             if (threadRunning)
             {
 
-                Status.Invoke(new Action(() => { Status.Text = "Update Complete!"; YgoPro2Path.Enabled = true; YGOPRO2PathButton.Enabled = true; ReinstallCheckbox.Enabled = true; cancelButton.Visible = false; exitButton.Visible = true; internetCheckbox.Enabled = true; gitHubDownloadCheckbox.Enabled = true; OverwriteCheckbox.Enabled = true; UpdateButton.Visible = false; FinishButton.Visible = true; FinishButton.Enabled = true; }));
+                Status.Invoke(new Action(() => { Status.Text = "Update Complete!"; ReinstallCheckbox.Enabled = true; cancelButton.Visible = false; exitButton.Visible = true; internetCheckbox.Enabled = true; gitHubDownloadCheckbox.Enabled = true; OverwriteCheckbox.Enabled = true; UpdateButton.Visible = false; FinishButton.Visible = true; FinishButton.Enabled = true; }));
                 threadRunning = false;
             }
         }
