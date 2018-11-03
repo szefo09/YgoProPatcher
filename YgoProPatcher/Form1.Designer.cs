@@ -50,6 +50,7 @@
             this.ReinstallCheckbox = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.label1 = new System.Windows.Forms.Label();
+            this.FinishButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // YGOPRO1PathButton
@@ -118,7 +119,7 @@
             this.UpdateButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.UpdateButton.Font = new System.Drawing.Font("MS Reference Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.UpdateButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.UpdateButton.Location = new System.Drawing.Point(225, 222);
+            this.UpdateButton.Location = new System.Drawing.Point(225, 224);
             this.UpdateButton.Name = "UpdateButton";
             this.UpdateButton.Size = new System.Drawing.Size(182, 82);
             this.UpdateButton.TabIndex = 0;
@@ -262,6 +263,21 @@
             this.label1.Text = "Please turn off YGOPRO2\r\nbefore updating!";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // FinishButton
+            // 
+            this.FinishButton.BackColor = System.Drawing.Color.DarkKhaki;
+            this.FinishButton.Enabled = false;
+            this.FinishButton.Font = new System.Drawing.Font("MS Reference Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.FinishButton.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.FinishButton.Location = new System.Drawing.Point(225, 224);
+            this.FinishButton.Name = "FinishButton";
+            this.FinishButton.Size = new System.Drawing.Size(182, 82);
+            this.FinishButton.TabIndex = 21;
+            this.FinishButton.Text = "Exit the Updater\r\n&&\r\nLaunch YGOPRO2";
+            this.FinishButton.UseVisualStyleBackColor = false;
+            this.FinishButton.Visible = false;
+            this.FinishButton.Click += new System.EventHandler(this.FinishButton_Click);
+            // 
             // YgoProPatcher
             // 
             this.AcceptButton = this.UpdateButton;
@@ -282,13 +298,14 @@
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.Status);
-            this.Controls.Add(this.UpdateButton);
             this.Controls.Add(this.YgoPro2Path);
             this.Controls.Add(this.YgoProLinksPath);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.YGOPRO1Label);
             this.Controls.Add(this.YGOPRO2PathButton);
             this.Controls.Add(this.YGOPRO1PathButton);
+            this.Controls.Add(this.UpdateButton);
+            this.Controls.Add(this.FinishButton);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -325,6 +342,7 @@
         private System.Windows.Forms.CheckBox ReinstallCheckbox;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button FinishButton;
     }
 }
 

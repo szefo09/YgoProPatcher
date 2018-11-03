@@ -331,7 +331,7 @@ namespace YgoProPatcher
             if (threadRunning)
             {
 
-                Status.Invoke(new Action(() => { Status.Text = "Update Complete!"; YgoPro2Path.Enabled = true; YGOPRO2PathButton.Enabled = true; ReinstallCheckbox.Enabled = true; cancelButton.Visible = false; exitButton.Visible = true; internetCheckbox.Enabled = true; gitHubDownloadCheckbox.Enabled = true; OverwriteCheckbox.Enabled = true; UpdateButton.Enabled = true; }));
+                Status.Invoke(new Action(() => { Status.Text = "Update Complete!"; YgoPro2Path.Enabled = true; YGOPRO2PathButton.Enabled = true; ReinstallCheckbox.Enabled = true; cancelButton.Visible = false; exitButton.Visible = true; internetCheckbox.Enabled = true; gitHubDownloadCheckbox.Enabled = true; OverwriteCheckbox.Enabled = true; UpdateButton.Visible = false; FinishButton.Visible = true; FinishButton.Enabled = true; }));
                 threadRunning = false;
             }
         }
@@ -532,7 +532,7 @@ namespace YgoProPatcher
                     FolderBrowserDialog fbd = new FolderBrowserDialog
                     {
                         ShowNewFolderButton = true,
-                        SelectedPath = YgoPro2Path.Text,
+                        SelectedPath = System.Windows.Forms.Application.StartupPath,
                         Description = "Select where you want to download YgoProPatcher ZIP File:"
                     };
                     DialogResult result = fbd.ShowDialog();
@@ -572,6 +572,25 @@ namespace YgoProPatcher
             { 
                 MessageBox.Show("Couldn't check for new version of YgoProPatcher.\nMake sure You are connected to the internet or no program blocks the Patcher!");
             }
+        }
+
+        private void FinishButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.ProcessStartInfo ygopro2= new System.Diagnostics.ProcessStartInfo(Path.Combine(YgoPro2Path.Text, "YGOPro2.exe"));
+                ygopro2.WorkingDirectory = YgoPro2Path.Text;
+                System.Diagnostics.Process.Start(ygopro2);
+            }
+            catch
+            {
+
+            }
+            finally
+            {
+                Environment.Exit(0);
+            }
+
         }
     }
    
