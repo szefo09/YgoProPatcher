@@ -331,7 +331,7 @@ namespace YgoProPatcher
             if (threadRunning)
             {
 
-                Status.Invoke(new Action(() => { Status.Text = "Update Complete!"; YgoPro2Path.Enabled = true; YGOPRO2PathButton.Enabled = true; ReinstallCheckbox.Enabled = true; cancelButton.Visible = false; exitButton.Visible = true; internetCheckbox.Enabled = true; gitHubDownloadCheckbox.Enabled = true; OverwriteCheckbox.Enabled = true; }));
+                Status.Invoke(new Action(() => { Status.Text = "Update Complete!"; YgoPro2Path.Enabled = true; YGOPRO2PathButton.Enabled = true; ReinstallCheckbox.Enabled = true; cancelButton.Visible = false; exitButton.Visible = true; internetCheckbox.Enabled = true; gitHubDownloadCheckbox.Enabled = true; OverwriteCheckbox.Enabled = true; UpdateButton.Enabled = true; }));
                 threadRunning = false;
             }
         }
@@ -342,9 +342,13 @@ namespace YgoProPatcher
             
             List<string> listOfCDBs = GitAccess.GetAllFilesWithExtensionFromYGOPRO("/", ".cdb");
             string cdbFolder = Path.Combine(destinationFolder, "cdb");
-            await FileDownload("cards.cdb", cdbFolder, "https://github.com/shadowfox87/ygopro2/raw/master/cdb/", true);
+            if(!await FileDownload("cards.cdb", cdbFolder, "https://github.com/szefo09/cdb/raw/master/", true))
+            {
+                await FileDownload("cards.cdb", cdbFolder, "https://github.com/shadowfox87/ygopro2/raw/master/cdb/", true);
+            }
+            await FileDownload("prerelease-nfw.cdb", cdbFolder, "https://github.com/szefo09/cdb/raw/master/", true);
             progressBar.Invoke(new Action(() => progressBar.Maximum = listOfCDBs.Count));
-            List<string> listOfDownloadedCDBS = new List<string>(){Path.Combine(cdbFolder,"cards.cdb" )};
+            List<string> listOfDownloadedCDBS = new List<string>(){Path.Combine(cdbFolder,"cards.cdb" ), Path.Combine(cdbFolder, "prerelease-nfw.cdb") };
             List<Task> downloadList = new List<Task>();
             foreach (string cdb in listOfCDBs)
             {
