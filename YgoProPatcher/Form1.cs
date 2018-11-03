@@ -346,9 +346,12 @@ namespace YgoProPatcher
             {
                 await FileDownload("cards.cdb", cdbFolder, "https://github.com/shadowfox87/ygopro2/raw/master/cdb/", true);
             }
-            await FileDownload("prerelease-nfw.cdb", cdbFolder, "https://github.com/szefo09/cdb/raw/master/", true);
             progressBar.Invoke(new Action(() => progressBar.Maximum = listOfCDBs.Count));
-            List<string> listOfDownloadedCDBS = new List<string>(){Path.Combine(cdbFolder,"cards.cdb" ), Path.Combine(cdbFolder, "prerelease-nfw.cdb") };
+            List<string> listOfDownloadedCDBS = new List<string>(){Path.Combine(cdbFolder,"cards.cdb" )};
+            if (await FileDownload("prerelease-nfw.cdb", cdbFolder, "https://github.com/szefo09/cdb/raw/master/", true))
+            {
+                listOfDownloadedCDBS.Add(Path.Combine(cdbFolder, "prerelease-nfw.cdb"));
+            }
             List<Task> downloadList = new List<Task>();
             foreach (string cdb in listOfCDBs)
             {
