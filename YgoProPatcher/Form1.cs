@@ -342,7 +342,7 @@ namespace YgoProPatcher
             
             List<string> listOfCDBs = GitAccess.GetAllFilesWithExtensionFromYGOPRO("/", ".cdb");
             string cdbFolder = Path.Combine(destinationFolder, "cdb");
-            if(!await FileDownload("cards.cdb", cdbFolder, "https://github.com/szefo09/cdb/raw/master/", true))
+            if(!await FileDownload("cards.cdb", cdbFolder, "https://github.com/purerosefallen/ygopro-database/raw/master/locales/en-US/", true))
             {
                 await FileDownload("cards.cdb", cdbFolder, "https://github.com/shadowfox87/ygopro2/raw/master/cdb/", true);
             }
@@ -353,8 +353,10 @@ namespace YgoProPatcher
                 listOfDownloadedCDBS.Add(Path.Combine(cdbFolder, "prerelease-nfw.cdb"));
             }
             List<Task> downloadList = new List<Task>();
+            listOfCDBs.RemoveAll(item => item.Contains("fit"));//Remove unnecessary fit* cdb
             foreach (string cdb in listOfCDBs)
             {
+                
                 FileDownload(cdb, cdbFolder, "https://github.com/Ygoproco/Live2017Links/raw/master/", true);
                 listOfDownloadedCDBS.Add(Path.Combine(cdbFolder, cdb));
                 progressBar.Invoke(new Action(() => progressBar.Increment(1)));
@@ -455,9 +457,12 @@ namespace YgoProPatcher
             List<string> CDBS = new List<string>();
 
             CDBS = await DownloadCDBSFromGithub(destinationFolder);
-            progressBar.Invoke(new Action(() => { progressBar.Value = progressBar.Maximum; }));
-            DownloadUsingCDB(CDBS, destinationFolder);
             await FileDownload("lflist.conf", Path.Combine(YgoPro2Path.Text, "config"), "https://raw.githubusercontent.com/Ygoproco/Live2017Links/master/", true);
+            await FileDownload("strings.conf", Path.Combine(YgoPro2Path.Text, "config"), Data.GetStringsWebsite(), true);
+            progressBar.Invoke(new Action(() => { progressBar.Value = progressBar.Maximum; }));
+
+            DownloadUsingCDB(CDBS, destinationFolder);
+
         }
 
         private void GitHubDownloadCheckbox_CheckedChanged(object sender, EventArgs e)
