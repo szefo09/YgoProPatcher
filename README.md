@@ -1,6 +1,8 @@
 # YgoProPatcher
 YgoProPatcher that patches YGOPRO2 using YGOPRO Percy Links Beta files
 
+HOW TO USE: https://www.youtube.com/watch?v=69gBuejnMl0
+
 ## **CHECK RELEASES TAB FOR THE NEWEST UPDATER FILE**
 
 Simple program that I made for my friend that wanted to have an automated tool to update YGOPRO2
