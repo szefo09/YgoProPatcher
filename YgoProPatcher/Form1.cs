@@ -342,7 +342,7 @@ namespace YgoProPatcher
             
             List<string> listOfCDBs = GitAccess.GetAllFilesWithExtensionFromYGOPRO("/", ".cdb");
             string cdbFolder = Path.Combine(destinationFolder, "cdb");
-            if(!await FileDownload("cards.cdb", cdbFolder, "https://github.com/purerosefallen/ygopro-database/raw/master/locales/en-US/", true))
+            if(!await FileDownload("cards.cdb", cdbFolder, "https://github.com/szefo09/cdb/raw/master/", true))
             {
                 await FileDownload("cards.cdb", cdbFolder, "https://github.com/shadowfox87/ygopro2/raw/master/cdb/", true);
             }
@@ -353,7 +353,6 @@ namespace YgoProPatcher
                 listOfDownloadedCDBS.Add(Path.Combine(cdbFolder, "prerelease-nfw.cdb"));
             }
             List<Task> downloadList = new List<Task>();
-            listOfCDBs.RemoveAll(item => item.Contains("fit"));//Remove unnecessary fit* cdb
             foreach (string cdb in listOfCDBs)
             {
                 

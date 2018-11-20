@@ -51,6 +51,7 @@
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.FinishButton = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // YGOPRO1PathButton
@@ -256,7 +257,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.Location = new System.Drawing.Point(464, 222);
+            this.label1.Location = new System.Drawing.Point(464, 186);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(161, 36);
             this.label1.TabIndex = 20;
@@ -278,6 +279,21 @@
             this.FinishButton.Visible = false;
             this.FinishButton.Click += new System.EventHandler(this.FinishButton_Click);
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label3.ForeColor = System.Drawing.Color.Red;
+            this.label3.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.label3.Location = new System.Drawing.Point(435, 235);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(223, 52);
+            this.label3.TabIndex = 22;
+            this.label3.Text = "THERE WAS A CORE UPDATE FOR \r\nYGOPRO2 CLIENT. IF YOU WISH TO PLAY \r\nONLINE, YOU N" +
+    "EED TO REINSTALL CLIENT\r\nUSING THE OPTION ON THE LEFT!";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // YgoProPatcher
             // 
             this.AcceptButton = this.UpdateButton;
@@ -297,7 +313,6 @@
             this.Controls.Add(this.internetCheckbox);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.progressBar);
-            this.Controls.Add(this.Status);
             this.Controls.Add(this.YgoPro2Path);
             this.Controls.Add(this.YgoProLinksPath);
             this.Controls.Add(this.label2);
@@ -306,6 +321,8 @@
             this.Controls.Add(this.YGOPRO1PathButton);
             this.Controls.Add(this.UpdateButton);
             this.Controls.Add(this.FinishButton);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.Status);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -343,6 +360,7 @@
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button FinishButton;
+        private System.Windows.Forms.Label label3;
     }
 }
 
