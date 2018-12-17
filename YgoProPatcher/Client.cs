@@ -275,7 +275,7 @@ namespace YgoProPatcher
 
         private void Cancel_Click(object sender, EventArgs e)
         {
-            while (downloads > 1 - throttleValue && (gitHubDownloadCheckbox.Checked || internetCheckbox.Enabled))
+            while (downloads > 1 - throttleValue && (gitHubDownloadCheckbox.Checked || internetCheckbox.Checked))
             {
                 Status.Invoke(new Action(() => { Status.Text = "Canceling the download, please wait!"; Status.Update(); }));
                 
@@ -408,7 +408,7 @@ namespace YgoProPatcher
                             if (threadRunning)
                             {
                                 FileDownload(Value.ToString() + ".png", dFPics, dlWebsitePics, OverwriteCheckbox.Checked);
-                                FileDownload("c" + Value.ToString() + ".lua", dFLua, dlWebsiteLua, true);
+                                //FileDownload("c" + Value.ToString() + ".lua", dFLua, dlWebsiteLua, true);
                                 FileDownload(Value.ToString() + ".png", dFPicsCloseup, dlWebsitePicsCloseup, OverwriteCheckbox.Checked);
                                 progressBar.Invoke(new Action(() => progressBar.Increment(1)));
 
@@ -439,7 +439,7 @@ namespace YgoProPatcher
                 {
                     if (threadRunning)
                     {
-                        FileDownload(field.Name, Path.Combine(YgoPro2Path.Text, path), field.DownloadUrl, OverwriteCheckbox.Enabled);
+                        FileDownload(field.Name, Path.Combine(YgoPro2Path.Text, path), field.DownloadUrl, OverwriteCheckbox.Checked);
                         progressBar.Invoke(new Action(() => { progressBar.Increment(1); }));
                     }
                 }
@@ -492,7 +492,7 @@ namespace YgoProPatcher
         {
             if (threadRunning) {
                 threadRunning = false;
-                while (downloads > 1 - throttleValue &&(gitHubDownloadCheckbox.Checked || internetCheckbox.Enabled))
+                while (downloads > 1 - throttleValue &&(gitHubDownloadCheckbox.Checked || internetCheckbox.Checked))
                 {
                     Status.Invoke(new Action(() => { Status.Text = "Canceling the download, please wait!"; Status.Update(); }));
 
