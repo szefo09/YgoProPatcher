@@ -19,7 +19,7 @@ namespace YgoProPatcher
         {
             
             InitializeComponent();
-            ServicePointManager.DefaultConnectionLimit = 85;
+            ServicePointManager.DefaultConnectionLimit = 6;
             string saveLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YgoProPatcher");
             string saveFile = Path.Combine(saveLocation, "paths.txt");
             if (Directory.Exists(saveLocation) && File.Exists(saveFile))
@@ -43,7 +43,7 @@ namespace YgoProPatcher
             footerLabel.Text += version;
             CheckNewVersion(version);
         }
-        int throttleValue = 80;
+        int throttleValue = 6;
         int downloads = 0;
         bool threadRunning = false;
         static string token = Data.GetToken();
@@ -596,7 +596,7 @@ namespace YgoProPatcher
             }
             finally
             {
-                Environment.Exit(0);
+                this.Close();
             }
 
         }
