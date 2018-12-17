@@ -265,6 +265,7 @@
             this.label1.Text = "THERE WAS A CORE UPDATE\r\nFOR YGOPRO2 CLIENT.\r\nIF YOU WISH TO PLAY ONLINE,\r\nYOU NE" +
     "ED TO REINSTALL CLIENT\r\nUSING THE OPTION ON THE LEFT!\r\n";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.label1.Visible = false;
             // 
             // FinishButton
             // 

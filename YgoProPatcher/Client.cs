@@ -19,7 +19,7 @@ namespace YgoProPatcher
         {
             
             InitializeComponent();
-            ServicePointManager.DefaultConnectionLimit = 240;
+            ServicePointManager.DefaultConnectionLimit = 85;
             string saveLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YgoProPatcher");
             string saveFile = Path.Combine(saveLocation, "paths.txt");
             if (Directory.Exists(saveLocation) && File.Exists(saveFile))
@@ -36,13 +36,14 @@ namespace YgoProPatcher
             toolTip1.SetToolTip(YgoPro2Path, "Please select Your YGOPRO2 Directory which contains all the YGOPRO2 files.");
             toolTip1.SetToolTip(YGOPRO2PathButton, "Please select Your YGOPRO2 Directory which contains all the YGOPRO2 files.");
             toolTip1.SetToolTip(YgoProLinksPath, "Please select Your YGOPRO Percy Directory which contains all the YGOPRO Percy files.");
-            toolTip1.SetToolTip(YGOPRO1PathButton, "Please select Your YGOPRO Percy Directory which contains all the YGOPRO Percy files.");
+            toolTip1.SetToolTip(YGOPRO1PathButton, "Plea" +
+                "se select Your YGOPRO Percy Directory which contains all the YGOPRO Percy files.");
             toolTip1.SetToolTip(UpdateButton, "Start updating with selected options.");
             string version = Data.version;
             footerLabel.Text += version;
             CheckNewVersion(version);
         }
-        int throttleValue = 100;
+        int throttleValue = 80;
         int downloads = 0;
         bool threadRunning = false;
         static string token = Data.GetToken();
