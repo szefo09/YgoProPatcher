@@ -1,5 +1,5 @@
 # YgoProPatcher
-YgoProPatcher that patches YGOPRO2 using YGOPRO Percy Links Beta files
+YgoProPatcher that patches YGOPRO2 using Internet
 
 HOW TO USE: https://www.youtube.com/watch?v=69gBuejnMl0
 
