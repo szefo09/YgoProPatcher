@@ -329,7 +329,7 @@
             0,
             0});
             this.UpdateCheckerTimeNumeric.Minimum = new decimal(new int[] {
-            1,
+            10,
             0,
             0,
             0});
