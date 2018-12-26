@@ -320,7 +320,7 @@ namespace YgoProPatcher
         {
             while (downloads > 1 - throttleValue && (gitHubDownloadCheckbox.Checked || internetCheckbox.Checked)&&cancelButton.Visible)
             {
-                Status.Invoke(new Action(() => { Status.Text = "Canceling the download, please wait!"; Status.Update(); });
+                Status.Invoke(new Action(() => { Status.Text = "Canceling the download, please wait!"; Status.Update(); }));
             }
             if (cancelButton.Visible)
             {
