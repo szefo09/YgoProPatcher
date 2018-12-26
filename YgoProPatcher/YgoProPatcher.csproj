@@ -147,8 +147,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="cacacac_we5_icon.ico" />
-    <EmbeddedResource Include="costura64\git2-8e0b172.dll" />
-    <EmbeddedResource Include="costura32\git2-8e0b172.dll" />
+    <EmbeddedResource Include="costura32\git2-4aecb64.dll" />
+    <EmbeddedResource Include="costura64\git2-4aecb64.dll" />
     <EmbeddedResource Include="costura32\SQLite.Interop.dll" />
     <EmbeddedResource Include="costura64\SQLite.Interop.dll" />
   </ItemGroup>

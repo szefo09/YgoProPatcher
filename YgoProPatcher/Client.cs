@@ -41,9 +41,11 @@ namespace YgoProPatcher
             toolTip1.SetToolTip(UpdateCheckerTimeNumeric, "Select the interval between Update Checks!");
             toolTip1.SetToolTip(UpdateWhenLabel, "This Label tells you if/when will the next check occur or if it's on cooldown!");
             toolTip1.SetToolTip(MimimizeButton, "This button makes the application minimize to TaskBar!\nUseful if you want to check for updates without this window taking space!");
+            toolTip1.SetToolTip(StartMinimizedCheckbox, "This let's you make YgoProPatcher start in background,\nchecking for new updated in background!");
             string version = Data.version;
             footerLabel.Text += version;
             CheckNewVersion(version);
+
         }
 
         private void UpdateCheckerCooldownCheck()
@@ -85,6 +87,9 @@ namespace YgoProPatcher
         System.Timers.Timer updateCheckerTimer = new System.Timers.Timer();
         System.Timers.Timer nextUpdateTimer = new System.Timers.Timer();
         System.Timers.Timer ButtonNotAvailableTimer = new System.Timers.Timer();
+        ContextMenu contextMenu1 = new ContextMenu();
+        MenuItem menuItemExit = new MenuItem();
+        MenuItem menuItemStatus = new MenuItem();
 
         private void YgoProLinksButton_Click(object sender, EventArgs e)
         {
@@ -741,19 +746,18 @@ namespace YgoProPatcher
 
         private void MinimizeButton_Click(object sender, EventArgs e)
         {
+            contextMenu1.MenuItems.AddRange(new MenuItem[] { menuItemExit, menuItemStatus });
             this.WindowState = FormWindowState.Minimized;
             notifyIcon1.Icon = this.Icon;
-            ContextMenu contextMenu1 = new System.Windows.Forms.ContextMenu();
-            MenuItem menuItemExit = new System.Windows.Forms.MenuItem();
-            contextMenu1.MenuItems.AddRange(new MenuItem[] { menuItemExit });
             menuItemExit.Index = 0;
+            menuItemStatus.Index = 1;
+            menuItemStatus.Text = Status.Text;
             menuItemExit.Text = "Exit";
             menuItemExit.Click += Cancel_Click;
             menuItemExit.Click += (object sender1, EventArgs e1) => { this.Close(); };
             notifyIcon1.ContextMenu=contextMenu1;
             this.ShowInTaskbar = false;
             notifyIcon1.Visible = true;
-            UpdateCheckerButton_Click(sender, e);
         }
 
         private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
