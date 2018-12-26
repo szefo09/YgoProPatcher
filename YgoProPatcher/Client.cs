@@ -318,27 +318,29 @@ namespace YgoProPatcher
 
         private void Cancel_Click(object sender, EventArgs e)
         {
-            while (downloads > 1 - throttleValue && (gitHubDownloadCheckbox.Checked || internetCheckbox.Checked))
+            while (downloads > 1 - throttleValue && (gitHubDownloadCheckbox.Checked || internetCheckbox.Checked)&&cancelButton.Visible)
             {
-                Status.Invoke(new Action(() => { Status.Text = "Canceling the download, please wait!"; Status.Update(); }));
-                
+                Status.Invoke(new Action(() => { Status.Text = "Canceling the download, please wait!"; Status.Update(); });
             }
-           
-            threadRunning = false;
-            backgroundWorker1.CancelAsync();
-            cancelButton.Visible = false;
-            exitButton.Visible = true;
-            internetCheckbox.Enabled = true;
-            ReinstallCheckbox.Enabled = true;
-            OverwriteCheckbox.Enabled = true;
-            gitHubDownloadCheckbox.Enabled=true;
-            YgoPro2Path.Enabled = true;
-            YGOPRO2PathButton.Enabled = true;
-            UpdateButton.Enabled = true;
-            UpdateCheckerButton.Enabled = true;
-            UpdateCheckerTimeNumeric.Enabled = true;
-            Status.Text = "Operation Canceled!";
-            Status.Update();
+            if (cancelButton.Visible)
+            {
+                threadRunning = false;
+                backgroundWorker1.CancelAsync();
+                cancelButton.Visible = false;
+                exitButton.Visible = true;
+                internetCheckbox.Enabled = true;
+                ReinstallCheckbox.Enabled = true;
+                OverwriteCheckbox.Enabled = true;
+                gitHubDownloadCheckbox.Enabled = true;
+                YgoPro2Path.Enabled = true;
+                YGOPRO2PathButton.Enabled = true;
+                UpdateButton.Enabled = true;
+                UpdateCheckerButton.Enabled = true;
+                UpdateCheckerTimeNumeric.Enabled = true;
+                Status.Text = "Operation Canceled!";
+                Status.Update();
+            }
+   
         }
 
         private async void BackgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
@@ -741,12 +743,20 @@ namespace YgoProPatcher
         {
             this.WindowState = FormWindowState.Minimized;
             notifyIcon1.Icon = this.Icon;
+            ContextMenu contextMenu1 = new System.Windows.Forms.ContextMenu();
+            MenuItem menuItemExit = new System.Windows.Forms.MenuItem();
+            contextMenu1.MenuItems.AddRange(new MenuItem[] { menuItemExit });
+            menuItemExit.Index = 0;
+            menuItemExit.Text = "Exit";
+            menuItemExit.Click += Cancel_Click;
+            menuItemExit.Click += (object sender1, EventArgs e1) => { this.Close(); };
+            notifyIcon1.ContextMenu=contextMenu1;
             this.ShowInTaskbar = false;
             notifyIcon1.Visible = true;
             UpdateCheckerButton_Click(sender, e);
         }
 
-        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
         {
             MaximizeForm(sender, e);
         }
