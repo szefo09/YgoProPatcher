@@ -10,9 +10,13 @@ namespace YgoProPatcher
 {
    public static class GitAccess
     {
-       static GitHubClient github = new GitHubClient(new ProductHeaderValue("pics"))
+       static GitHubClient githubAuthorized = new GitHubClient(new ProductHeaderValue("pics"))
         {
             Credentials = new Credentials(Data.GetToken())
+        };
+        static GitHubClient githubUnauthorized = new GitHubClient(new ProductHeaderValue("versionCheck"))
+        {
+            //Credentials = new Credentials(Data.GetToken())
         };
         static public List<RepositoryContent> GetRepositoryContent(string owner, string repo,string path)
         {
@@ -20,18 +24,18 @@ namespace YgoProPatcher
             List<RepositoryContent> result = new List<RepositoryContent>();
             if(path ==null || path == "")
             {
-               result.AddRange(github.Repository.Content.GetAllContents(owner, repo).Result);
+               result.AddRange(githubAuthorized.Repository.Content.GetAllContents(owner, repo).Result);
             }
             else
             {
-               result.AddRange(github.Repository.Content.GetAllContents(owner, repo,path).Result);
+               result.AddRange(githubAuthorized.Repository.Content.GetAllContents(owner, repo,path).Result);
             }
             
             return result;
         }
         static public string GetURLofRepo(string owner, string repo)
         {
-            Repository repository = github.Repository.Get(owner, repo).Result;
+            Repository repository = githubAuthorized.Repository.Get(owner, repo).Result;
             
 
             return repository.CloneUrl;
@@ -52,7 +56,20 @@ namespace YgoProPatcher
         }
         static public Release GetNewestYgoProPatcherRelease()
         {
-          return github.Repository.Release.GetLatest("szefo09", "ygopropatcher").Result;
+
+          return githubUnauthorized.Repository.Release.GetLatest("szefo09", "ygopropatcher").Result;
+        }
+        static public List<GitHubCommit> GetHeaderCommit()
+        {
+            List<GitHubCommit> commits = new List<GitHubCommit>
+            {
+                githubAuthorized.Repository.Commit.Get(Data.YgoPro2Owner, "YGOSeries10CardPics", "HEAD").Result,
+                githubAuthorized.Repository.Commit.Get("Ygoproco", "Live2017Links", "HEAD").Result,
+                githubAuthorized.Repository.Commit.Get(Data.YgoPro2Owner, "ygopro2", "HEAD").Result
+            };
+
+            return commits;
+            
         }
 
 

@@ -49,18 +49,27 @@
             this.debug = new System.Windows.Forms.Label();
             this.ReinstallCheckbox = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.label1 = new System.Windows.Forms.Label();
             this.FinishButton = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
+            this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
+            this.UpdateCheckerButton = new System.Windows.Forms.Button();
+            this.UpdateCheckerTimeNumeric = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
+            this.UpdateWhenLabel = new System.Windows.Forms.Label();
+            this.MimimizeButton = new System.Windows.Forms.Button();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
+            this.StartMinimizedCheckbox = new System.Windows.Forms.CheckBox();
+            ((System.ComponentModel.ISupportInitialize)(this.UpdateCheckerTimeNumeric)).BeginInit();
             this.SuspendLayout();
             // 
             // YGOPRO1PathButton
             // 
             this.YGOPRO1PathButton.Enabled = false;
             this.YGOPRO1PathButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.YGOPRO1PathButton.Location = new System.Drawing.Point(525, 73);
+            this.YGOPRO1PathButton.Location = new System.Drawing.Point(656, 91);
+            this.YGOPRO1PathButton.Margin = new System.Windows.Forms.Padding(4);
             this.YGOPRO1PathButton.Name = "YGOPRO1PathButton";
-            this.YGOPRO1PathButton.Size = new System.Drawing.Size(100, 23);
+            this.YGOPRO1PathButton.Size = new System.Drawing.Size(125, 29);
             this.YGOPRO1PathButton.TabIndex = 0;
             this.YGOPRO1PathButton.Text = "Select Path";
             this.YGOPRO1PathButton.UseVisualStyleBackColor = true;
@@ -70,9 +79,10 @@
             // YGOPRO2PathButton
             // 
             this.YGOPRO2PathButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.YGOPRO2PathButton.Location = new System.Drawing.Point(525, 28);
+            this.YGOPRO2PathButton.Location = new System.Drawing.Point(656, 35);
+            this.YGOPRO2PathButton.Margin = new System.Windows.Forms.Padding(4);
             this.YGOPRO2PathButton.Name = "YGOPRO2PathButton";
-            this.YGOPRO2PathButton.Size = new System.Drawing.Size(100, 23);
+            this.YGOPRO2PathButton.Size = new System.Drawing.Size(125, 29);
             this.YGOPRO2PathButton.TabIndex = 1;
             this.YGOPRO2PathButton.Text = "Select Path";
             this.YGOPRO2PathButton.UseVisualStyleBackColor = true;
@@ -82,9 +92,10 @@
             // 
             this.YGOPRO1Label.AutoSize = true;
             this.YGOPRO1Label.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.YGOPRO1Label.Location = new System.Drawing.Point(9, 79);
+            this.YGOPRO1Label.Location = new System.Drawing.Point(11, 99);
+            this.YGOPRO1Label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.YGOPRO1Label.Name = "YGOPRO1Label";
-            this.YGOPRO1Label.Size = new System.Drawing.Size(141, 17);
+            this.YGOPRO1Label.Size = new System.Drawing.Size(166, 20);
             this.YGOPRO1Label.TabIndex = 2;
             this.YGOPRO1Label.Text = "Path to YgoProLinks:";
             this.YGOPRO1Label.Visible = false;
@@ -93,26 +104,29 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label2.Location = new System.Drawing.Point(9, 31);
+            this.label2.Location = new System.Drawing.Point(11, 39);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(130, 17);
+            this.label2.Size = new System.Drawing.Size(153, 20);
             this.label2.TabIndex = 3;
             this.label2.Text = "Path to YGOPRO2:";
             // 
             // YgoProLinksPath
             // 
             this.YgoProLinksPath.Enabled = false;
-            this.YgoProLinksPath.Location = new System.Drawing.Point(159, 78);
+            this.YgoProLinksPath.Location = new System.Drawing.Point(199, 98);
+            this.YgoProLinksPath.Margin = new System.Windows.Forms.Padding(4);
             this.YgoProLinksPath.Name = "YgoProLinksPath";
-            this.YgoProLinksPath.Size = new System.Drawing.Size(360, 20);
+            this.YgoProLinksPath.Size = new System.Drawing.Size(449, 23);
             this.YgoProLinksPath.TabIndex = 4;
             this.YgoProLinksPath.Visible = false;
             // 
             // YgoPro2Path
             // 
-            this.YgoPro2Path.Location = new System.Drawing.Point(159, 31);
+            this.YgoPro2Path.Location = new System.Drawing.Point(199, 39);
+            this.YgoPro2Path.Margin = new System.Windows.Forms.Padding(4);
             this.YgoPro2Path.Name = "YgoPro2Path";
-            this.YgoPro2Path.Size = new System.Drawing.Size(360, 20);
+            this.YgoPro2Path.Size = new System.Drawing.Size(449, 23);
             this.YgoPro2Path.TabIndex = 5;
             // 
             // UpdateButton
@@ -120,9 +134,10 @@
             this.UpdateButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.UpdateButton.Font = new System.Drawing.Font("MS Reference Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.UpdateButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.UpdateButton.Location = new System.Drawing.Point(225, 224);
+            this.UpdateButton.Location = new System.Drawing.Point(281, 280);
+            this.UpdateButton.Margin = new System.Windows.Forms.Padding(4);
             this.UpdateButton.Name = "UpdateButton";
-            this.UpdateButton.Size = new System.Drawing.Size(182, 82);
+            this.UpdateButton.Size = new System.Drawing.Size(228, 102);
             this.UpdateButton.TabIndex = 0;
             this.UpdateButton.Text = "Update YGOPRO2";
             this.UpdateButton.UseVisualStyleBackColor = false;
@@ -131,28 +146,31 @@
             // Status
             // 
             this.Status.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.Status.Location = new System.Drawing.Point(33, 307);
+            this.Status.Location = new System.Drawing.Point(41, 384);
+            this.Status.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.Status.Name = "Status";
-            this.Status.Size = new System.Drawing.Size(560, 23);
+            this.Status.Size = new System.Drawing.Size(700, 29);
             this.Status.TabIndex = 8;
             this.Status.Text = "Ready";
             this.Status.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(225, 333);
+            this.progressBar.Location = new System.Drawing.Point(281, 416);
+            this.progressBar.Margin = new System.Windows.Forms.Padding(4);
             this.progressBar.Maximum = 90;
             this.progressBar.Name = "progressBar";
-            this.progressBar.Size = new System.Drawing.Size(182, 23);
+            this.progressBar.Size = new System.Drawing.Size(228, 29);
             this.progressBar.TabIndex = 9;
             this.progressBar.Visible = false;
             // 
             // cancelButton
             // 
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(225, 383);
+            this.cancelButton.Location = new System.Drawing.Point(281, 479);
+            this.cancelButton.Margin = new System.Windows.Forms.Padding(4);
             this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(182, 23);
+            this.cancelButton.Size = new System.Drawing.Size(228, 29);
             this.cancelButton.TabIndex = 10;
             this.cancelButton.Text = "Cancel";
             this.cancelButton.UseVisualStyleBackColor = true;
@@ -166,9 +184,10 @@
             this.internetCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.internetCheckbox.Enabled = false;
             this.internetCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.internetCheckbox.Location = new System.Drawing.Point(12, 130);
+            this.internetCheckbox.Location = new System.Drawing.Point(15, 162);
+            this.internetCheckbox.Margin = new System.Windows.Forms.Padding(4);
             this.internetCheckbox.Name = "internetCheckbox";
-            this.internetCheckbox.Size = new System.Drawing.Size(319, 21);
+            this.internetCheckbox.Size = new System.Drawing.Size(383, 24);
             this.internetCheckbox.TabIndex = 11;
             this.internetCheckbox.Text = "Download HQ Pics from the Internet if possible";
             this.internetCheckbox.UseVisualStyleBackColor = true;
@@ -183,9 +202,10 @@
             this.footerLabel.AutoSize = true;
             this.footerLabel.Enabled = false;
             this.footerLabel.Font = new System.Drawing.Font("Lato", 8.999999F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Italic | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.footerLabel.Location = new System.Drawing.Point(522, 426);
+            this.footerLabel.Location = new System.Drawing.Point(652, 532);
+            this.footerLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.footerLabel.Name = "footerLabel";
-            this.footerLabel.Size = new System.Drawing.Size(111, 15);
+            this.footerLabel.Size = new System.Drawing.Size(139, 18);
             this.footerLabel.TabIndex = 12;
             this.footerLabel.Text = "Created by Szefo09, ";
             // 
@@ -195,9 +215,10 @@
             this.gitHubDownloadCheckbox.Checked = true;
             this.gitHubDownloadCheckbox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.gitHubDownloadCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.gitHubDownloadCheckbox.Location = new System.Drawing.Point(12, 171);
+            this.gitHubDownloadCheckbox.Location = new System.Drawing.Point(15, 214);
+            this.gitHubDownloadCheckbox.Margin = new System.Windows.Forms.Padding(4);
             this.gitHubDownloadCheckbox.Name = "gitHubDownloadCheckbox";
-            this.gitHubDownloadCheckbox.Size = new System.Drawing.Size(379, 21);
+            this.gitHubDownloadCheckbox.Size = new System.Drawing.Size(452, 24);
             this.gitHubDownloadCheckbox.TabIndex = 13;
             this.gitHubDownloadCheckbox.Text = "Download files from the Internet without YGOPRO Percy";
             this.gitHubDownloadCheckbox.UseVisualStyleBackColor = true;
@@ -206,9 +227,10 @@
             // exitButton
             // 
             this.exitButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.exitButton.Location = new System.Drawing.Point(225, 383);
+            this.exitButton.Location = new System.Drawing.Point(281, 479);
+            this.exitButton.Margin = new System.Windows.Forms.Padding(4);
             this.exitButton.Name = "exitButton";
-            this.exitButton.Size = new System.Drawing.Size(182, 23);
+            this.exitButton.Size = new System.Drawing.Size(228, 29);
             this.exitButton.TabIndex = 15;
             this.exitButton.Text = "Exit";
             this.exitButton.UseVisualStyleBackColor = true;
@@ -219,9 +241,10 @@
             // 
             this.OverwriteCheckbox.AutoSize = true;
             this.OverwriteCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.OverwriteCheckbox.Location = new System.Drawing.Point(12, 198);
+            this.OverwriteCheckbox.Location = new System.Drawing.Point(15, 248);
+            this.OverwriteCheckbox.Margin = new System.Windows.Forms.Padding(4);
             this.OverwriteCheckbox.Name = "OverwriteCheckbox";
-            this.OverwriteCheckbox.Size = new System.Drawing.Size(153, 38);
+            this.OverwriteCheckbox.Size = new System.Drawing.Size(180, 44);
             this.OverwriteCheckbox.TabIndex = 16;
             this.OverwriteCheckbox.Text = "Overwrite Pictures\r\n(Not recommended)";
             this.OverwriteCheckbox.UseVisualStyleBackColor = true;
@@ -229,18 +252,20 @@
             // debug
             // 
             this.debug.AutoSize = true;
-            this.debug.Location = new System.Drawing.Point(525, 209);
+            this.debug.Location = new System.Drawing.Point(681, 288);
+            this.debug.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.debug.Name = "debug";
-            this.debug.Size = new System.Drawing.Size(0, 13);
+            this.debug.Size = new System.Drawing.Size(0, 17);
             this.debug.TabIndex = 17;
             // 
             // ReinstallCheckbox
             // 
             this.ReinstallCheckbox.AutoSize = true;
             this.ReinstallCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Underline);
-            this.ReinstallCheckbox.Location = new System.Drawing.Point(12, 242);
+            this.ReinstallCheckbox.Location = new System.Drawing.Point(15, 302);
+            this.ReinstallCheckbox.Margin = new System.Windows.Forms.Padding(4);
             this.ReinstallCheckbox.Name = "ReinstallCheckbox";
-            this.ReinstallCheckbox.Size = new System.Drawing.Size(197, 38);
+            this.ReinstallCheckbox.Size = new System.Drawing.Size(235, 44);
             this.ReinstallCheckbox.TabIndex = 19;
             this.ReinstallCheckbox.Text = "Reinstall YGOPRO2 Client \r\nbefore updating\r\n";
             this.ReinstallCheckbox.UseVisualStyleBackColor = true;
@@ -253,29 +278,16 @@
             this.toolTip1.ReshowDelay = 20;
             this.toolTip1.ShowAlways = true;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.label1.Location = new System.Drawing.Point(432, 146);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(211, 90);
-            this.label1.TabIndex = 20;
-            this.label1.Text = "THERE WAS A CORE UPDATE\r\nFOR YGOPRO2 CLIENT.\r\nIF YOU WISH TO PLAY ONLINE,\r\nYOU NE" +
-    "ED TO REINSTALL CLIENT\r\nUSING THE OPTION ON THE LEFT!\r\n";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.label1.Visible = false;
-            // 
             // FinishButton
             // 
             this.FinishButton.BackColor = System.Drawing.Color.DarkKhaki;
             this.FinishButton.Enabled = false;
             this.FinishButton.Font = new System.Drawing.Font("MS Reference Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.FinishButton.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.FinishButton.Location = new System.Drawing.Point(225, 224);
+            this.FinishButton.Location = new System.Drawing.Point(281, 280);
+            this.FinishButton.Margin = new System.Windows.Forms.Padding(4);
             this.FinishButton.Name = "FinishButton";
-            this.FinishButton.Size = new System.Drawing.Size(182, 82);
+            this.FinishButton.Size = new System.Drawing.Size(228, 102);
             this.FinishButton.TabIndex = 21;
             this.FinishButton.Text = "Exit the Updater\r\n&&\r\nLaunch YGOPRO2";
             this.FinishButton.UseVisualStyleBackColor = false;
@@ -286,24 +298,113 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label4.Location = new System.Drawing.Point(451, 260);
+            this.label4.Location = new System.Drawing.Point(574, 413);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(161, 36);
+            this.label4.Size = new System.Drawing.Size(207, 46);
             this.label4.TabIndex = 23;
             this.label4.Text = "Please turn off YGOPRO2\r\nbefore updating!";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // backgroundWorker2
+            // 
+            this.backgroundWorker2.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker2_DoWork);
+            // 
+            // UpdateCheckerButton
+            // 
+            this.UpdateCheckerButton.Location = new System.Drawing.Point(606, 140);
+            this.UpdateCheckerButton.Name = "UpdateCheckerButton";
+            this.UpdateCheckerButton.Size = new System.Drawing.Size(175, 66);
+            this.UpdateCheckerButton.TabIndex = 24;
+            this.UpdateCheckerButton.Text = "Check For New Updates";
+            this.UpdateCheckerButton.UseVisualStyleBackColor = true;
+            this.UpdateCheckerButton.Click += new System.EventHandler(this.UpdateCheckerButton_Click);
+            // 
+            // UpdateCheckerTimeNumeric
+            // 
+            this.UpdateCheckerTimeNumeric.Location = new System.Drawing.Point(722, 225);
+            this.UpdateCheckerTimeNumeric.Maximum = new decimal(new int[] {
+            120,
+            0,
+            0,
+            0});
+            this.UpdateCheckerTimeNumeric.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.UpdateCheckerTimeNumeric.Name = "UpdateCheckerTimeNumeric";
+            this.UpdateCheckerTimeNumeric.Size = new System.Drawing.Size(59, 23);
+            this.UpdateCheckerTimeNumeric.TabIndex = 25;
+            this.UpdateCheckerTimeNumeric.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.UpdateCheckerTimeNumeric.ValueChanged += new System.EventHandler(this.UpdateCheckerTimeNumeric_ValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label1.Location = new System.Drawing.Point(537, 227);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(175, 18);
+            this.label1.TabIndex = 26;
+            this.label1.Text = "Minutes between checks:";
+            // 
+            // UpdateWhenLabel
+            // 
+            this.UpdateWhenLabel.AutoSize = true;
+            this.UpdateWhenLabel.Location = new System.Drawing.Point(537, 261);
+            this.UpdateWhenLabel.Name = "UpdateWhenLabel";
+            this.UpdateWhenLabel.Size = new System.Drawing.Size(0, 17);
+            this.UpdateWhenLabel.TabIndex = 27;
+            // 
+            // MimimizeButton
+            // 
+            this.MimimizeButton.Location = new System.Drawing.Point(631, 302);
+            this.MimimizeButton.Name = "MimimizeButton";
+            this.MimimizeButton.Size = new System.Drawing.Size(150, 31);
+            this.MimimizeButton.TabIndex = 28;
+            this.MimimizeButton.Text = "Minimize to TaskBar";
+            this.MimimizeButton.UseVisualStyleBackColor = true;
+            this.MimimizeButton.Click += new System.EventHandler(this.MinimizeButton_Click);
+            // 
+            // notifyIcon1
+            // 
+            this.notifyIcon1.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notifyIcon1.Text = "YgoProPatcher ";
+            this.notifyIcon1.Visible = true;
+            this.notifyIcon1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseDoubleClick);
+            // 
+            // StartMinimizedCheckbox
+            // 
+            this.StartMinimizedCheckbox.AutoSize = true;
+            this.StartMinimizedCheckbox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.StartMinimizedCheckbox.Location = new System.Drawing.Point(595, 348);
+            this.StartMinimizedCheckbox.Name = "StartMinimizedCheckbox";
+            this.StartMinimizedCheckbox.Size = new System.Drawing.Size(186, 44);
+            this.StartMinimizedCheckbox.TabIndex = 29;
+            this.StartMinimizedCheckbox.Text = "Start minimized and\r\nchecking for updates";
+            this.StartMinimizedCheckbox.UseVisualStyleBackColor = true;
+            // 
             // YgoProPatcher
             // 
             this.AcceptButton = this.UpdateButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoSize = true;
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(670, 450);
-            this.Controls.Add(this.label4);
+            this.ClientSize = new System.Drawing.Size(838, 562);
+            this.Controls.Add(this.StartMinimizedCheckbox);
+            this.Controls.Add(this.MimimizeButton);
+            this.Controls.Add(this.UpdateWhenLabel);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.UpdateCheckerTimeNumeric);
+            this.Controls.Add(this.UpdateCheckerButton);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.ReinstallCheckbox);
             this.Controls.Add(this.debug);
             this.Controls.Add(this.OverwriteCheckbox);
@@ -325,12 +426,15 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "YgoProPatcher";
             this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "YGOPRO2 Updater";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.YgoProPatcher_FormClosing);
+            this.Load += new System.EventHandler(this.YgoProPatcher_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.UpdateCheckerTimeNumeric)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -357,9 +461,16 @@
         private System.Windows.Forms.Label debug;
         private System.Windows.Forms.CheckBox ReinstallCheckbox;
         private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button FinishButton;
         private System.Windows.Forms.Label label4;
+        private System.ComponentModel.BackgroundWorker backgroundWorker2;
+        private System.Windows.Forms.Button UpdateCheckerButton;
+        private System.Windows.Forms.NumericUpDown UpdateCheckerTimeNumeric;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label UpdateWhenLabel;
+        private System.Windows.Forms.Button MimimizeButton;
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.CheckBox StartMinimizedCheckbox;
     }
 }
 

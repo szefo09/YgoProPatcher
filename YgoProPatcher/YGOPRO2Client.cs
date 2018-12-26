@@ -32,7 +32,7 @@ namespace YgoProPatcher
                     }
                     directory.Delete(true);
                 }
-               
+
                 Repository.Clone(GitAccess.GetURLofRepo(Data.YgoPro2Owner, "ygopro2"), directory.FullName);
                 DirectoryInfo gitFolder = new DirectoryInfo(Path.Combine(tempFolder, ".git"));
                 if (gitFolder.Exists)

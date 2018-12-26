@@ -3,7 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.IO;
+using System.Media;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,17 +19,13 @@ namespace YgoProPatcher
     {
         public YgoProPatcher()
         {
-            
+
             InitializeComponent();
             ServicePointManager.DefaultConnectionLimit = 6;
-            string saveLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YgoProPatcher");
-            string saveFile = Path.Combine(saveLocation, "paths.txt");
-            if (Directory.Exists(saveLocation) && File.Exists(saveFile))
-            {
-                string[] paths = File.ReadAllLines(saveFile);
-                YgoProLinksPath.Text = paths[0];
-                YgoPro2Path.Text = paths[1];
-            }
+            List<string> paths = LocalData.LoadFileToList("paths.txt");
+            YgoProLinksPath.Text = paths?[0];
+            YgoPro2Path.Text = paths?[1];
+            UpdateCheckerCooldownCheck();
             _pool = new Semaphore(0, throttleValue);
             _pool.Release(throttleValue);
             toolTip1.SetToolTip(ReinstallCheckbox, "This will download the newest version of YGOPRO2 Client and install it.\nTHIS OPTION WILL OVERWRITE YOUR SETTINGS AND CUSTOM TEXTURES!");
@@ -39,15 +37,55 @@ namespace YgoProPatcher
             toolTip1.SetToolTip(YGOPRO1PathButton, "Plea" +
                 "se select Your YGOPRO Percy Directory which contains all the YGOPRO Percy files.");
             toolTip1.SetToolTip(UpdateButton, "Start updating with selected options.");
+            toolTip1.SetToolTip(UpdateCheckerButton, "This allows You to get notified via sound and message popup\nabout new updates while this app is running!");
+            toolTip1.SetToolTip(UpdateCheckerTimeNumeric, "Select the interval between Update Checks!");
+            toolTip1.SetToolTip(UpdateWhenLabel, "This Label tells you if/when will the next check occur or if it's on cooldown!");
+            toolTip1.SetToolTip(MimimizeButton, "This button makes the application minimize to TaskBar!\nUseful if you want to check for updates without this window taking space!");
             string version = Data.version;
             footerLabel.Text += version;
             CheckNewVersion(version);
         }
+
+        private void UpdateCheckerCooldownCheck()
+        {
+            List<string> timerList = LocalData.LoadFileToList("donotdeletethis");
+            if (timerList != null)
+            {
+                DateTime dateNow = DateTime.Now;
+                DateTime result = Convert.ToDateTime(timerList[0]);
+                result =result.AddMilliseconds(Double.Parse(timerList[1]));
+                
+
+                if (result.CompareTo(dateNow) > 0)
+                {
+                    
+                    UpdateCheckerButton.Enabled = false;
+                    TimeSpan timer = result.Subtract(dateNow);
+                    UpdateWhenLabel.Text = String.Format("Update Checking is on cooldown until {0}!", result.ToShortTimeString());
+
+
+                    ButtonNotAvailableTimer.Interval = (int)timer.TotalMilliseconds;
+                    ButtonNotAvailableTimer.Elapsed += ButtonNotAvailableTimer_Tick;
+                     ButtonNotAvailableTimer.Start();
+                }
+            }
+        }
+
+        private void ButtonNotAvailableTimer_Tick(object sender, EventArgs e)
+        {
+            UpdateCheckerButton.Invoke(new Action(() => { UpdateCheckerButton.Enabled = true; UpdateWhenLabel.Text = "Update Checking is available again!";
+            }));
+        }
+
         int throttleValue = 6;
         int downloads = 0;
         bool threadRunning = false;
         static string token = Data.GetToken();
         private static Semaphore _pool;
+        System.Timers.Timer updateCheckerTimer = new System.Timers.Timer();
+        System.Timers.Timer nextUpdateTimer = new System.Timers.Timer();
+        System.Timers.Timer ButtonNotAvailableTimer = new System.Timers.Timer();
+
         private void YgoProLinksButton_Click(object sender, EventArgs e)
         {
             FolderSelection("YGOPro Links");
@@ -60,6 +98,9 @@ namespace YgoProPatcher
 
         private void UpdateButton_Click(object sender, EventArgs e)
         {
+            updateCheckerTimer.Stop();
+            UpdateCheckerButton.Enabled = false;
+            UpdateCheckerTimeNumeric.Enabled = false;
             internetCheckbox.Enabled = false;
             UpdateButton.Enabled = false;
             ReinstallCheckbox.Enabled = false;
@@ -228,7 +269,7 @@ namespace YgoProPatcher
         private async Task<bool> FileDownload(string fileName, string destinationFolder, string website, bool overwrite)
         {
 
-            _pool.WaitOne();
+            
             string webFile = website + fileName;
             string destFile;
             if (Path.GetExtension(fileName) == ".jpg")
@@ -246,16 +287,17 @@ namespace YgoProPatcher
 
                 if (!File.Exists(destFile) || overwrite)
                 {
-
                     using (var client = new WebClient())
                     {
                         if (Path.GetExtension(fileName) == ".png")
                         {
                             client.Headers.Add(HttpRequestHeader.Authorization, string.Concat("token ", token));
                         }
-
+                        _pool.WaitOne();
                         await Task.Run(() => { client.DownloadFile(new Uri(webFile), destFile); });
+                        downloads = -_pool.Release();
                     }
+                    
 
                 }
 
@@ -263,11 +305,12 @@ namespace YgoProPatcher
             }
             catch
             {
+                downloads = -_pool.Release();
                 return false;
             }
             finally
             {
-                downloads = -_pool.Release();
+                
                 //debug.Invoke(new Action(() => { debug.Text = downloads.ToString(); }));
             }
 
@@ -292,6 +335,8 @@ namespace YgoProPatcher
             YgoPro2Path.Enabled = true;
             YGOPRO2PathButton.Enabled = true;
             UpdateButton.Enabled = true;
+            UpdateCheckerButton.Enabled = true;
+            UpdateCheckerTimeNumeric.Enabled = true;
             Status.Text = "Operation Canceled!";
             Status.Update();
         }
@@ -332,7 +377,12 @@ namespace YgoProPatcher
             if (threadRunning)
             {
 
-                Status.Invoke(new Action(() => { Status.Text = "Update Complete!"; ReinstallCheckbox.Enabled = true; cancelButton.Visible = false; exitButton.Visible = true; internetCheckbox.Enabled = true; gitHubDownloadCheckbox.Enabled = true; OverwriteCheckbox.Enabled = true; UpdateButton.Visible = false; FinishButton.Visible = true; FinishButton.Enabled = true; }));
+                Status.Invoke(new Action(() => {
+                        notifyIcon1.ShowBalloonTip(6000, "Update Complete!", "Click ME to launch YGOPRO2", ToolTipIcon.Info);
+                        notifyIcon1.BalloonTipClicked +=FinishButton_Click;
+                    Status.Text = "Update Complete!"; ReinstallCheckbox.Enabled = true; cancelButton.Visible = false; exitButton.Visible = true; internetCheckbox.Enabled = true; gitHubDownloadCheckbox.Enabled = true; OverwriteCheckbox.Enabled = true; UpdateCheckerButton.Enabled = false;
+                    UpdateCheckerTimeNumeric.Enabled = false; UpdateButton.Visible = false; FinishButton.Visible = true; FinishButton.Enabled = true;
+                }));
                 threadRunning = false;
             }
         }
@@ -498,13 +548,16 @@ namespace YgoProPatcher
 
                 }
             }
-            string saveLocation = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "YgoProPatcher");
-            string[] locationPaths = { YgoProLinksPath.Text, YgoPro2Path.Text };
-            if (!Directory.Exists(saveLocation))
+            try
             {
-                Directory.CreateDirectory(saveLocation);
+                LocalData.SaveFile(new List<string> { StartMinimizedCheckbox.Checked.ToString(),UpdateCheckerTimeNumeric.Value.ToString() }, "AutoStartSettings");
+
+                LocalData.SaveFile(new List<string> { YgoProLinksPath.Text, YgoPro2Path.Text }, "paths.txt");
             }
-            File.WriteAllLines(Path.Combine(saveLocation, "paths.txt"), locationPaths);
+            catch
+            {
+
+            }
         }
 
         private void DeleteOldCdbs()
@@ -586,8 +639,10 @@ namespace YgoProPatcher
         {
             try
             {
-                System.Diagnostics.ProcessStartInfo ygopro2= new System.Diagnostics.ProcessStartInfo(Path.Combine(YgoPro2Path.Text, "YGOPro2.exe"));
-                ygopro2.WorkingDirectory = YgoPro2Path.Text;
+                System.Diagnostics.ProcessStartInfo ygopro2 = new System.Diagnostics.ProcessStartInfo(Path.Combine(YgoPro2Path.Text, "YGOPro2.exe"))
+                {
+                    WorkingDirectory = YgoPro2Path.Text
+                };
                 System.Diagnostics.Process.Start(ygopro2);
             }
             catch
@@ -600,6 +655,145 @@ namespace YgoProPatcher
             }
 
         }
+
+        private void backgroundWorker2_DoWork(object sender, DoWorkEventArgs e)
+        {
+            //GITHUB API LIMITS ARE 60/Hour, so minimum is 10mins.
+            updateCheckerTimer.Interval = (double)UpdateCheckerTimeNumeric.Value*60000+100;
+            updateCheckerTimer.Elapsed += UpdateCheckerTimer_Tick;
+            updateCheckerTimer.AutoReset = true;
+            updateCheckerTimer.Enabled = true;
+            nextUpdateTimer.Elapsed += NextUpdaterTimer_Tick;
+            nextUpdateTimer.AutoReset = true;
+            nextUpdateTimer.Start();
+            UpdateCheckerTimer_Tick(sender, e);
+            UpdateCheckerButton.Invoke(new Action(() => { UpdateCheckerButton.Enabled = true; UpdateCheckerButton.Text = "Click to turn off checking for Updates";
+            }));
+
+        }
+        private void UpdateCheckerTimer_Tick(object sender, EventArgs e)
+        {
+
+            if (UpdateChecker.CheckForUpdate())
+            {
+                if (this.WindowState == FormWindowState.Normal)
+                {
+                    SystemSounds.Hand.Play();
+                    MessageBox.Show("New updates available!");
+                  
+                }
+                else if(this.WindowState==FormWindowState.Minimized&&notifyIcon1.Visible)
+                {
+                    SystemSounds.Hand.Play();
+                    notifyIcon1.ShowBalloonTip(6000, "New Update for YGOPRO2 Available!", "Click ME to Update!", ToolTipIcon.Info);
+                    notifyIcon1.BalloonTipClicked += UpdateButton_Click;
+                }
+            }
+            LocalData.SaveFile(new List<string>() { DateTime.Now.ToLocalTime().ToString(), updateCheckerTimer.Interval.ToString() }, "donotdeletethis");
+            nextUpdateTimer.Stop();
+            nextUpdateTimer.Interval = updateCheckerTimer.Interval / 10;
+            nextUpdateTimer.Start();
+        }
+        private void NextUpdaterTimer_Tick(object sender, EventArgs e)
+        {
+            UpdateWhenLabel.Invoke(new Action(() => { UpdateWhenLabel.Text = "Next update in: " + (int)updateCheckerTimer.Interval / 60000 + " mins"; }));
+
+        }
+
+        private void UpdateCheckerButton_Click(object sender, EventArgs e)
+        { 
+            if(!updateCheckerTimer.Enabled&&!backgroundWorker2.IsBusy&&UpdateCheckerButton.Enabled)
+            {
+                UpdateCheckerButton.Enabled = false;
+                backgroundWorker2.RunWorkerAsync();
+            }
+            else
+            {
+                updateCheckerTimer.Stop();
+                nextUpdateTimer.Stop();
+                UpdateWhenLabel.Text = "";
+                UpdateCheckerButton.Text = "Check For New Updates";
+                UpdateCheckerCooldownCheck();
+
+            }
+
+
+        }
+
+        private void UpdateCheckerTimeNumeric_ValueChanged(object sender, EventArgs e)
+        {
+            if (updateCheckerTimer.Enabled)
+            {
+                updateCheckerTimer.Stop();
+                updateCheckerTimer.Interval = ((double)UpdateCheckerTimeNumeric.Value * 60000) + 100;
+                updateCheckerTimer.Start();
+
+            }
+            else
+            {
+                updateCheckerTimer.Interval = ((double)UpdateCheckerTimeNumeric.Value * 60000) + 100;
+
+            }
+
+        }
+
+        private void MinimizeButton_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+            notifyIcon1.Icon = this.Icon;
+            this.ShowInTaskbar = false;
+            notifyIcon1.Visible = true;
+            UpdateCheckerButton_Click(sender, e);
+        }
+
+        private void notifyIcon1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            MaximizeForm(sender, e);
+        }
+        private void MaximizeForm(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Normal;
+            this.ShowInTaskbar = true;
+            notifyIcon1.Visible = false;
+        }
+
+
+        private void YgoProPatcher_Load(object sender, EventArgs e)
+        {
+            List<string> settings = LocalData.LoadFileToList("AutoStartSettings");
+            bool minimized=false;
+            if (settings != null)
+            {
+                try
+                {
+                    minimized = Convert.ToBoolean(settings[0]);
+                    StartMinimizedCheckbox.Checked = minimized;
+                    UpdateCheckerTimeNumeric.Value = Convert.ToDecimal(settings[1]);
+                }
+                catch
+                {
+
+                }
+            }
+            if (minimized)
+            {
+                MinimizeButton_Click(sender, e);
+                if (ButtonNotAvailableTimer.Enabled)
+                {
+                    ButtonNotAvailableTimer.Elapsed += (sender1, e1) => {
+                        UpdateCheckerButton.Invoke(new Action(() =>
+                            {
+                                UpdateCheckerButton_Click(sender1, e1);
+                            }));
+                    };
+                }
+                else
+                {
+                    UpdateCheckerButton_Click(sender, e);
+                }
+            }
+
+        }
     }
-   
+    
 }
