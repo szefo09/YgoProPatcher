@@ -10,11 +10,11 @@ namespace YgoProPatcher
 {
    public static class GitAccess
     {
-       static GitHubClient githubAuthorized = new GitHubClient(new ProductHeaderValue("pics"))
+       public static GitHubClient githubAuthorized = new GitHubClient(new ProductHeaderValue("pics"))
         {
             Credentials = new Credentials(Data.GetToken())
         };
-        static GitHubClient githubUnauthorized = new GitHubClient(new ProductHeaderValue("versionCheck"))
+       public static GitHubClient githubUnauthorized = new GitHubClient(new ProductHeaderValue("versionCheck"))
         {
             //Credentials = new Credentials(Data.GetToken())
         };
@@ -54,6 +54,20 @@ namespace YgoProPatcher
             }
             return fileNames;
         }
+        static public List<string> GetAllFilesWithExtensionFromRepo(string owner,string repo,string path, string extension)
+        {
+            List<RepositoryContent> result = GitAccess.GetRepositoryContent(owner, repo, path);
+            List<string> fileNames = new List<string>();
+            foreach (var c in result)
+            {
+                if (c.Name.Contains(extension))
+                {
+                    fileNames.Add(c.Name);
+
+                }
+            }
+            return fileNames;
+        }
         static public Release GetNewestYgoProPatcherRelease()
         {
 
@@ -65,7 +79,8 @@ namespace YgoProPatcher
             {
                 githubAuthorized.Repository.Commit.Get(Data.YgoPro2Owner, "YGOSeries10CardPics", "HEAD").Result,
                 githubAuthorized.Repository.Commit.Get("Ygoproco", "Live2017Links", "HEAD").Result,
-                githubAuthorized.Repository.Commit.Get(Data.YgoPro2Owner, "ygopro2", "HEAD").Result
+                githubAuthorized.Repository.Commit.Get(Data.YgoPro2Owner, "ygopro2", "HEAD").Result,
+                githubAuthorized.Repository.Commit.Get("Szefo09","face","HEAD").Result
             };
 
             return commits;

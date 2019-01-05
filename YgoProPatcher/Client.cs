@@ -43,7 +43,7 @@ namespace YgoProPatcher
             toolTip1.SetToolTip(StartMinimizedCheckbox, "This lets you make YgoProPatcher start in background,\nchecking for new updates in background!");
             string version = Data.version;
             footerLabel.Text += version;
-            CheckNewVersion(version);
+            CheckForNewVersionOfPatcher(version);
 
         }
 
@@ -483,12 +483,9 @@ namespace YgoProPatcher
                     Thread.Sleep(1);
                 }
                 if (threadRunning) {
-                GitHubClient client = new GitHubClient(new ProductHeaderValue("pics"))
-                {
-                    Credentials = new Credentials(token)
-                };
+                GitHubClient gitClient = GitAccess.githubAuthorized;
                 string path = "picture/field";
-                var fields = client.Repository.Content.GetAllContents("shadowfox87", "YGOSeries10CardPics", path).Result;
+                var fields = gitClient.Repository.Content.GetAllContents("shadowfox87", "YGOSeries10CardPics", path).Result;
                 Status.Invoke(new Action(() => { Status.Text = "Downloading field spell pictures."; }));
                 progressBar.Invoke(new Action(() => { progressBar.Maximum = fields.Count; }));
                 foreach (var field in fields)
@@ -515,12 +512,25 @@ namespace YgoProPatcher
             CDBS = await DownloadCDBSFromGithub(destinationFolder);
             await FileDownload("lflist.conf", Path.Combine(YgoPro2Path.Text, "config"), "https://raw.githubusercontent.com/Ygoproco/Live2017Links/master/", true);
             await FileDownload("strings.conf", Path.Combine(YgoPro2Path.Text, "config"), Data.GetStringsWebsite(), true);
+            await GitDownloadFacesAsync();
             progressBar.Invoke(new Action(() => { progressBar.Value = progressBar.Maximum; }));
 
             DownloadUsingCDB(CDBS, destinationFolder);
 
         }
 
+        private async Task GitDownloadFacesAsync()
+        {
+            List<string> Faces = GitAccess.GetAllFilesWithExtensionFromRepo("Szefo09", "face", "/", "png");
+            foreach (string face in Faces)
+            {
+                if (threadRunning)
+                {
+                    string filePath = Path.Combine(YgoPro2Path.Text, @"texture\face");
+                    await FileDownload(face, filePath, Data.GetFacesWebsite(), true);
+                }
+            }
+        }
         private void GitHubDownloadCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             YgoProLinksPath.Enabled = !YgoProLinksPath.Enabled;
@@ -588,7 +598,7 @@ namespace YgoProPatcher
 
             }
         }
-        private void CheckNewVersion(string version)
+        private void CheckForNewVersionOfPatcher(string version)
         {
             try
             {
@@ -635,9 +645,12 @@ namespace YgoProPatcher
 
                 }
             }
-            catch
+            catch(Exception e)
             {
-                MessageBox.Show("Couldn't check for new version of YgoProPatcher.\nMake sure You are connected to the internet or no program blocks the patcher!");
+                if (!(e is AggregateException))
+                {
+                    MessageBox.Show("Couldn't check for new version of YgoProPatcher.\nMake sure You are connected to the internet or no program blocks the patcher!\n\n");
+                }
             }
         }
 
