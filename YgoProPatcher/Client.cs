@@ -28,19 +28,19 @@ namespace YgoProPatcher
             UpdateCheckerCooldownCheck();
             _pool = new Semaphore(0, throttleValue);
             _pool.Release(throttleValue);
-            toolTip1.SetToolTip(ReinstallCheckbox, "This will download the newest version of YGOPRO2 Client and install it.\nTHIS OPTION WILL OVERWRITE YOUR SETTINGS AND CUSTOM TEXTURES!");
-            toolTip1.SetToolTip(OverwriteCheckbox, "This will redownload all the pics in your picture folder.");
-            toolTip1.SetToolTip(gitHubDownloadCheckbox, "RECOMMENDED OPTION!\nThis will update your YGOPRO2 with newest cards, pictures and scripts.");
-            toolTip1.SetToolTip(YgoPro2Path, "Please select Your YGOPRO2 Directory which contains all the YGOPRO2 files.");
-            toolTip1.SetToolTip(YGOPRO2PathButton, "Please select Your YGOPRO2 Directory which contains all the YGOPRO2 files.");
-            toolTip1.SetToolTip(YgoProLinksPath, "Please select Your YGOPRO Percy Directory which contains all the YGOPRO Percy files.");
-            toolTip1.SetToolTip(YGOPRO1PathButton, "Please select Your YGOPRO Percy Directory which contains all the YGOPRO Percy files.");
-            toolTip1.SetToolTip(UpdateButton, "Start updating with selected options.");
-            toolTip1.SetToolTip(UpdateCheckerButton, "This allows You to get notified via sound and message popup\nabout new updates while this app is running!");
-            toolTip1.SetToolTip(UpdateCheckerTimeNumeric, "Select the interval between Update Checks!");
-            toolTip1.SetToolTip(UpdateWhenLabel, "This Label tells you if/when will the next check occur or if it's on cooldown!");
-            toolTip1.SetToolTip(MimimizeButton, "This button makes the application minimize to TaskBar!\nUseful if you want to check for updates without this window taking space!");
-            toolTip1.SetToolTip(StartMinimizedCheckbox, "This let's you make YgoProPatcher start in background,\nchecking for new updated in background!");
+            toolTip1.SetToolTip(ReinstallCheckbox, "This will download the newest version of the YGOPro2 Client and install it.\nTHIS OPTION WILL OVERWRITE YOUR SETTINGS AND CUSTOM TEXTURES!");
+            toolTip1.SetToolTip(OverwriteCheckbox, "This will redownload all of the pictures in your picture folder.");
+            toolTip1.SetToolTip(gitHubDownloadCheckbox, "RECOMMENDED OPTION!\nThis will update your YGOPro2 with the newest cards, pictures and scripts.");
+            toolTip1.SetToolTip(YgoPro2Path, "Please select your YGOPro2 directory which contains all the YGOPro2 files.");
+            toolTip1.SetToolTip(YGOPRO2PathButton, "Please select your YGOPro2 directory which contains all the YGOPro2 files.");
+            toolTip1.SetToolTip(YgoProLinksPath, "Please select your YGOPro Percy directory which contains all the YGOPro Percy files.");
+            toolTip1.SetToolTip(YGOPRO1PathButton, "Please select your YGOPro Percy directory which contains all the YGOPro Percy files.");
+            toolTip1.SetToolTip(UpdateButton, "Start updating with the selected options.");
+            toolTip1.SetToolTip(UpdateCheckerButton, "This allows you to get notified via sound and message popup\nabout new updates while this app is running!");
+            toolTip1.SetToolTip(UpdateCheckerTimeNumeric, "Select the interval between update checks!");
+            toolTip1.SetToolTip(UpdateWhenLabel, "This label tells you if/when the next check will occur or if it's on cooldown!");
+            toolTip1.SetToolTip(MimimizeButton, "This button makes the application minimize to taskbar!\nUseful if you want to check for updates without this window taking space!");
+            toolTip1.SetToolTip(StartMinimizedCheckbox, "This lets you make YgoProPatcher start in background,\nchecking for new updates in background!");
             string version = Data.version;
             footerLabel.Text += version;
             CheckNewVersion(version);
@@ -55,14 +55,14 @@ namespace YgoProPatcher
                 DateTime dateNow = DateTime.Now;
                 DateTime result = Convert.ToDateTime(timerList[0]);
                 result =result.AddMilliseconds(Double.Parse(timerList[1]));
-                
+
 
                 if (result.CompareTo(dateNow) > 0)
                 {
-                    
+
                     UpdateCheckerButton.Enabled = false;
                     TimeSpan timer = result.Subtract(dateNow);
-                    UpdateWhenLabel.Text = String.Format("Update Checking is on cooldown until {0}!", result.ToShortTimeString());
+                    UpdateWhenLabel.Text = String.Format("Update checking is on cooldown until {0}!", result.ToShortTimeString());
 
 
                     ButtonNotAvailableTimer.Interval = (int)timer.TotalMilliseconds;
@@ -74,7 +74,7 @@ namespace YgoProPatcher
 
         private void ButtonNotAvailableTimer_Tick(object sender, EventArgs e)
         {
-            UpdateCheckerButton.Invoke(new Action(() => { UpdateCheckerButton.Enabled = true; UpdateWhenLabel.Text = "Update Checking is available again!";
+            UpdateCheckerButton.Invoke(new Action(() => { UpdateCheckerButton.Enabled = true; UpdateWhenLabel.Text = "Update checking is available again!";
             }));
         }
 
@@ -97,7 +97,7 @@ namespace YgoProPatcher
 
         private void YGOPRO2Button_Click(object sender, EventArgs e)
         {
-            FolderSelection("YGOPRO2");
+            FolderSelection("YGOPro2");
         }
 
         private void UpdateButton_Click(object sender, EventArgs e)
@@ -156,7 +156,7 @@ namespace YgoProPatcher
                 string fileDestination = Path.Combine(targetPath, filePathYgoPro2);
                 if (!(type == "script2"))
                 {
-                    Status.Invoke(new Action(() => { Status.Text = "Updating YGOPRO2 " + type + "s"; }));
+                    Status.Invoke(new Action(() => { Status.Text = "Updating YGOPro2 " + type + "s"; }));
                 }
                 else
                 {
@@ -203,14 +203,14 @@ namespace YgoProPatcher
                                         }
                                     }
                                 }
- 
+
                             }
                             else
                             {
                                 System.IO.File.Copy(s, destFile, true);
                             }
                                 progressBar.Invoke(new Action(() => { progressBar.Increment(1); }));
-                            
+
                         }
                         else
                         {
@@ -240,7 +240,7 @@ namespace YgoProPatcher
             }
             catch
             {
-              
+
             }
         }
 
@@ -255,7 +255,7 @@ namespace YgoProPatcher
             DialogResult result = fbd.ShowDialog();
             if (result == DialogResult.OK)
             {
-                if (versionOfYGO == "YGOPRO2")
+                if (versionOfYGO == "YGOPro2")
                 {
                     YgoPro2Path.Text = fbd.SelectedPath;
                 }
@@ -273,7 +273,7 @@ namespace YgoProPatcher
         private async Task<bool> FileDownload(string fileName, string destinationFolder, string website, bool overwrite)
         {
 
-            
+
             string webFile = website + fileName;
             string destFile;
             if (Path.GetExtension(fileName) == ".jpg")
@@ -301,7 +301,7 @@ namespace YgoProPatcher
                         await Task.Run(() => { client.DownloadFile(new Uri(webFile), destFile); });
                         downloads = -_pool.Release();
                     }
-                    
+
 
                 }
 
@@ -314,7 +314,7 @@ namespace YgoProPatcher
             }
             finally
             {
-                
+
                 //debug.Invoke(new Action(() => { debug.Text = downloads.ToString(); }));
             }
 
@@ -341,18 +341,18 @@ namespace YgoProPatcher
                 UpdateButton.Enabled = true;
                 UpdateCheckerButton.Enabled = true;
                 UpdateCheckerTimeNumeric.Enabled = true;
-                Status.Text = "Operation Canceled!";
+                Status.Text = "Operation canceled!";
                 Status.Update();
             }
-   
+
         }
 
         private async void BackgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
         {
             if (ReinstallCheckbox.Checked)
             {
-               
-                Status.Invoke(new Action(() => { Status.Text = "Reinstalling YGOPRO2, please be patient, this may take a while!";
+
+                Status.Invoke(new Action(() => { Status.Text = "Reinstalling YGOPro2, please be patient, this may take a while!";
                     cancelButton.Visible = false;
                     progressBar.Visible = false;
                 }));
@@ -364,7 +364,7 @@ namespace YgoProPatcher
                 cancelButton.Visible = true;
                 progressBar.Visible = true;
             }));
-            
+
             DeleteOldCdbs();
             if (!gitHubDownloadCheckbox.Checked)
             {
@@ -384,9 +384,9 @@ namespace YgoProPatcher
             {
 
                 Status.Invoke(new Action(() => {
-                        notifyIcon1.ShowBalloonTip(6000, "Update Complete!", "Click ME to launch YGOPRO2", ToolTipIcon.Info);
+                        notifyIcon1.ShowBalloonTip(6000, "Update complete!", "Click this to launch YGOPro2.", ToolTipIcon.Info);
                         notifyIcon1.BalloonTipClicked +=FinishButton_Click;
-                    Status.Text = "Update Complete!"; ReinstallCheckbox.Enabled = true; cancelButton.Visible = false; exitButton.Visible = true; internetCheckbox.Enabled = true; gitHubDownloadCheckbox.Enabled = true; OverwriteCheckbox.Enabled = true; UpdateCheckerButton.Enabled = false;
+                    Status.Text = "Update complete!"; ReinstallCheckbox.Enabled = true; cancelButton.Visible = false; exitButton.Visible = true; internetCheckbox.Enabled = true; gitHubDownloadCheckbox.Enabled = true; OverwriteCheckbox.Enabled = true; UpdateCheckerButton.Enabled = false;
                     UpdateCheckerTimeNumeric.Enabled = false; UpdateButton.Visible = false; FinishButton.Visible = true; FinishButton.Enabled = true;
                 }));
                 threadRunning = false;
@@ -396,7 +396,7 @@ namespace YgoProPatcher
 
         private async Task<List<string>> DownloadCDBSFromGithub(string destinationFolder)
         {
-            
+
             List<string> listOfCDBs = GitAccess.GetAllFilesWithExtensionFromYGOPRO("/", ".cdb");
             string cdbFolder = Path.Combine(destinationFolder, "cdb");
             if(!await FileDownload("cards.cdb", cdbFolder, "https://github.com/szefo09/cdb/raw/master/", true))
@@ -412,7 +412,7 @@ namespace YgoProPatcher
             List<Task> downloadList = new List<Task>();
             foreach (string cdb in listOfCDBs)
             {
-                
+
                 FileDownload(cdb, cdbFolder, "https://github.com/Ygoproco/Live2017Links/raw/master/", true);
                 listOfDownloadedCDBS.Add(Path.Combine(cdbFolder, cdb));
                 progressBar.Invoke(new Action(() => progressBar.Increment(1)));
@@ -435,7 +435,7 @@ namespace YgoProPatcher
                     {
                         DataClass db = new DataClass(cdb);
                         DataTable dt = db.SelectQuery("SELECT id FROM datas");
-                        Status.Invoke(new Action(() => Status.Text = "Updating Pics and Scripts using " + Path.GetFileName(cdb)));
+                        Status.Invoke(new Action(() => Status.Text = "Updating pictures and scripts using " + Path.GetFileName(cdb)));
                         progressBar.Invoke(new Action(() => progressBar.Maximum = (dt.Rows.Count)));
                         progressBar.Invoke(new Action(() => progressBar.Value = 0));
                         string dlWebsitePics = Data.GetPicWebsite();
@@ -482,14 +482,14 @@ namespace YgoProPatcher
                 {
                     Thread.Sleep(1);
                 }
-                if (threadRunning) { 
+                if (threadRunning) {
                 GitHubClient client = new GitHubClient(new ProductHeaderValue("pics"))
                 {
                     Credentials = new Credentials(token)
                 };
                 string path = "picture/field";
                 var fields = client.Repository.Content.GetAllContents("shadowfox87", "YGOSeries10CardPics", path).Result;
-                Status.Invoke(new Action(() => { Status.Text = "Downloading Fieldspell Pics"; }));
+                Status.Invoke(new Action(() => { Status.Text = "Downloading field spell pictures."; }));
                 progressBar.Invoke(new Action(() => { progressBar.Maximum = fields.Count; }));
                 foreach (var field in fields)
                 {
@@ -509,7 +509,7 @@ namespace YgoProPatcher
 
         private async Task GitHubDownload(string destinationFolder)
         {
-            Status.Invoke(new Action(() => { Status.Text = "Updating CDBS from Live2017Links"; }));
+            Status.Invoke(new Action(() => { Status.Text = "Updating card databases from Live2017Links."; }));
             List<string> CDBS = new List<string>();
 
             CDBS = await DownloadCDBSFromGithub(destinationFolder);
@@ -531,7 +531,7 @@ namespace YgoProPatcher
             internetCheckbox.Enabled = !internetCheckbox.Enabled;
             if (gitHubDownloadCheckbox.Checked&&!internetCheckbox.Checked)
             {
-                
+
                 internetCheckbox.Checked = !internetCheckbox.Checked;
             }
 
@@ -582,10 +582,10 @@ namespace YgoProPatcher
             }
             catch(Exception e)
             {
-                MessageBox.Show("Access to YGOPRO2 denied. Check if the path is correct or\ntry launching the Patcher with Admin Privileges.\n\nError Code:\n"+e.ToString());
+                MessageBox.Show("Access to YGOPro2 denied. Check if the path is correct or\ntry launching the patcher with admin privileges.\n\nError Code:\n"+e.ToString());
                 threadRunning = false;
                 cancelButton.Visible = false;
-                
+
             }
         }
         private void CheckNewVersion(string version)
@@ -619,7 +619,7 @@ namespace YgoProPatcher
                     }
                     if (new FileInfo(fileName).Exists)
                     {
-                        MessageBox.Show("New YgoProPatcher" + release.TagName + ".zip was succesfully\ndownloaded to the target location.\nPlease extract the newest release and use it!\n\nThis app will now close.", "Download Completed!");
+                        MessageBox.Show("New YgoProPatcher" + release.TagName + ".zip was succesfully\ndownloaded to the target location.\nPlease extract the newest release and use it!\n\nThis app will now close.", "Download completed!");
                         try
                         {
                             System.Diagnostics.Process.Start(fileName);
@@ -632,12 +632,12 @@ namespace YgoProPatcher
                             Environment.Exit(0);
                         }
                     }
-                   
+
                 }
             }
             catch
-            { 
-                MessageBox.Show("Couldn't check for new version of YgoProPatcher.\nMake sure You are connected to the internet or no program blocks the Patcher!");
+            {
+                MessageBox.Show("Couldn't check for new version of YgoProPatcher.\nMake sure You are connected to the internet or no program blocks the patcher!");
             }
         }
 
@@ -673,7 +673,7 @@ namespace YgoProPatcher
             nextUpdateTimer.AutoReset = true;
             nextUpdateTimer.Start();
             UpdateCheckerTimer_Tick(sender, e);
-            UpdateCheckerButton.Invoke(new Action(() => { UpdateCheckerButton.Enabled = true; UpdateCheckerButton.Text = "Click to turn off checking for Updates";
+            UpdateCheckerButton.Invoke(new Action(() => { UpdateCheckerButton.Enabled = true; UpdateCheckerButton.Text = "Click to turn off checking for updates.";
             }));
 
         }
@@ -686,12 +686,12 @@ namespace YgoProPatcher
                 {
                     SystemSounds.Hand.Play();
                     MessageBox.Show("New updates available!");
-                  
+
                 }
                 else if(this.WindowState==FormWindowState.Minimized&&notifyIcon1.Visible)
                 {
                     SystemSounds.Hand.Play();
-                    notifyIcon1.ShowBalloonTip(6000, "New Update for YGOPRO2 Available!", "Click ME to Update!", ToolTipIcon.Info);
+                    notifyIcon1.ShowBalloonTip(6000, "New update for YGOPro2 available!", "Click this to update!", ToolTipIcon.Info);
                     notifyIcon1.BalloonTipClicked += UpdateButton_Click;
                 }
             }
@@ -702,12 +702,12 @@ namespace YgoProPatcher
         }
         private void NextUpdaterTimer_Tick(object sender, EventArgs e)
         {
-            UpdateWhenLabel.Invoke(new Action(() => { UpdateWhenLabel.Text = "Next update in: " + (int)updateCheckerTimer.Interval / 60000 + " mins"; }));
+            UpdateWhenLabel.Invoke(new Action(() => { UpdateWhenLabel.Text = "Next update in: " + (int)updateCheckerTimer.Interval / 60000 + " minutes"; }));
 
         }
 
         private void UpdateCheckerButton_Click(object sender, EventArgs e)
-        { 
+        {
             if(!updateCheckerTimer.Enabled&&!backgroundWorker2.IsBusy&&UpdateCheckerButton.Enabled)
             {
                 UpdateCheckerButton.Enabled = false;
@@ -808,5 +808,5 @@ namespace YgoProPatcher
 
         }
     }
-    
+
 }
