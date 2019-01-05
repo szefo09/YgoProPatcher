@@ -59,6 +59,7 @@
             this.MimimizeButton = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.StartMinimizedCheckbox = new System.Windows.Forms.CheckBox();
+            this.submitFaceButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.UpdateCheckerTimeNumeric)).BeginInit();
             this.SuspendLayout();
             // 
@@ -376,6 +377,17 @@
             this.StartMinimizedCheckbox.Text = "Start minimized and\r\ncheck for updates";
             this.StartMinimizedCheckbox.UseVisualStyleBackColor = true;
             // 
+            // submitFaceButton
+            // 
+            this.submitFaceButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.submitFaceButton.Location = new System.Drawing.Point(12, 379);
+            this.submitFaceButton.Name = "submitFaceButton";
+            this.submitFaceButton.Size = new System.Drawing.Size(189, 62);
+            this.submitFaceButton.TabIndex = 30;
+            this.submitFaceButton.Text = "Click this if You want to \r\nsubmit Your own custom face icon for YGOPro2";
+            this.submitFaceButton.UseVisualStyleBackColor = true;
+            this.submitFaceButton.Click += new System.EventHandler(this.FormSubmitButton_click);
+            // 
             // YgoProPatcher
             // 
             this.AcceptButton = this.UpdateButton;
@@ -385,6 +397,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.CancelButton = this.cancelButton;
             this.ClientSize = new System.Drawing.Size(670, 450);
+            this.Controls.Add(this.submitFaceButton);
             this.Controls.Add(this.StartMinimizedCheckbox);
             this.Controls.Add(this.MimimizeButton);
             this.Controls.Add(this.UpdateWhenLabel);
@@ -457,5 +470,6 @@
         private System.Windows.Forms.Button MimimizeButton;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.CheckBox StartMinimizedCheckbox;
+        private System.Windows.Forms.Button submitFaceButton;
     }
 }

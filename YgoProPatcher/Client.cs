@@ -21,7 +21,7 @@ namespace YgoProPatcher
         {
 
             InitializeComponent();
-            ServicePointManager.DefaultConnectionLimit = throttleValue+1;
+            ServicePointManager.DefaultConnectionLimit = throttleValue+2;
             List<string> paths = LocalData.LoadFileToList("paths.txt");
             YgoProLinksPath.Text = paths?[0];
             YgoPro2Path.Text = paths?[1];
@@ -41,6 +41,7 @@ namespace YgoProPatcher
             toolTip1.SetToolTip(UpdateWhenLabel, "This label tells you if/when the next check will occur or if it's on cooldown!");
             toolTip1.SetToolTip(MimimizeButton, "This button makes the application minimize to taskbar!\nUseful if you want to check for updates without this window taking space!");
             toolTip1.SetToolTip(StartMinimizedCheckbox, "This lets you make YgoProPatcher start in background,\nchecking for new updates in background!");
+            toolTip1.SetToolTip(submitFaceButton, "This button will open you a website where you can submit a custom face icon\nthat others will be able to see if they also update using the patcher.");
             string version = Data.version;
             footerLabel.Text += version;
             CheckForNewVersionOfPatcher(version);
@@ -819,6 +820,18 @@ namespace YgoProPatcher
                 }
             }
 
+        }
+
+        private void FormSubmitButton_click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(Data.FormLink);
+            }
+            catch
+            {
+
+            }
         }
     }
 
