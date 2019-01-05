@@ -21,7 +21,7 @@ namespace YgoProPatcher
         {
 
             InitializeComponent();
-            ServicePointManager.DefaultConnectionLimit = 6;
+            ServicePointManager.DefaultConnectionLimit = throttleValue+1;
             List<string> paths = LocalData.LoadFileToList("paths.txt");
             YgoProLinksPath.Text = paths?[0];
             YgoPro2Path.Text = paths?[1];
@@ -34,8 +34,7 @@ namespace YgoProPatcher
             toolTip1.SetToolTip(YgoPro2Path, "Please select Your YGOPRO2 Directory which contains all the YGOPRO2 files.");
             toolTip1.SetToolTip(YGOPRO2PathButton, "Please select Your YGOPRO2 Directory which contains all the YGOPRO2 files.");
             toolTip1.SetToolTip(YgoProLinksPath, "Please select Your YGOPRO Percy Directory which contains all the YGOPRO Percy files.");
-            toolTip1.SetToolTip(YGOPRO1PathButton, "Plea" +
-                "se select Your YGOPRO Percy Directory which contains all the YGOPRO Percy files.");
+            toolTip1.SetToolTip(YGOPRO1PathButton, "Please select Your YGOPRO Percy Directory which contains all the YGOPRO Percy files.");
             toolTip1.SetToolTip(UpdateButton, "Start updating with selected options.");
             toolTip1.SetToolTip(UpdateCheckerButton, "This allows You to get notified via sound and message popup\nabout new updates while this app is running!");
             toolTip1.SetToolTip(UpdateCheckerTimeNumeric, "Select the interval between Update Checks!");
