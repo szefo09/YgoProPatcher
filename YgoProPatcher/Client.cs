@@ -826,7 +826,33 @@ namespace YgoProPatcher
         {
             try
             {
-                System.Diagnostics.Process.Start(Data.FormLink);
+                FileInfo config = new FileInfo(Path.Combine(YgoPro2Path.Text, "config", "config.conf"));
+                if (config.Exists)
+                {
+                    using (StreamReader text = File.OpenText(config.FullName))
+                    {
+                        string line;
+                        while ((line = text.ReadLine()) != null){
+                            if (line.Contains("name->"))
+                            {
+                                line =line.Remove(0, 6);
+                                int psw = line.IndexOf("$");
+                                if (psw > 0)
+                                {
+                                    line = line.Substring(0, psw);
+                                }
+                                System.Diagnostics.Process.Start(Data.FormLink+ "?&name="+line);
+                                break;
+                            }
+                            
+                        }
+                    }
+                    
+                }
+                else
+                {
+                    System.Diagnostics.Process.Start(Data.FormLink);
+                }
             }
             catch
             {
