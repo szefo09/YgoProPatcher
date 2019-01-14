@@ -60,6 +60,7 @@
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.StartMinimizedCheckbox = new System.Windows.Forms.CheckBox();
             this.submitFaceButton = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.UpdateCheckerTimeNumeric)).BeginInit();
             this.SuspendLayout();
             // 
@@ -279,13 +280,12 @@
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label4.Location = new System.Drawing.Point(471, 333);
+            this.label4.Location = new System.Drawing.Point(476, 333);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(142, 36);
+            this.label4.Size = new System.Drawing.Size(149, 45);
             this.label4.TabIndex = 23;
-            this.label4.Text = "Please close YGOPro2\r\nbefore updating!";
+            this.label4.Text = "Please close YGOPro2\r\nbefore updating!\r\n";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // backgroundWorker2
@@ -380,13 +380,25 @@
             // submitFaceButton
             // 
             this.submitFaceButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.submitFaceButton.Location = new System.Drawing.Point(12, 379);
+            this.submitFaceButton.Location = new System.Drawing.Point(10, 351);
             this.submitFaceButton.Name = "submitFaceButton";
-            this.submitFaceButton.Size = new System.Drawing.Size(189, 62);
+            this.submitFaceButton.Size = new System.Drawing.Size(189, 90);
             this.submitFaceButton.TabIndex = 30;
-            this.submitFaceButton.Text = "Click this if you want to \r\nsubmit your own custom face icon for YGOPro2";
+            this.submitFaceButton.Text = "Click this if you want to \r\nsubmit your own custom face icon for YGOPro2\r\n(that o" +
+    "ther duelists will see!)\r\n";
             this.submitFaceButton.UseVisualStyleBackColor = true;
             this.submitFaceButton.Click += new System.EventHandler(this.FormSubmitButton_click);
+            // 
+            // label3
+            // 
+            this.label3.Font = new System.Drawing.Font("Calibri", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label3.ForeColor = System.Drawing.Color.Red;
+            this.label3.Location = new System.Drawing.Point(435, 372);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(190, 45);
+            this.label3.TabIndex = 31;
+            this.label3.Text = "New Client with Room List\r\navailable! Reinstall to get it!\r\n";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // YgoProPatcher
             // 
@@ -397,6 +409,7 @@
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.CancelButton = this.cancelButton;
             this.ClientSize = new System.Drawing.Size(670, 450);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.submitFaceButton);
             this.Controls.Add(this.StartMinimizedCheckbox);
             this.Controls.Add(this.MimimizeButton);
@@ -471,5 +484,6 @@
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.CheckBox StartMinimizedCheckbox;
         private System.Windows.Forms.Button submitFaceButton;
+        private System.Windows.Forms.Label label3;
     }
 }
