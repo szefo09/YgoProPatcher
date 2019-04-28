@@ -82,7 +82,6 @@ namespace YgoProPatcher
         int throttleValue = 6;
         int downloads = 0;
         bool threadRunning = false;
-        static string token = Data.GetToken();
         private static Semaphore _pool;
         System.Timers.Timer updateCheckerTimer = new System.Timers.Timer();
         System.Timers.Timer nextUpdateTimer = new System.Timers.Timer();
@@ -296,7 +295,7 @@ namespace YgoProPatcher
                     {
                         if (Path.GetExtension(fileName) == ".png")
                         {
-                            client.Headers.Add(HttpRequestHeader.Authorization, string.Concat("token ", token));
+                            //client.Headers.Add(HttpRequestHeader.Authorization, string.Concat("token ", token));
                         }
                         _pool.WaitOne();
                         await Task.Run(() => { client.DownloadFile(new Uri(webFile), destFile); });

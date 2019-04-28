@@ -12,7 +12,7 @@ namespace YgoProPatcher
     {
        public static GitHubClient githubAuthorized = new GitHubClient(new ProductHeaderValue("pics"))
         {
-            Credentials = new Credentials(Data.GetToken())
+            //Credentials = new Credentials(Data.GetToken())
         };
        public static GitHubClient githubUnauthorized = new GitHubClient(new ProductHeaderValue("versionCheck"))
         {
