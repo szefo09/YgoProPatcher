@@ -1,4 +1,5 @@
-# Project discontinued (YGOPro2 has auto-updates built-in now)
+# Project discontinued
+# (YGOPro2 has auto-updates built-in now)
 # YgoProPatcher 
 YgoProPatcher that patches YGOPRO2 using Internet
 
